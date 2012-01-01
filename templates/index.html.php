@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <base href="<? h(URL); ?>">
-  <title>Web Library</title>
+  <title>Metatato</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="static/binary/doc.png" type="image/png">
   <link rel="stylesheet" href="static/styles/intro.css">
   <!--<script src="static/scripts/lib/modernizr.js"></script>-->
 </head>
 <body>
-  <h1>Web Library</h1>
+  <h1>Metatato</h1>
   
   <div class="features">
   

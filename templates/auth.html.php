@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Web Library Authentication</title>
+  <title>Metatato Authentication</title>
   <style>
   body {
     margin: 20px auto;
@@ -34,7 +34,7 @@
   <? else: ?>
   <form onsubmit="window.open('auth?authorise=1', 'Authenticate'); return false;">
     <input type="hidden" name="authorise" value="1">
-    <div>To allow Web Library to access your Mendeley account, please sign in and authorise this application</div>
+    <div>To allow Metatato to access your Mendeley account, please sign in and authorise this application</div>
     <input type="submit" value="Authorise">
   </form>
   <form method="post>
