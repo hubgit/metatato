@@ -1,0 +1,72 @@
+.collection-header input {
+ -webkit-box-sizing:border-box; 
+ width: 100%;
+ margin: 0;
+ padding: 5px;
+ border: 0;
+ background: #f6f6f6;
+ border-bottom: 1px solid #ddd;
+}
+
+.collection {
+  width: 100%;
+}
+
+.collection .item {
+  display: block;
+  overflow-y: auto; /* to clear floats */
+  overflow-x: hidden;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 1px 1px #fff;
+  background: #f6f6f6;
+}
+
+.collection .item.open-access {
+  background: #f6f6f6 url("../binary/open-access.svg") no-repeat right center;
+  background-size: auto 24px;
+}
+
+.collection .item.has-files {
+  background: #f6f6f6 url("../binary/pdf.svg") no-repeat right center;
+  background-size: auto 24px;
+}
+
+.collection .item:hover {
+  /*background: #eee;*/
+  cursor: pointer;
+}
+
+.collection .item.active {
+  background-color: #fff;
+}
+
+.collection .item .links {
+  visibility: hidden;
+}
+
+.collection .item.active .links,
+.collection .item:hover .links,
+.collection .item.loading .links{
+  visibility: visible;
+}
+
+.collection .item .metadata{
+ /* background-color: rgba(255,255,255,0.5);*/
+}
+
+.collection .item:hover .metadata,
+.collection .item.active .metadata {
+  background: transparent;
+}
+
+.collection .item:hover .title,
+.collection .item.active .title {
+  color: #00438A;
+}
+
+.collection a.button {
+  float: right;
+  clear: right;
+  margin: 0 0 10px 0;
+  display: none;
+}

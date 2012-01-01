@@ -1,0 +1,11 @@
+.item-edit { width: 100%; display: table; }
+.item-edit > div { display: table-row; }
+.item-edit > div > * { display: table-cell; vertical-align: middle; }
+.item-edit .field { vertical-align: middle; }
+.item-edit .label { text-shadow: 0 1px 2px #fff; color: #444; font-weight: normal; text-align: right; padding: 1px 10px 1px 5px; max-width: 4em; }
+.item-edit .input-container { padding: 1px 5px 1px 3px; margin: 2px 0; }
+.item-edit .field .input { border: 1px solid #eef; padding: 2px; border-radius: 3px;  font: inherit; min-height: 1.5em; width: 98%; }
+.item-edit .field .input:hover { border: 1px solid #cecece; }
+.item-edit .field .input:focus { border: 1px solid #0093f0; -webkit-box-shadow: 0 0 4px #52acff; -moz-box-shadow: 0 0 4px #52acff; box-shadow: 0 0 4px #52acff;}
+.item-edit .field textarea { max-height: 10em; }
+.more-fields { display: block; padding: 0 10px 10px; cursor: pointer; }

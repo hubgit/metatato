@@ -1,0 +1,30 @@
+body {
+  background: #C57E35; 
+  font-family: Helvetica, sans-serif; 
+  text-align: center;
+  color: #230100;
+}
+
+a {
+  text-decoration: none;
+  color: inherit; 
+}
+
+.feature {
+  display: inline-block;
+  padding: 10px 20px 20px;
+  vertical-align: top;
+  border-radius: 10px;
+  width: 20em;
+  background: #FFD49E;
+  margin: 20px;
+}
+
+a.feature:hover {
+  box-shadow: 0 2px 5px 5px rgba(0,0,0,0.5);
+  cursor: pointer;
+}
+
+.screenshot {
+  display: block;
+}

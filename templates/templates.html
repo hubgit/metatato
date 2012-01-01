@@ -1,0 +1,299 @@
+<script id="page-template" type="x-mustache+text/html">
+  <div data-role="page" id="{{id}}">
+    <div data-role="header"></div>
+    <div data-role="content"></div>
+  </div>
+</script>
+
+<script id="filters-template" type="x-mustache+text/html">
+  <div class="filters" id="{{id}}">
+    {{#title}}<div class="filter-title">{{title}}</div>{{/title}}
+    <div class="filters-list"></div>
+  </div>
+</script>
+
+<script id="filter-template" type="x-mustache+text/html">
+  <a class="filter" href="/library/#library-items" {{#id}}id="{{id}}"{{/id}}><span class="count">{{count}}</span><span class="name">{{name}}<span class="remove">[X]</span></span></a>
+</script>
+
+<script id="facet-template" type="x-mustache+text/html">
+  <a class="facet {{class}} {{#selected}}active{{/selected}}" href="/{{path}}{{query}}{{hash}}" {{#id}}id="{{id}}"{{/id}}><span class="count">{{count}}</span><span class="title">{{title}}</span></a>
+</script>
+
+<script id="sync-template" type="x-mustache+text/html">
+  <form id="{{id}}">
+    <h2>Sync/DB</h2>
+  
+    <div id="syncing-items">
+      <input type="button" id="sync-items" value="Sync Items"> 
+      <progress min="0" max="1" value="0"></progress> 
+      <span class="syncing-count"></span>
+    </div>
+    
+    <div id="syncing-canonical">
+      <input type="button" id="sync-canonical" value="Sync Canonical Items"> 
+      <progress min="0" max="1" value="0"></progress> 
+      <span class="syncing-count"></span>
+    </div>
+
+    <div id="syncing-files">
+      <input type="button" id="sync-files" value="Sync Files"> 
+      <progress min="0" max="1" value="0"></progress> 
+      <span class="syncing-count"></span>
+    </div>
+    
+    <div>
+      <input type="button" id="sync-deleted" value="Sync Deleted Items"> 
+    </div>
+    
+    <h2>Local Storage</h2>
+    
+    <div>
+      <input type="button" id="clear-items" value="Clear Items">
+    </div>
+    
+    <div>
+      <input type="button" id="clear-files" value="Clear Files">
+    </div>
+
+  </form>
+</script>
+
+<script id="item-header-template" type="text/x-mustache+html">
+<div>
+  <div class="box">
+    <div class="metrics"></div>
+    <div class="share">
+      <div class="g-plusone" data-size="small" data-href="{{#doi}}http://dx.doi.org/{{doi}}{{doi}}{{^doi}}{{#pmid}}http://view.ncbi.nlm.nih.gov/pubmed/{{pmid}}{{/pmid}}{{/doi}}"></div>
+    </div>
+    <div class="buttons">
+      {{#abstract}}<a href="#" class="button speak">Speak</a>{{/abstract}}
+      {{#fileCount}}<a href="#" class="button fullscreen">FullScreen</a>{{/fileCount}}
+    </div>
+  </div>
+
+  {{^fileCount}}<progress id="upload-progress" min="0" max="1" value="0"></progress>{{/fileCount}}
+  <div class="item main-item">
+  	<div class="metadata">
+  		<div class="title {{#oa_journal}}open-access{{/oa_journal}}">{{title}}</div>
+
+  		{{#publication_outlet}}
+  		<div class="journal-container">
+  		<a rel="external" href="http://www.google.co.uk/search?q=%22{{publication_outlet}}%22">
+  			<span class="publication">{{publication_outlet}} </span>
+  			{{#volume}}<span class="volume">{{volume}}{{/volume}}{{#issue}}(<span class="issue">{{issue}}</span>){{/issue}} 
+  			&nbsp;{{#pages}}pp.<span class="pages">{{pages}}</span>{{/pages}}
+  		</a>
+  		</div>
+  		{{/publication_outlet}}
+
+  		{{#year}}<div class="year">{{year}}</div>{{/year}}
+
+  		{{#authorsCount}}
+  		<div class="authors">
+  		{{#authors}}
+  		{{#surname}}
+		  <span class="author">{{#forename}}{{forename}} {{/forename}}{{surname}}</span>
+		  {{/surname}}
+		  {{#fullname}}
+		  <span class="author">{{fullname}}</span>
+		  {{/fullname}}
+		  {{/authors}}
+  		</div>
+  		{{/authorsCount}}
+
+  		{{#abstract}}<div class="abstract">{{abstract}}</div>{{/abstract}}
+
+    	<div class="tags">{{#tags}}<a class="tag" href="/library/collection?filter=tag:{{.}}">{{.}}</a> {{/tags}}</div>
+  	
+    	<div class="links">
+  	    <a class="button" rel="external" href="http://scholar.google.com/scholar?q={{title}}">Google Scholar</a>
+  		  {{#doi}}<a class="button" rel="external" href="http://dx.doi.org/{{doi}}">DOI</a>{{/doi}}
+    		{{#mendeley_url}}<a class="button" rel="external" href="{{mendeley_url}}">Mendeley</a>{{/mendeley_url}}
+    		{{#pmid}}<a class="button" rel="external" href="http://pubget.com/pdf/{{pmid}}">PubGet</a>{{/pmid}}
+    		{{#doi}}<a class="button" rel="external" href="http://www.scopus.com/scopus/openurl/document.url?doi={{doi}}">Scopus</a>{{/doi}}
+    		{{#doi}}<a class="button" rel="external" href="http://ws.isiknowledge.com/cps/openurl/service?url_ver=Z39.88-2004&svc.fullrec=yes&rft_id=info%3Adoi%2F{{doi}}">WoS</a>{{/doi}}   
+    		{{#doi}}<!--<a class="button" rel="external" href="http://ws.isiknowledge.com/cps/openurl/service?url_ver=Z39.88-2004&svc_val_fmt=info:ofi/fmt:kev:mtx:sch_svc&svc.citing=yes&rft_id=info%3Adoi%2F{{doi}}">WoS Citations</a>-->{{/doi}} 		
+    	</div>
+  	</div> 
+	
+  	{{^fileCount}}
+  	<div class="upload">
+  		<div class="dropzone" data-url="documents/{{id}}">
+  			<div class="command">Click to choose a PDF file</div>
+  			<div class="subtext">or drop a file here to upload it</div>
+  		</div>
+  		<input type="file" class="file-picker" accept="application/pdf">
+		
+  		<div class="help">
+  			<div>To import a PDF when viewing it in a browser plugin</div>
+  			<ddiv>add this to your bookmarks and run it when viewing the PDF</div>
+  			<div><a class="button" id="import-bookmarklet" onclick="alert('Drag this to your bookmarks bar, then run it when viewing a PDF with a browser plugin'); return false;">Import PDF</a></div>
+  			</p>
+   		</div>
+  	</div> 
+  	{{/fileCount}}
+  </div>
+</div>
+</script>
+
+<script id="item-view-template" type="text/x-mustache+html">
+  <div id="item-{{id}}" class="item {{#fileCount}}has-files{{/fileCount}} {{#inLibrary}}in-library{{/inLibrary}} {{^fileCount}}{{#oa_journal}}open-access{{/oa_journal}}{{/fileCount}} {{#selected}}active{{/selected}}" data-source="{{source}}" draggable="true">
+  	<div class="metadata">
+  	  <span class="year">{{year}}</span>
+  	  
+  	  <div class="links">
+	      <a class="button" data-action="edit">Edit</a>
+	      <a class="button patience-required" data-action="add">Add</a>
+  	    <!--<a class="button" href="#item-annotate">Annotate</a>-->
+  		</div>
+  		
+  		<div class="title {{#oa_journal}}open-access{{/oa_journal}}"><a draggable="false" href="{{localURL}}">{{title}}</a></div>
+
+  		{{#publication_outlet}}<div class="journal-container">{{publication_outlet}}</div>{{/publication_outlet}}
+
+  		{{#authorsCount}}
+  		<div class="authors">
+  		{{#authors}}
+  		  {{#surname}}
+  		  <span class="author">{{#forename}}{{forename}} {{/forename}}{{surname}}</span>
+  		  {{/surname}}
+  		  {{#fullname}}
+  		  <span class="author">{{fullname}}</span>
+  		  {{/fullname}}
+  		{{/authors}}
+  		</div>
+  		{{/authorsCount}}
+  		
+  		<div class="tags">{{#tags}}<a class="tag" draggable="false" href="/library/collection?filter=tag:{{.}}">{{.}}</a> {{/tags}}</div>
+  	</div>
+  </div>
+</script>
+
+<script id="item-altmetric-template" type="text/x-mustache+html">
+{{#mendeley}}<a class="metric mendeley" rel="external" href="http://altmetric.com/interface/standaloneDetails.php?citation_id={{id}}">{{mendeley}} readers</a>{{/mendeley}}
+{{#posts}}<a class="metric posts" rel="external" href="http://altmetric.com/interface/standaloneDetails.php?citation_id={{id}}">{{posts}} posts</a>{{/posts}}
+{{#tweets}}<a class="metric tweets" rel="external" href="http://altmetric.com/interface/standaloneDetails.php?citation_id={{id}}">{{tweets}} tweets</a>{{/tweets}}
+</script>
+
+<script id="item-scopus-template" type="text/x-mustache+html">
+{{#citations}}<a class="metric citations" rel="external" href="{{url}}">{{citations}} citations</a>{{/citations}}
+</script>
+
+<script id="import-bookmarklet-template" type="text/plain">
+(function(){
+  var xhr = new XMLHttpRequest;
+  xhr.open('GET', document.location, true);
+  xhr.responseType = "arraybuffer";
+  xhr.onprogress = function (event) {
+    document.title += ".";
+  };
+  xhr.onload = function (event) {
+    if (this.status != 200){
+      document.title = "Import failed.";
+      return;
+    }
+    document.title = "Fetched the PDF! Check the Web Library window for upload progress.";
+    window.opener.postMessage(this.response, "*");
+  };
+  document.title = "Importing PDF...";
+  xhr.send();
+}
+)();
+</script>
+
+<script id="item-edit-template" type="text/x-mustache+html">
+  <form method="POST" action="api/documents/{{id}}" id="item-edit-form" class="item-edit">
+  	<div>
+  		<label class="label"></label>
+  		<span class="input-container">
+  			<input type="submit" value="Save">
+  			<a href="#" class="edit-cancel">Cancel</a>
+  		</span>
+  	</div>
+  	
+  	<div title="The type of this item">
+  		<label class="label" for="item-field-type">Type</label>
+  		<span class="input-container">
+  			<select class="input" name="type" id="item-field-type">{{#allTypes}}<option>{{.}}</option>{{/allTypes}}</select>
+  		</span>
+  	</div>
+  	
+	 	<div class="field core" title="A list of tags, separated by semi-colons">
+			<label class="label" for="item-field-tag">Tags</label>
+			<span class="input-container">
+    			<input class="input" type="text" id="item-field-tag" data-type="string+array" name="tags" id="item-field-tags" placeholder="tag-a; tag-b; tag-c" value="{{tags}}">
+			</span>
+		</div>
+
+  	{{#fields}}
+  		<div class="field {{#field-core}}core{{/field-core}}" {{#field-title}}title="{{field-title}}"{{/field-title}}>
+  			<label class="label" for="item-field-{{field-name}}">{{field-label}}</label>
+  			<span class="input-container">
+    			{{#field-textarea}}
+    			<textarea class="input" data-type="{{field-type}}" name="{{field-name}}" id="item-field-{{field-name}}" {{#field-placeholder}}placeholder="{{field-placeholder}}"{{/field-placeholder}} {{#field-pattern}}pattern="{{field-pattern}}"{{/field-pattern}} {{#field-required}}required{{/field-required}}>{{field-value}}</textarea>
+    			{{/field-textarea}}
+    			{{^field-textarea}}
+    			<input class="input" type="text" data-type="{{field-type}}" name="{{field-name}}" id="item-field-{{field-name}}" {{#field-placeholder}}placeholder="{{field-placeholder}}"{{/field-placeholder}} {{#field-pattern}}pattern="{{field-pattern}}"{{/field-pattern}} {{#field-required}}required{{/field-required}} value="{{field-value}}">
+    			{{/field-textarea}}
+  			</span>
+  		</div>
+  	{{/fields}}
+  	
+  	<!--<div class="more-fields"><span class="label"></span><span class="input">more fields &darr;</span></div>-->
+  </form>
+</script>
+
+<script id="search-template" type="x-mustache+text/html">
+  <form action="api/catalog" id="{{id}}">
+    <input name="q" size="30" value="{{q}}">
+    <input type="hidden" name="n" value="50">
+    <input type="submit" value="search" class="btn primary">
+  </form>
+</script>
+
+<script id="discuss-template" type="x-mustache-template">
+  <div class="placeholder">
+    <a href="{{url}}">Forum</a>
+  </div>
+  <style>
+  body { margin: 0; }
+  a { color: #666; text-decoration: none; font: 20px Helvetica; padding: 10px; display: block; background: whiteSmoke; border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+  a:hover { box-shadow: 0 0 5px #000; }
+  </style>
+</script>
+
+<script id="profile-template" type="x-mustache-template">
+  <div class="profile" id="{{id}}">
+    <div class="profile-field profile-name"><a rel="external" href="{{url}}">{{name}}</a></div>
+    <div class="profile-field profile-photo"><img src="{{photo}}"></div>
+    <div class="profile-field profile-academic-status">{{academic_status}}</div>
+    <div class="profile-field profile-location">{{location}}</div>
+    <div><a id="logout" class="direct" href="/logout">Sign out</a></div>
+  </div>
+  
+</script>
+
+<script id="items-header-template" type="x-mustache-template">
+  <form><input name="title-query" placeholder="filter..."></form>
+</script>
+
+<script id="text-template" type="x-mustache+text/html">
+  <form id="process-text" style="display:none">
+    <input type="submit" value="Extract Text">
+  </form>
+  
+  <iframe id="processor" src="http://hubgit.github.com/2011/11/pdftotext/"></iframe>
+</script>
+
+<script id="entities-template" type="x-mustache+text/html">
+  <div id="process-text-output"></div>
+</script>
+
+<script id="groups-header-template" type="x-mustache+text/html">
+  <form action="api/groups">
+    <input name="q" size="30">
+    <input type="hidden" name="n" value="50">
+    <input type="submit" value="search" class="btn primary">
+  </form>
+</script>

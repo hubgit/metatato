@@ -1,0 +1,33 @@
+.dropzone {
+  display: block;
+  min-height: 20px;
+  cursor: pointer;
+  padding: 10px;
+  margin: 10px;
+  line-height: 125%;
+  font-size: 130%;
+  background: #789;
+  border-radius: 10px;
+  text-align: center;
+  vertical-align: middle;
+  color: #fff;
+  border: 5px dotted transparent;
+}
+
+.dropzone:hover {
+  cursor: pointer;
+}
+
+.dropzone .command {
+  text-transform: uppercase;
+}
+
+.dropzone .subtext {
+  font-size: 80%;
+}
+
+.dropzone.dragover,
+.dropzone:hover {
+  border-color: #bbb;
+}
+

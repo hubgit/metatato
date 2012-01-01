@@ -1,0 +1,12 @@
+#groups-groups {
+  width: 20%;
+}
+
+#groups-items {
+  width: 30%;
+}
+
+#groups-item .upload,
+#groups-item progress {
+  display: none;
+}

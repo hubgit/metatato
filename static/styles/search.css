@@ -1,0 +1,24 @@
+#search-sources {
+  width: 20%;
+}
+
+#search-items {
+  width: 30%;
+}
+
+#search-item progress,
+#search-item .upload,
+#search-item iframe[name=read] {
+  display: none;
+}
+
+#search-sources form {
+  padding: 5px;
+}
+
+.item.in-library .button[data-action=add] {
+  background: #fff;
+  color: black;
+  text-shadow: none;
+}
+

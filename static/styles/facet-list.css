@@ -1,0 +1,24 @@
+.facet-list {}
+
+.facet {
+  padding: 2px 10px; 
+  display: block;
+  text-shadow: 0 1px 2px #fff;
+  cursor: pointer;
+}
+
+.facet:hover, .facet.dragover {
+  background-color: #eee;
+}
+
+.facet.active {
+  background-color: #ccd;
+}
+
+.facet .count {
+  float: right;
+}
+
+.facet .title {
+  margin-bottom: 5px; 
+}

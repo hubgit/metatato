@@ -1,0 +1,51 @@
+/*#library-items .button[data-action=edit],*/
+#search-items .button[data-action=add]{
+  display: inline-block;
+}
+
+.patience-required.loading {
+  padding-left: 26px;
+  color: #444;
+  text-shadow: none;
+  background: #fff url("../binary/loading-small.gif") 5px center no-repeat !important;
+  display: inline-block !important;
+}
+
+.more {
+  height: 0;
+}
+
+.items-message {
+  padding: 10px;
+}
+
+/*
+[data-role=page].active {
+  outline: 1px solid blue; 
+}
+*/
+
+.section-selector {
+  padding-left: 25px;
+  background-repeat: no-repeat;
+  background-position: 5px center;
+  background-size: 16px;
+}
+
+.section-selector[data-section=library] {
+  background-image: url("../binary/tags.png");
+}
+
+.section-selector[data-section=search] {
+  background-image: url("../binary/magnify.png");
+}
+
+.section-selector[data-section=groups] {
+  background-image: url("../binary/group.png");
+  padding-left: 30px;
+  background-size: 20px;
+}
+
+.section-selector[data-section=settings] {
+  background-image: url("../binary/gear2.png");
+}

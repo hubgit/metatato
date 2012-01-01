@@ -1,0 +1,10 @@
+@media (max-width: 800px) {
+  [data-role="page"] {
+    display: none;
+    width: 100% !important;
+  }
+  
+  [data-role="page"].active {
+    display: -webkit-box; display: -moz-box;
+  }
+}

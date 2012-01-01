@@ -1,0 +1,11 @@
+.profile {
+ padding: 10px; 
+}
+
+.profile-field {
+  margin: 5px 0;
+}
+
+.profile-photo img {
+  box-shadow: 0 2px 8px -1px #777;
+}

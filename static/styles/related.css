@@ -1,0 +1,12 @@
+#related-sources {
+  width: 20%;
+}
+
+#related-items {
+  width: 30%;
+}
+
+#related-item .upload,
+#related-item progress {
+  display: none;
+}

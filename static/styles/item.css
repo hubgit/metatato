@@ -1,0 +1,173 @@
+.item .metadata {
+  padding: 5px;
+}
+
+.item a {
+  outline: 0;
+}
+
+.item .year { 
+ float: right;
+ padding: 0 0 10px 10px; 
+}
+
+.item .metadata {
+  color: #666;
+}
+
+.item .author,
+.item .journal-container,
+.item .title {
+  color: #000;
+}
+
+.item .title {
+  font-weight: bold;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+}
+
+.main-item .year {
+  float: none;
+  padding: 0;
+}
+
+/*.item .title.open-access {
+  color: green;
+}*/
+
+.item .journal-container {
+  color: #052;
+}
+
+.item .files {
+  text-align: middle;
+}
+
+.item .author {
+  color: #222;
+  display: inline-block;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.item .et-al {
+  white-space: nowrap;
+}
+
+.item .et-al:hover {
+  cursor: pointer;
+  color: #789;
+}
+
+.item .files {
+  padding: 2px 0;
+}
+
+.item .abstract {
+  margin: 10px 0;
+  color: #000;
+}
+
+.item .files img {
+  width: 32px;
+  opacity: 0.5;
+}
+
+.item:hover .files img {
+  opacity: 1.0;
+}
+
+a.button {
+  background: #aaa;
+  color: #fff;
+  margin: 5px 5px 5px 0;
+  padding: 2px 5px;
+  display: inline-block;
+  border-radius: 3px;
+  text-shadow: 0 1px 2px #444;
+  box-shadow: 0 1px 2px #444;
+}
+
+a.button:hover,
+a.button:active {
+  background: #789;
+}
+
+.item .tag {
+  margin-right: 5px;
+  color: #666;
+  white-space: nowrap;
+  max-width: 50px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+#library-item.has-files .metadata,
+#library-item.has-files .upload {
+  display: none;
+}
+
+#library-item:not(.has-files) iframe[name=read] {
+  display: none;
+}
+
+#library-item .upload {
+  width: 100%;
+  text-align: center;
+}
+
+#library-item .file-picker {
+  visibility: hidden;
+}
+
+#library-item progress {
+  width: 100px;
+  margin: 10px;
+  -webkit-transform: scale(0.8);
+  display: none;
+}
+
+#library-item .metadata {
+  padding: 10px;
+}
+
+.box {
+  display: -webkit-box; display: -moz-box; /* firefox creates an inline-block */
+}
+
+.box > *:last-of-type {
+  -webkit-box-flex: 1; -moz-box-flex: 1;
+  text-align: right;
+}
+
+.metric {
+  display: inline-block;
+  padding: 2px 5px;
+  margin: 5px;
+  background: #eee;
+  color: #444;
+  text-shadow: 0 1px 1px #fff;
+  border-radius: 5px;
+  box-shadow: 0 1px 1px #777;
+}
+
+.metric:hover {
+  background: #789;
+  color: #fff;
+  text-shadow: 0 1px 2px #444;
+}
+
+.share > div {
+  margin: 7px 4px !important; /* override +1 button styles */goo
+}
+
+a.button.speak {
+  display: none;
+}
+
+iframe[name=read] div {
+  text-align: center;
+}
+
