@@ -11,6 +11,8 @@ $(document).ajaxError(function onAjaxError(event, jqXHR, settings, thrownError) 
       app.authenticationSuccess = function(profile){
         $.modal.close();
         $.ajax(settings);
+        setMessage(app.sections.library.pages.filters, "Syncing items (see <a href='/settings'>the settings section</a> for progress)&hellip;");
+        syncController.syncItems(); // TODO: if not already syncing
       };
       
       var box = $("<iframe/>", { src: "auth" });

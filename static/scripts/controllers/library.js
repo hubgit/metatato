@@ -43,6 +43,8 @@ var SectionLibraryController = function(){
   this.countedItems = function(total){
     console.log("Counted " + total + " items");
     
+    setMessage(self.pages.filters, null);
+    
     self.renderSmartFilters(total);
     
     var view = new Views.FacetsView({ container: self.pages.filters.contentNode, id: "library-facets" });

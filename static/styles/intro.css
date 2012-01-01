@@ -1,5 +1,5 @@
 body {
-  background: #C57E35; 
+  background: #fff; 
   font-family: Helvetica, sans-serif; 
   text-align: center;
   color: #230100;
@@ -10,14 +10,22 @@ a {
   color: inherit; 
 }
 
+.features {
+  margin: auto;
+  width: 80%;
+}
+
 .feature {
   display: inline-block;
-  padding: 10px 20px 20px;
+  padding: 10px 20px;
   vertical-align: top;
   border-radius: 10px;
-  width: 20em;
-  background: #FFD49E;
+  width: 450px;
+  background: #eee;
   margin: 20px;
+  float: left;
+  text-align: center;
+  text-shadow: 0 1px 1px white;
 }
 
 a.feature:hover {
@@ -26,5 +34,12 @@ a.feature:hover {
 }
 
 .screenshot {
-  display: block;
+  margin: 10px;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 800px) {
+  .feature {
+    width: auto;
+  }
 }

@@ -1,7 +1,5 @@
 DirectoryIndex index.php
 
-Options FollowSymLinks
-
 RewriteEngine On
 RewriteCond %{REQUEST_URI} !/static/
 RewriteRule ^(.*)$ index.php?_path=$1 [L,QSA]
@@ -11,5 +9,4 @@ php_value upload_max_filesize 100M
 php_value max_execution_time 300
 
 php_flag magic_quotes_gpc Off
-
 

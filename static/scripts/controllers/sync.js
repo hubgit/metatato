@@ -49,7 +49,6 @@ var SyncController = function() {
   };
   
   this.setSyncProgress = function(type, value){
-    if (typeof self.sync[type] == "undefined") self.sync[type] = { total: 0, progress: 0 };
     self.sync[type].progress = value;
     
     var counter = self.node.find("#syncing-" + type + " .syncing-count");
@@ -61,8 +60,9 @@ var SyncController = function() {
   };
   
   this.setSyncTotal = function(type, value){
-    if (typeof self.sync[type] == "undefined") self.sync[type] = { total: 0, progress: 0 };
     self.sync[type].total = value;
+    self.setSyncProgress(type, self.sync[type].progress);
+    
     self.node.find("#syncing-" + type + " progress").attr("max", value);
   };
 
@@ -129,7 +129,7 @@ var SyncController = function() {
   };
   
   this.finishedSyncingItems = function(total){
-    self.setSyncProgress(total);                
+    self.setSyncProgress("items", total);                
     self.node.find("#syncing-items .syncing-count").hide();
     localStorage.setItem("synced", Math.round(Date.now() / 1000));
     app.sections.library.node.trigger("library-updated");
@@ -159,7 +159,7 @@ var SyncController = function() {
   this.fetchFiles = function(files) {
     var total = 0;
     
-    $.each(files, function() { total++; });
+    $.each(files, function(){ total++; });
     
     self.setSyncTotal("files", total);
     self.setSyncProgress("files", 0);  
@@ -179,7 +179,6 @@ var SyncController = function() {
             if (file.size > 9) { // already got this file
               if (self.sync.files.total){
                 self.setSyncTotal("files", --self.sync.files.total);
-                self.incrementSyncProgress("files");
                 if (self.sync.files.total == self.sync.files.progress) self.finishedSyncingFiles(self.sync.files.total);
               }
               return; 
@@ -207,7 +206,7 @@ var SyncController = function() {
             };
           
             xhr.onerror = function(event){
-              console.log([this, event]);;
+              console.log([this, event]);
             };
 
             self.setSyncProgress("files", 0);
@@ -224,7 +223,7 @@ var SyncController = function() {
   };
   
   this.finishedSyncingFiles = function(){
-    self.setSyncProgress(self.sync.files.progress);
+    self.setSyncProgress("files", self.sync.files.total);
     self.node.find("#syncing-files .syncing-count").hide();
     app.sections.library.node.trigger("library-updated");
   };
