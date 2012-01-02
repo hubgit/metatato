@@ -22,12 +22,12 @@
 }
 
 .collection .item.open-access {
-  background: #f6f6f6 url("../binary/open-access.svg") no-repeat right center;
+  background: #f6f6f6 url("../binary/open-access.svg") no-repeat right 30px;
   background-size: auto 24px;
 }
 
 .collection .item.has-files {
-  background: #f6f6f6 url("../binary/pdf.svg") no-repeat right center;
+  background: #f6f6f6 url("../binary/pdf.svg") no-repeat right 30px;
   background-size: auto 24px;
 }
 

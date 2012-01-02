@@ -118,7 +118,7 @@ function get_documents($id, $request){
       $filehash = array_shift($request->parts);
       if (!$filehash) throw new HTTPException(403, 'File hash required');
 
-      Mendeley::library_readfile($id, $filehash);
+      Mendeley::library_readfile($id, $filehash, $_GET['group']);
       exit();
 
       case '':

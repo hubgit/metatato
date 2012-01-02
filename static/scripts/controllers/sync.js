@@ -189,13 +189,19 @@ var SyncController = function() {
     if (total) $.each(files, self.fetchFile);
   };
 
-  this.fetchFile = function(filehash, docid) {
+  this.fetchFile = function(filehash, docid, groupId, callback) {
     //console.log([filehash, docid]);
     app.filesystem.root.getDirectory("files", { create: true }, function(dirEntry) {   
       dirEntry.getFile(filehash + ".pdf", { create: true }, function(fileEntry) {
         fileEntry.createWriter(function(fileWriter) {
-          fileWriter.onwriteend = self.fileWritten;
           fileWriter.onerror = self.fileSystemError;
+
+          fileWriter.onwriteend = function fileWritten(e) {
+            self.incrementSyncProgress("files");
+            app.sections.library.node.trigger("library-updated");
+            if (self.sync.files.synced == self.sync.files.total) self.finishedSyncingFiles();
+            if (typeof callback == "function") callback();
+          };
 
           fileEntry.file(function(file) {
             if (file.size > 9) { // already got this file
@@ -205,9 +211,13 @@ var SyncController = function() {
               }
               return; 
             }
+            
+            var fileURL = "api/documents/" + encodeURIComponent(docid) + "/files/" + encodeURIComponent(filehash);
+            if (groupId) fileURL += "?group=" + encodeURIComponent(groupId);
+            console.log(fileURL);
 
             var xhr = new XMLHttpRequest;
-            xhr.open("GET", "api/documents/" + encodeURIComponent(docid) + "/files/" + encodeURIComponent(filehash), true);
+            xhr.open("GET", fileURL, true);
             xhr.setRequestHeader("Accept", "application/pdf");
             xhr.responseType = "arraybuffer"; // need to download as ArrayBuffer, then convert to Blob
           
@@ -237,12 +247,6 @@ var SyncController = function() {
         }, self.fileSystemError);
       }, self.fileSystemError);
     });
-  };
-
-  this.fileWritten = function(e) {
-    self.incrementSyncProgress("files");
-    app.sections.library.node.trigger("library-updated");
-    if (self.sync.files.synced == self.sync.files.total) self.finishedSyncingFiles();
   };
   
   this.finishedSyncingFiles = function(){

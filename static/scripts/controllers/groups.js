@@ -53,9 +53,7 @@ var SectionGroupsController = function(){
   this.groupSelected = function(event){
     event.preventDefault();
     
-    var node = $(this);
-    //setActiveNode(node); // TODO: use historyState to set the active item
-    
+    var node = $(this);    
     var group = node.data("group");
     app.selectedGroup = group;
         
@@ -101,8 +99,11 @@ var SectionGroupsController = function(){
     
     $.getJSON("api/documents/" + encodeURIComponent(docId), { group: groupId }, function showGroupItem(data){
       var item = new Item(data);
+      item.groupId = groupId;
       var view = new Views.ItemView({ container: self.pages.item.view.node, item: item });
       view.render();
+      
+      setActiveNode("#groups-collection #item-" + docId);
     
       /*
       var identifiers = item.data.identifiers;

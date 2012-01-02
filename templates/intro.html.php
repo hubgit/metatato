@@ -14,8 +14,9 @@
   
   <p>A web interface to your <a href="http://www.mendeley.com/">Mendeley</a> library</p>
   
-  <div class="features">
+  <p>This is still a work in progress: it requires Google Chrome, and some things might not be fully working.</p>
   
+  <div class="features">
     <a href="library" class="feature">
       <h2>Library</h2>
       <p>Faceted browsing; read papers inline or full screen</p>

@@ -6,11 +6,12 @@ var Item = function(data) {
     return ("authors" in self.data && $.isArray(self.data.authors)) ? self.data.authors.length : 0;
   };
   
+  this.fileCount = function(){
+    return ("files" in self.data) ? self.data.files.length : 0;
+  };
+  
   this.prepare = function(){
-    /*self.data.fileCount = function() {
-      return ("files" in self.data) ? self.data.files.length : 0;
-    };*/
-
+    if (typeof self.data.fileCount == "undefined") self.data.fileCount = self.fileCount;
     self.data.authorsCount = self.authorsCount;
 
     self.data.allTypes = app.allTypes;
@@ -29,47 +30,45 @@ var Item = function(data) {
     return "api/documents/" + encodeURIComponent(self.data.id) + "/files/" + encodeURIComponent(file.file_hash) + "/"
   };
   
-  this.showFile = function() {
-    $("#library-item").removeClass("has-files");
-    if (!self.data.id) return;
-    
-    app.db.startTransaction().openCursor(IDBKeyRange.only(self.data.id)).onsuccess = function (event) {
-      var cursor = event.target.result;
-      if (!cursor) return;
+  this.showFile = function(container, callback) {
+    container.removeClass("has-files");
+    if (!self.data.id || !self.data.files.length) return;
       
-      if (!cursor.value.files.length) {
-        $("#library-item").removeClass("has-files");
+    console.log(self.data.files);
+          
+    self.data.files.forEach(function(file){
+      if (file.file_extension != "pdf") return true; // continue
+      
+      if (!app.filesystem) {
+        console.log("No local filesystem: loading remote file");
+        container.addClass("has-files");
+        $("iframe[name=read]", container).attr("src", self.getRemoteFileURL(file));
         return;
       }
-            
-      cursor.value.files.forEach(function(file){
-        if (file.file_extension != "pdf") return true; // continue
-        
-        /*if (!app.filesystem) {
-          $("iframe[name=read]").attr("src", self.getRemoteFileURL(file));
-          return;
-        }*/
-        
-        app.filesystem.root.getDirectory("files", { create: false }, function(dirEntry){
-          dirEntry.getFile(file.file_hash + ".pdf", { create: false }, 
-            function getFileSuccess(fileEntry) {
-              console.log("Showing local file");
-              console.log(fileEntry.toURL());
-              $("#library-item").addClass("has-files");
-              $("iframe[name=read]").attr("src", fileEntry.toURL());
-            }, 
-            function getFileError(event) {
-              console.log("Loading remote file");
-              $("#library-item").addClass("has-files");
-              $("iframe[name=read]").attr("src", self.getRemoteFileURL(file));
-              // TODO: store file when loaded
-            }
-          );
-        });
-          
-        return false; // break
+      
+      app.filesystem.root.getDirectory("files", { create: true }, function(dirEntry){
+        dirEntry.getFile(file.file_hash + ".pdf", { create: false }, 
+          function getFileSuccess(fileEntry) {
+            console.log("Showing local file");
+            console.log(fileEntry.toURL());
+            container.addClass("has-files"); // and #group-item
+            $("iframe[name=read]", container).attr("src", fileEntry.toURL());
+          }, 
+          function getFileError(event) {
+            console.log("Couldn't find file locally; fetching...");
+            syncController.fetchFile(file.file_hash, self.data.id, self.groupId, callback);
+            //console.log("Loading remote file");
+            //$("#library-item").addClass("has-files");
+            //$("iframe[name=read]").attr("src", self.getRemoteFileURL(file));
+            // TODO: store file when loaded
+          }
+        );
+      }, function(){
+       console.log("error opening directory"); 
       });
-    };
+        
+      return false; // break
+    });
   };
   
   return this;

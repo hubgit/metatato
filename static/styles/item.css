@@ -105,6 +105,7 @@ a.button:active {
 }
 
 #library-item.has-files .metadata,
+#groups-item.has-files .metadata,
 #library-item.has-files .upload {
   display: none;
 }
