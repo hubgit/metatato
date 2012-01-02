@@ -4,14 +4,14 @@ function route($request){
   try {
     switch ($request->type){
       case '':
-        return array(array(), 'index');
+        return array(array(), 'intro');
         
       case 'logout':
         MendeleyOAuth::logout();
         exit();
       
       default:
-        return array(array(), 'app');
+        return array(array(), 'index');
 
       case 'auth':
         try {
