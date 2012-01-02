@@ -26,8 +26,8 @@ var Router = function(){
   };
   
   this.handleHistory = function(event){
-    console.log("handlehistory: " + event.originalEvent.state.path);
     if (!event.originalEvent.state) return;
+    console.log("handlehistory: " + event.originalEvent.state.path);
     this.route(event.originalEvent.state.path, true);
   };
   

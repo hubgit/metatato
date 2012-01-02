@@ -75,6 +75,7 @@ class Mendeley {
 
   // http://apidocs.mendeley.com/home/user-specific-methods/download-file
   static function library_readfile($id, $filehash){
+    //ob_end_flush(); // gz_handler
     //ob_end_flush(); // can't do this to output directly, as need to pass headers from curl (but not all of them)
     $curl_params = array(CURLOPT_RETURNTRANSFER => false, CURLOPT_HEADER => false); // output directly
     $url = array('library', 'documents', $id, 'file', $filehash);

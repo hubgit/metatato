@@ -49,21 +49,23 @@ var Item = function(data) {
           $("iframe[name=read]").attr("src", self.getRemoteFileURL(file));
           return;
         }*/
-         
-        app.filesystem.root.getFile(file.file_hash + ".pdf", { create: false }, 
-          function getFileSuccess(fileEntry) {
-            console.log("Showing local file");
-            console.log(fileEntry.toURL());
-            $("#library-item").addClass("has-files");
-            $("iframe[name=read]").attr("src", fileEntry.toURL());
-          }, 
-          function getFileError(event) {
-            console.log("Loading remote file");
-            $("#library-item").addClass("has-files");
-            $("iframe[name=read]").attr("src", self.getRemoteFileURL(file));
-            // TODO: store file when loaded
-          }
-        );
+        
+        app.filesystem.root.getDirectory("files", { create: false }, function(dirEntry){
+          dirEntry.getFile(file.file_hash + ".pdf", { create: false }, 
+            function getFileSuccess(fileEntry) {
+              console.log("Showing local file");
+              console.log(fileEntry.toURL());
+              $("#library-item").addClass("has-files");
+              $("iframe[name=read]").attr("src", fileEntry.toURL());
+            }, 
+            function getFileError(event) {
+              console.log("Loading remote file");
+              $("#library-item").addClass("has-files");
+              $("iframe[name=read]").attr("src", self.getRemoteFileURL(file));
+              // TODO: store file when loaded
+            }
+          );
+        });
           
         return false; // break
       });

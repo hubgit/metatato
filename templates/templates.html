@@ -24,19 +24,19 @@
   <form id="{{id}}">
     <h2>Sync/DB</h2>
   
-    <div id="syncing-items">
+    <div class="syncing-items">
       <input type="button" id="sync-items" value="Sync Items"> 
       <progress min="0" max="1" value="0"></progress> 
       <span class="syncing-count"></span>
     </div>
     
-    <div id="syncing-canonical">
+    <div class="syncing-canonical">
       <input type="button" id="sync-canonical" value="Sync Canonical Items"> 
       <progress min="0" max="1" value="0"></progress> 
       <span class="syncing-count"></span>
     </div>
 
-    <div id="syncing-files">
+    <div class="syncing-files">
       <input type="button" id="sync-files" value="Sync Files"> 
       <progress min="0" max="1" value="0"></progress> 
       <span class="syncing-count"></span>
@@ -104,7 +104,7 @@
 
   		{{#abstract}}<div class="abstract">{{abstract}}</div>{{/abstract}}
 
-    	<div class="tags">{{#tags}}<a class="tag" href="/library/collection?filter=tag:{{.}}">{{.}}</a> {{/tags}}</div>
+    	<div class="tags">{{#tags}}<a class="tag" href="/library?filters=tags:{{.}}#library-items">{{.}}</a> {{/tags}}</div>
   	
     	<div class="links">
   	    <a class="button" rel="external" href="http://scholar.google.com/scholar?q={{title}}">Google Scholar</a>
@@ -165,7 +165,7 @@
   		</div>
   		{{/authorsCount}}
   		
-  		<div class="tags">{{#tags}}<a class="tag" draggable="false" href="/library/collection?filter=tag:{{.}}">{{.}}</a> {{/tags}}</div>
+  		<div class="tags">{{#tags}}<a class="tag" draggable="false" href="/library?filters=tags:{{.}}#library-items">{{.}}</a> {{/tags}}</div>
   	</div>
   </div>
 </script>

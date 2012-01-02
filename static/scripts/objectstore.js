@@ -237,6 +237,7 @@ var ObjectStore = function(db, callback) {
   this.put = function(item, callback){
     db.startTransaction(IDBTransaction.READ_WRITE).put(item).onsuccess = function(event) {
       var cursor = event.target.result;
+      app.sections.library.node.trigger("library-updated");
       callback(cursor ? cursor.value : null);
     };
   };
@@ -244,6 +245,7 @@ var ObjectStore = function(db, callback) {
   this.delete = function(item, callback){
     db.startTransaction(IDBTransaction.READ_WRITE).delete(item).onsuccess = function(event) {
       var cursor = event.target.result;
+      app.sections.library.node.trigger("library-updated");
       callback(cursor ? cursor.value : null);
     };
   };

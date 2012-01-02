@@ -2,15 +2,42 @@ var SectionLibraryController = function(){
   var self = this;
   this.init("library", ["filters", "items", "item"]);
   this.selectedFilters = [];
+  this.libraryUpdated = true;
+  this.updatingLibraryViews = false;
+  this.lastUpdated = 0;
+  this.updatingInterval = null;
     
   this.pagesRendered = function(){
     //syncController.renderSyncView();
     //app.objectStore.count(self.countedItems);
+    self.handleLibraryUpdates();    
+    self.renderLibrary();
+  };
+  
+  this.handleLibraryUpdates = function(){
+    self.updatingInterval = window.setInterval(self.renderLibrary, 5000);
+        
+    $(document).on("library-updated", self.node, function(event){
+      self.libraryUpdated = true;
+      self.renderLibrary();
+    });
+  }
+  
+  this.renderLibrary = function(){
+    if (self.updatingLibraryViews || !self.libraryUpdated) return;
+    
+    var now = new Date(Date.UTC);
+    if (now - self.lastUpdated < 5000) return;
+    
+    window.clearInterval(self.updatingInterval);
+    
+    self.updatingLibraryViews = true;
+    self.libraryUpdated = false;
+    self.lastUpdated = now;
+    
     app.objectStore.count(self.countedItems);
     
-    $(document).on("library-updated", self.node, function(event){
-      app.objectStore.count(self.countedItems);
-    }); 
+    self.updatingInterval = window.setInterval(self.renderLibrary, 5000);
   };
   
   this.handleURL = function(parts, query, hash){
@@ -68,6 +95,7 @@ var SectionLibraryController = function(){
     console.log("Showing " + items.length + " items");
     app.collection = items;
     facetsController.render(self.filters);
+    self.updatingLibraryViews = false;
     $(self.node).trigger("collection-ready");
    };
   

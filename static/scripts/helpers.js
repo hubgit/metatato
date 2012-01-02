@@ -11,8 +11,6 @@ $(document).ajaxError(function onAjaxError(event, jqXHR, settings, thrownError) 
       app.authenticationSuccess = function(profile){
         $.modal.close();
         $.ajax(settings);
-        setMessage(app.sections.library.pages.filters, "Syncing items (see <a href='/settings'>the settings section</a> for progress)&hellip;");
-        syncController.syncItems(); // TODO: if not already syncing
       };
       
       var box = $("<iframe/>", { src: "auth" });
@@ -29,9 +27,8 @@ $(document).on("click", "a[rel=external]", function openExternalLink(event){
   window.open(this.href, "External");
 });
 
-var setMessage = function(page, message){
-  console.log(page);
-  var node = page.contentNode;
+var setMessage = function(page, message, header){
+  var node = header ? page.headerNode : page.contentNode;
   node.empty();
   if (message) $("<div/>", { class: "items-message" }).html(message).appendTo(node);  
 }

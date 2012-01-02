@@ -11,8 +11,8 @@ class MendeleyOAuth {
     if (is_array($path)) $path = MendeleyUtil::build_path($path);
 
     $consumer = new OAuthConsumer(MENDELEY_CONSUMER_KEY, MENDELEY_CONSUMER_SECRET, null);
+    
     $token = self::access_token();
-
     $request = OAuthRequest::from_consumer_and_token($consumer, $token, $method, MENDELEY_API_URL . $path,	$params);
     $request->sign_request(new OAuthSignatureMethod_HMAC_SHA1, $consumer, $token);		
 
@@ -20,21 +20,22 @@ class MendeleyOAuth {
     if ($method == 'GET' && $params) $url .= '?' . http_build_query($params);
 
     $curl = curl_init($url);
+    
+    $default_headers = array(
+      'Connection: Close', 
+      'Expect: '
+    );
 
     curl_setopt_array($curl, $curl_params + array(
-      CURLOPT_HTTPHEADER => array_merge(
-        $headers, 
-        array(
-          'Connection: Close', 
-          'Expect: ',
-        ), 
-        (array) $request->to_header()), // oauth in the Authorization header
-        CURLOPT_RETURNTRANSFER => true,
-      )
-    );
+      CURLOPT_HTTPHEADER => array_merge($headers, $default_headers, (array) $request->to_header()), // oauth in the Authorization header
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_CONNECTTIMEOUT => 30,
+      CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
+    ));
 
     $response = curl_exec($curl);
     //error_log(print_r($response, true));
+    //print_r($url); print_r($response); exit();
 
     $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     //if ($code >= 400) throw new HTTPException($code, $response); // TODO: only for debugging - use this one to see the actual response

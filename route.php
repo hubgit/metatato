@@ -36,7 +36,7 @@ function route($request){
             return array(Mendeley::library_folders(), 'folders');
 
           case 'groups':
-              return array(Mendeley::library_groups());
+            return array(Mendeley::library_groups());
 
           case 'catalog':
             $id = array_shift($request->parts);
@@ -56,7 +56,7 @@ function route($request){
                 return post_documents($id, $request);
 
               default:
-                header('Allow:   GET, POST');
+                header('Allow: GET, POST');
                 throw new HTTPException(405);
             }
           break;

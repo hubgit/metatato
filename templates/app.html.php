@@ -10,11 +10,11 @@
   <!--<script src="static/scripts/lib/modernizr.js"></script>-->
 </head>
 <body class="sections" id="sections">
+  <div id="loading">Loading&hellip;</div>
+  
   <div class="sections-header">
     <div class="section-selectors"></div>
-    <div class="sections-settings">
-      <a rel="external" href="https://groups.google.com/group/metatato/">Discuss</a>
-    </div>
+    <div class="sections-settings"></div>
   </div>
       
   <? require __DIR__ . '/templates.html'; ?>

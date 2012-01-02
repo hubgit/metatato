@@ -29,6 +29,7 @@ var SyncController = function() {
     if (window.confirm("Clear all items in the local database?")){
       app.db.startTransaction(IDBTransaction.READ_WRITE).clear().onsuccess = function() {
         localStorage.setItem("synced", 0);
+        app.sections.library.node.trigger("library-updated");
         alert("Items cleared!");
       };
     }
@@ -38,7 +39,7 @@ var SyncController = function() {
     if (window.confirm("Remove all files stored locally by this application?")){
       app.filesystem.root.getDirectory("files", {}, function(dirEntry) {
         dirEntry.removeRecursively(function() {
-          alert("Items cleared!");
+          alert("Files cleared!");
         }, self.fileSystemError);
       });
     }
@@ -51,19 +52,22 @@ var SyncController = function() {
   this.setSyncProgress = function(type, value){
     self.sync[type].progress = value;
     
-    var counter = self.node.find("#syncing-" + type + " .syncing-count");
-    counter.text(self.sync[type].progress + "/" + self.sync[type].total);
-    if (self.sync[type].total) counter.show();
-    
-    var progress = self.node.find("#syncing-" + type + " progress");
+    var progress = self.node.find(".syncing-" + type + " progress");
     if (progress.length) progress.get(0).value = value;
+
+    if (!self.sync[type].total) return;
+    
+    //var counter = self.node.find(".syncing-" + type + " .syncing-count");
+    var counter = $(".syncing-" + type + " .syncing-count");
+    counter.text(self.sync[type].progress + "/" + self.sync[type].total).show();
   };
   
   this.setSyncTotal = function(type, value){
     self.sync[type].total = value;
     self.setSyncProgress(type, self.sync[type].progress);
     
-    self.node.find("#syncing-" + type + " progress").attr("max", value);
+    $(".syncing-" + type + " progress").attr("max", value);
+    //self.node.find(".syncing-" + type + " progress").attr("max", value);
   };
 
   this.syncItems = function(){
@@ -76,8 +80,7 @@ var SyncController = function() {
   this.fetchItemsSinceLastSynced = function(){
     var lastSyncedTime = localStorage.getItem("synced");
     self.lastSyncedTime = lastSyncedTime ? parseInt(lastSyncedTime) : 0;
-    console.log("Last synced: " + new Date(self.lastSyncedTime * 1000).toString());
-    self.node.find("#syncing-items .syncing-count").html("fetching items updated since " + new Date(self.lastSyncedTime * 1000).toString() + " &hellip;");  
+    self.node.find(".syncing-items .syncing-count").html("fetching items updated since " + new Date(self.lastSyncedTime * 1000).toUTCString() + "&hellip;");  
     self.fetchItems(0);
     //TODO: queuing
   };
@@ -88,6 +91,19 @@ var SyncController = function() {
       console.log(library.total_results + " library items to sync. Handling page " + library.current_page);
       
       if (!library.total_results) return self.finishedSyncingItems(0);
+      
+      if (page == 0 && library.total_results > 1000){
+        if (!confirm("There are " + library.total_results + " items in your Mendeley library, so this might not work very well. Do you want to proceed?")) {
+          return;
+        }
+      }
+        
+      if (library.total_results > 10000){
+        alert("There are " + library.total_results + " items in your Mendeley library, which is probably more than Metatato can currently handle.");
+        return;
+      }
+
+      setMessage(app.sections.library.pages.filters, "Syncing items <span class='syncing-items'><span class='syncing-count'></span></span>&hellip;", true);
       self.setSyncTotal("items", library.total_results);
       
       var nextPage = library.current_page + 1;
@@ -97,14 +113,14 @@ var SyncController = function() {
 
       $.each(library.document_ids, function(index, id) {
         $.getJSON("api/documents/" + encodeURIComponent(id), function(item) {
-          if (!item["modified"]) item["modified"] = new Date().getTime();
+          if (!item["modified"]) item["modified"] = new Date(Date.UTC()).getTime();
           
           item["fileCount"] = 0;
           if (item["files"].length) {
             item["files"].forEach(function(file){
               if (file.file_extension == "pdf") {
                 item["fileCount"]++;
-                if (item["fileCount"] === 1) self.fetchFile(file.file_hash, item.id);
+                //if (item["fileCount"] === 1) self.fetchFile(file.file_hash, item.id);
               }
             });
           }
@@ -130,10 +146,9 @@ var SyncController = function() {
   
   this.finishedSyncingItems = function(total){
     self.setSyncProgress("items", total);                
-    self.node.find("#syncing-items .syncing-count").hide();
+    self.node.find(".syncing-items .syncing-count").hide();
     localStorage.setItem("synced", Math.round(Date.now() / 1000));
-    app.sections.library.node.trigger("library-updated");
-    // TODO: update library views
+    setMessage(app.sections.library.pages.filters, null, true);    
   };
 
   this.syncFiles = function(event) {
@@ -160,6 +175,13 @@ var SyncController = function() {
     var total = 0;
     
     $.each(files, function(){ total++; });
+    
+    var maxFilesToSync = 100;
+    if (total > maxFilesToSync){
+      alert("Only syncing the first " + maxFilesToSync + " files");
+      total = maxFilesToSync;
+      files = $(files).slice(0, maxFilesToSync - 1);
+    }
     
     self.setSyncTotal("files", total);
     self.setSyncProgress("files", 0);  
@@ -219,13 +241,13 @@ var SyncController = function() {
 
   this.fileWritten = function(e) {
     self.incrementSyncProgress("files");
+    app.sections.library.node.trigger("library-updated");
     if (self.sync.files.synced == self.sync.files.total) self.finishedSyncingFiles();
   };
   
   this.finishedSyncingFiles = function(){
     self.setSyncProgress("files", self.sync.files.total);
-    self.node.find("#syncing-files .syncing-count").hide();
-    app.sections.library.node.trigger("library-updated");
+    self.node.find(".syncing-files .syncing-count").hide();
   };
 
   this.fileSystemError = function(event) {
@@ -272,7 +294,7 @@ var SyncController = function() {
   
   this.finishedSyncingCanonical = function(){
     self.setSyncProgress("canonical", self.sync.canonical.total);
-    self.node.find("#syncing-canonical .syncing-count").hide();
+    self.node.find(".syncing-canonical .syncing-count").hide();
     app.sections.library.node.trigger("library-updated");
   };
   
@@ -319,7 +341,7 @@ var SyncController = function() {
         }
       });
       alert("Deleted " + deleted.length + " items");
-      app.sections.library.node.trigger("library-updated");
+      //app.sections.library.node.trigger("library-updated");
     });
   };
 }

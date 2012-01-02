@@ -11,6 +11,7 @@ require LIBDIR . 'API.php';
 require __DIR__ . '/route.php';
 
 ob_start();
+//('ob_gzhandler');
 
 try {
   $request = new Request;
@@ -30,5 +31,7 @@ else if ($template){
   require 'templates/' . $template . '.html.php';
 }
 
+//ob_end_flush(); // gz_handler
+header('Content-Length: ' . ob_get_length());
 ob_end_flush();
-//exit();
+exit();

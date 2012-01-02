@@ -43,9 +43,9 @@ var App = function(options) {
     self.objectStore = new ObjectStore(db);
   
     $.each(self.sections, self.renderSection.bind(self));
+    $("#loading").fadeOut();
     self.router.route(location.href.replace(baseURL, ""), true);
     self.fetchProfile();
-    //syncController.syncItems();
   };
   
   this.renderSection = function(id){
@@ -62,6 +62,7 @@ var App = function(options) {
     $.getJSON("api/profile", function(data){
       app.profile = data;
       $(app.sections.settings.node).trigger("profile-ready");
+      syncController.syncItems();
     });
   };
 };

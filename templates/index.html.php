@@ -36,6 +36,12 @@
       <img class="screenshot" src="static/binary/features/groups.png">
       <!--<p>Search for groups and read relevant papers</p>-->
     </a>
+    
+    <a href="https://groups.google.com/group/metatato/" class="feature">
+      <h2>Discuss</h2>
+      <p>Discuss Metatato in a Google Group</p>
+    </a>
+    
   <!--
     <div class="feature">
       <h2>Related articles</h2>
