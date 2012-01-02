@@ -4,6 +4,16 @@ RewriteEngine On
 RewriteCond %{REQUEST_URI} !/static/
 RewriteRule ^(.*)$ index.php?_path=$1 [L,QSA]
 
+<IfModule pagespeed_module>
+  ModPagespeedDisableFilters inline_javascript,rewrite_images,inline_css
+  #ModPagespeedEnableFilters combine_javascript
+  #ModPagespeedEnableFilters sprite_images
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE application/json      
+</IfModule>
+
 php_value post_max_size 100M
 php_value upload_max_filesize 100M
 php_value max_execution_time 300
