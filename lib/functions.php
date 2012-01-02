@@ -24,3 +24,18 @@ function truncate_to_word($title, $max = 100){
   return current(explode("\n", wordwrap(str_replace("\n", ' ', $title), $max, "\n", true))) . '...';
 }
 
+// http://www.php.net/manual/en/function.apache-request-headers.php#72498
+if (!function_exists('apache_request_headers')) { 
+    eval(' 
+        function apache_request_headers(){
+            $headers = array();
+            foreach ($_SERVER as $key => $value) { 
+                if (substr($key, 0, 5) == 'HTTP_') { 
+                    $key = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5))))); 
+                    $headers[$key] = $value; 
+                } 
+            } 
+            return $headers; 
+        } 
+    '); 
+}
