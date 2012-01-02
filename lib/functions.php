@@ -26,16 +26,17 @@ function truncate_to_word($title, $max = 100){
 
 // http://www.php.net/manual/en/function.apache-request-headers.php#72498
 if (!function_exists('apache_request_headers')) { 
-    eval(' 
-        function apache_request_headers(){
-            $headers = array();
-            foreach ($_SERVER as $key => $value) { 
-                if (substr($key, 0, 5) == 'HTTP_') { 
-                    $key = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5))))); 
-                    $headers[$key] = $value; 
-                } 
-            } 
-            return $headers; 
+  $function = <<<'END'
+    function apache_request_headers(){
+      $headers = array();
+      foreach ($_SERVER as $key => $value) { 
+        if (substr($key, 0, 5) == 'HTTP_') { 
+          $key = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5))))); 
+          $headers[$key] = $value; 
         } 
-    '); 
+      } 
+      return $headers; 
+    }
+END;
+  eval($function);
 }
