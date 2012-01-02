@@ -9,3 +9,6 @@ A web interface to a [Mendeley](http://www.mendeley.com/) library.
 * Item editing
 * Item deleting
 * Plugin API for items and collections
+* Offline support (appcache)
+* Support Firefox
+* Support browsers without IndexedDB

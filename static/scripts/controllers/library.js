@@ -26,7 +26,7 @@ var SectionLibraryController = function(){
   this.renderLibrary = function(){
     if (self.updatingLibraryViews || !self.libraryUpdated) return;
     
-    var now = new Date(Date.UTC);
+    var now = new Date();
     if (now - self.lastUpdated < 5000) return;
     
     window.clearInterval(self.updatingInterval);

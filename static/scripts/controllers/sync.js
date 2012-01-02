@@ -113,7 +113,7 @@ var SyncController = function() {
 
       $.each(library.document_ids, function(index, id) {
         $.getJSON("api/documents/" + encodeURIComponent(id), function(item) {
-          if (!item["modified"]) item["modified"] = new Date(Date.UTC()).getTime();
+          if (!item["modified"]) item["modified"] = new Date().getTime();
           
           item["fileCount"] = 0;
           if (item["files"].length) {
