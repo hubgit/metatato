@@ -92,6 +92,7 @@ var EUtils = function(tool, email){
     return {
       "type": "Journal Article",
       "id": self.first(x, "Id"),
+      "pmid": self.first(x, "Id"),
       "identifiers": {
         "pmid": self.first(x, "Id"),
       },
