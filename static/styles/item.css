@@ -130,7 +130,8 @@ a.button:active {
   display: none;
 }
 
-#library-item .metadata {
+#library-item .metadata,
+#groups-item .metadata {
   padding: 10px;
 }
 
@@ -172,3 +173,6 @@ iframe[name=read] div {
   text-align: center;
 }
 
+.help {
+  display: none; 
+}
