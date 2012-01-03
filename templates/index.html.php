@@ -5,7 +5,7 @@
   <base href="<? h(URL); ?>">
   <title>Metatato</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="static/binary/doc.png" type="image/png">
+  <link rel="icon" href="static/binary/icon-128.png" type="image/png">
   <? require __DIR__ . '/styles.html.php'; ?>
   <!--<script src="static/scripts/lib/modernizr.js"></script>-->
 </head>
