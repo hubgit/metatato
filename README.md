@@ -1,8 +1,10 @@
-== Description ==
+Description
+====
 
 A web interface to a [Mendeley](http://www.mendeley.com/) library.
 
-==TODO==
+TODO
+====
 
 * AJAX queue
 * Improved syncing
