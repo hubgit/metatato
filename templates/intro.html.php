@@ -16,6 +16,8 @@
   
   <p>This is still a work in progress: it requires Google Chrome, and some things might not be fully working.</p>
   
+  <p>You probably don't want to use this on a public computer, as it fetches your Mendeley library and stores it in a local database for offline use.</p>
+  
   <div class="features">
     <a href="library" class="feature">
       <h2>Library</h2>
@@ -41,6 +43,11 @@
     <a href="https://groups.google.com/group/metatato/" class="feature">
       <h2>Discuss</h2>
       <p>Discuss Metatato in a Google Group</p>
+    </a>
+    
+    <a href="https://github.com/hubgit/metatato" class="feature">
+      <h2>Open Source</h2>
+      <p>Code on GitHub</p>
     </a>
     
   <!--
