@@ -1,8 +1,10 @@
-== Description ==
+Description
+====
 
 A web interface to a [Mendeley](http://www.mendeley.com/) library.
 
-==TODO==
+TODO
+====
 
 * AJAX queue
 * Improved syncing
@@ -15,4 +17,3 @@ A web interface to a [Mendeley](http://www.mendeley.com/) library.
 * Offline support (appcache)
 * Support Firefox
 * Support browsers without IndexedDB
-* Store files locally when fetched on demand
