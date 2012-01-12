@@ -2,6 +2,7 @@ DirectoryIndex index.php
 
 RewriteEngine On
 RewriteCond %{REQUEST_URI} !/static/
+RewriteCond %{REQUEST_URI} !/importer/static/
 RewriteRule ^(.*)$ index.php?_path=$1 [L,QSA]
 
 <IfModule pagespeed_module>

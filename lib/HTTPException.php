@@ -54,17 +54,11 @@ class HTTPException extends Exception {
   
   function output(){   
     ob_end_clean();
-    
-    $code = $this->getCode();
-        
+
+    $code = $this->getCode();        
     $output = sprintf('HTTP/1.1 %d %s', $code, self::$messages[$code]);
         
-    if ($_SERVER['HTTP_HOST']) {
-      header($output); // not command line 
-    }
-    else {
-      print_r($output);
-    }
+    header($output); 
     
     if (strpos($_SERVER['HTTP_ACCEPT'], 'json') !== false){
       header('Content-Type: application/json; charset="utf-8"');

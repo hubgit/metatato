@@ -2,54 +2,54 @@ var FileHandler = function() {
   var self = this;
 
   // select files with file picker
-  this.bindFilePicker = function (node) {
+  this.bindFilePicker = function(node) {
     // var node = document.getElementById("file-picker");
-    $(node).bind("change", function (event) {
+    $(node).bind("change", function(event) {
       self.uploadFiles(this, event.target.files);
     });
   };
 
   // drag/drop files to dropzone
-  this.handleDragEvents = function (dropzone) {
+  this.handleDragEvents = function(dropzone) {
     dropzone
-    .bind("dragover", function (event) {
+    .bind("dragover", function(event) {
       event.stopPropagation();
       event.preventDefault();
     })
-    .bind("drop", function (event) {
+    .bind("drop", function(event) {
       event.stopPropagation();
       event.preventDefault();
       $(this).addClass("uploading");
       self.uploadFiles(this, event.dataTransfer.files);
     })
-    .bind("dragenter", function (event) {
+    .bind("dragenter", function(event) {
       $(this).addClass("dragover");
     })
-    .bind("dragleave", function (event) {
+    .bind("dragleave", function(event) {
       $(this).removeClass("dragover");
     });
   };
 
   // progress bar
-  this.showProgress = function (event, progress) {
+  this.showProgress = function(event, progress) {
     if (event.lengthComputable) {
       progress.value = event.loaded / event.total;
     }
   };
 
   /* download */
-  this.fetchFileAsBlob = function (url, callback) {
+  this.fetchFileAsBlob = function(url, callback) {
     //var callback = self.uploadAsFormData;
     //self.download(url, "blob", self.upload);
     self.download(url, "blob", callback);
   };
 
-  this.fetchFileAsArrayBuffer = function (url, callback) {
+  this.fetchFileAsArrayBuffer = function(url, callback) {
     //var callback = self.uploadArrayBuffer;
     self.download(url, "arraybuffer", callback);
   };
 
-  this.arrayBufferToBlob = function (ab, mimetype) {
+  this.arrayBufferToBlob = function(ab, mimetype) {
     window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
 
     var bb = new BlobBuilder;
@@ -58,16 +58,16 @@ var FileHandler = function() {
     return bb.getBlob(mimetype);
   };
 
-  this.download = function (url, responseType, callback) {
+  this.download = function(url, responseType, callback) {
     var xhr = new XMLHttpRequest;
     xhr.open('GET', url, true);
     xhr.responseType = responseType;
 
-    xhr.onprogress = function (event) {
+    xhr.onprogress = function(event) {
       self.showProgress(event, "download-progress");
     };
 
-    xhr.onload = function (event) {
+    xhr.onload = function(event) {
       if (this.status != 200) return;
       $("#download-progress").get(0).value = 1;
       callback(this.response);
@@ -77,7 +77,7 @@ var FileHandler = function() {
   };
 
   /* upload */
-  this.uploadArrayBuffer = function (node, ab, mimetype) {
+  this.uploadArrayBuffer = function(node, ab, mimetype) {
     // var mimetype = "application/pdf";
     var blob = self.arrayBufferToBlob(ab, mimetype);
     self.uploadAsFormData(node, blob);
@@ -90,7 +90,7 @@ var FileHandler = function() {
   };
 
   // files is a FileList of File objects
-  this.uploadFiles = function (node, files) {
+  this.uploadFiles = function(node, files) {
     var formData = new FormData;
 
     for (var i = 0, file; file = files[i]; ++i) {
@@ -100,7 +100,7 @@ var FileHandler = function() {
     self.upload(node, formData);
   };
 
-  this.upload = function (node, data) {
+  this.upload = function(node, data) {
     var node = $(node);
     //node.text("Uploading...").addClass("uploading");
     var progress = $("#upload-progress").show().get(0);
@@ -110,11 +110,11 @@ var FileHandler = function() {
     xhr.open("POST", node.data("url"), true);
     xhr.setRequestHeader("x-csrf-token", $.cookie("csrf"));
 
-    xhr.upload.onprogress = function (event) {
+    xhr.upload.onprogress = function(event) {
       self.showProgress(event, progress);
     };
 
-    xhr.onload = function (event) {
+    xhr.onload = function(event) {
       progress.value = 1;
       //item.files[0] = // TODO: needs response from the file upload
       //app.objectStore.put(item, function(event){

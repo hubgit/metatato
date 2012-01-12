@@ -25,6 +25,17 @@ function route($request){
           }
         }
         return array($data, 'auth');
+        
+      case 'importer':
+        return array(array(), '../importer/templates/index');
+        
+      case 'importer-sidebar':
+        return array(array(), '../importer/templates/sidebar');
+        
+      case 'importer-extractors':
+        require __DIR__ . '/importer/lib/Importer.php';
+        $scripts = Importer::selectScripts($_REQUEST['host']);
+				return array(array_filter(array_map(array('Importer', 'loadExtractorScript'), $scripts)));
 
       case 'api':
         $type = array_shift($request->parts);
