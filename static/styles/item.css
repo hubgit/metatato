@@ -37,6 +37,7 @@
 
 .item .journal-container {
   color: #052;
+  margin: 1px 0;
 }
 
 .item .files {
@@ -50,6 +51,7 @@
   max-width: 100%;
   overflow-x: hidden;
   text-overflow: ellipsis;
+  vertical-align: text-bottom; /* https://bugzilla.mozilla.org/show_bug.cgi?id=491549 */
 }
 
 .item .et-al {
