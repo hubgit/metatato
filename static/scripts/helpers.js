@@ -105,3 +105,17 @@ var cleanNode = function(node){
   node.contentNode.empty();
   return node;
 };
+
+/** Test for the presence of a PDF plugin - adapted from PDFObject **/
+var detectPDFPlugin = function(){
+  // generic PDF plugin
+	if (navigator.mimeTypes["application/pdf"] && navigator.mimeTypes["application/pdf"].enabledPlugin) return true;
+	
+  // Adobe Reader in non-IE browsers
+  for (var i = navigator.plugins.length - 1; i >= 0; i--){
+    if (navigator.plugins[i].name.match(/(Adobe Reader|Adobe PDF|Acrobat)/i)) return true;
+  }
+  
+  // Adobe Reader in IE
+  return Boolean(window.ActiveXObject && (new ActiveXObject("AcroPDF.PDF") || new ActiveXObject("PDF.PdfCtrl")));
+}

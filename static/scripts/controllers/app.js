@@ -7,7 +7,7 @@ var App = function(options) {
   
   this.selectedSection = null;
   this.selectedLibraryItem = null;
-        
+          
   this.init = function(fields){
     self.requestFileSystem(); // asynchronous, but should be fast enough
     

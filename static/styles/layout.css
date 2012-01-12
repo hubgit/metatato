@@ -76,6 +76,7 @@ iframe[data-role=content]{
   background-color: #fff;
   color: #000;
   cursor: pointer;
+  box-shadow: 0 -5px 5px -5px rgba(0,0,0,0.5) inset;
 }
 
 .sections-settings {

@@ -4,6 +4,10 @@ function route($request){
   try {
     switch ($request->type){
       case '':
+        if ($_COOKIE['oauth-access']){
+          header('Location: library');
+          exit();
+        }
         return array(array(), 'intro');
         
       case 'logout':
