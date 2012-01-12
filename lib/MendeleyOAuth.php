@@ -36,6 +36,8 @@ class MendeleyOAuth {
     $response = curl_exec($curl);
     //error_log(print_r($response, true));
     //print_r($url); print_r($response); exit();
+    
+    if (curl_errno($curl)) throw new HTTPException(500);
 
     $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     //if ($code >= 400) throw new HTTPException($code, $response); // TODO: only for debugging - use this one to see the actual response

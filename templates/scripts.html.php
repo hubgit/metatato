@@ -1,5 +1,5 @@
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <!--<script src="static/scripts/jquery/jquery.js"></script>-->
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>-->
+  <script src="static/scripts/jquery/jquery.js"></script>
   <script src="static/scripts/jquery/jquery.cookie.js"></script>
   <!--<script src="static/scripts/jquery/jquery.form.js"></script>-->
   <!--<script src="static/scripts/jquery/jquery.elastic.js"></script>-->
