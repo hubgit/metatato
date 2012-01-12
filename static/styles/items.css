@@ -19,15 +19,16 @@
   border-bottom: 1px solid #ddd;
   box-shadow: 0 1px 1px #fff;
   background: #f6f6f6;
+  /*min-height: 5em;*/
 }
 
 .collection .item.open-access {
-  background: #f6f6f6 url("../binary/open-access.svg") no-repeat right 30px;
+  background: #f6f6f6 url("../binary/open-access.svg") no-repeat right center;
   background-size: auto 24px;
 }
 
 .collection .item.has-files {
-  background: #f6f6f6 url("../binary/pdf.svg") no-repeat right 30px;
+  background: #f6f6f6 url("../binary/pdf.svg") no-repeat right center;
   background-size: auto 24px;
 }
 
