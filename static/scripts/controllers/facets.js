@@ -94,7 +94,8 @@ var FacetsController = function(){
     var node = $(this);        
     //if (!event.metaKey) node.siblings(".active").removeClass("active");
     //if (node.hasClass("active")) return false;
-    node.toggleClass("active", !$(event.target).hasClass("remove"));
+    //node.toggleClass("active", !$(event.target).hasClass("remove"));
+    node.toggleClass("active");
     var filters = [];
     
     $(self.node + " .filter.active").each(function(){

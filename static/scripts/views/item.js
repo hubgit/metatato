@@ -14,7 +14,7 @@ Views.ItemView = function(options) {
     container.find("[data-role=header]").empty().append(self.node);
     
     // body (pdf viewer)
-    var node = $("<iframe/>", { name: "read", "data-role": "content", src: "about:blank" }); // javascript:false ?
+    var node = $("<iframe/>", { name: "read", "data-role": "content", src: "about:blank", mozallowfullscreen: true }); // javascript:false ?
     container.find("[data-role=content]").replaceWith(node);
     
     if (options.item.fileCount()) {

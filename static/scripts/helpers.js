@@ -5,7 +5,7 @@ $(document).ajaxSend(function onAjaxSend(event, jqXHR, settings) {
 });
 
 $(document).ajaxError(function onAjaxError(event, jqXHR, settings, thrownError) {
-  //console.log([this, event, jqXHR, settings, thrownError]);
+  console.log([this, event, jqXHR, settings, thrownError]);
   switch (thrownError){
     case "Forbidden":
       app.authenticationSuccess = function(profile){
@@ -26,6 +26,10 @@ $(document).on("click", "a[rel=external]", function openExternalLink(event){
   event.preventDefault();
   window.open(this.href, "External");
 });
+
+var isSameDomain = function(a, b){
+  return $("<a/>", { "href": a }).get(0).hostname == $("<a/>", { "href": b }).get(0).hostname;
+}
 
 var setMessage = function(page, message, header){
   var node = header ? page.headerNode : page.contentNode;

@@ -34,6 +34,10 @@ var App = function(options) {
   };
   
   this.requestIndexedDB = function(callback){
+    if (typeof window.IndexedDB != "object") {
+      alert("This application requires a browser that supports IndexedDB");
+      return;
+    }
     new DB(databaseOptions, self.objectStoreName, self.databaseReady);
   };
   
