@@ -189,7 +189,7 @@ var SyncController = function() {
     if (total) $.each(files, self.fetchFile);
   };
 
-  this.fetchFile = function(filehash, docid, groupId, callback) {
+  this.fetchFile = function(filehash, docid, groupId, callback, keepRendered) {
     //console.log([filehash, docid]);
     app.filesystem.root.getDirectory("files", { create: true }, function(dirEntry) {   
       dirEntry.getFile(filehash + ".pdf", { create: true }, function(fileEntry) {
@@ -198,7 +198,7 @@ var SyncController = function() {
 
           fileWriter.onwriteend = function fileWritten(e) {
             self.incrementSyncProgress("files");
-            app.sections.library.node.trigger("library-updated");
+            if (!keepRendered) app.sections.library.node.trigger("library-updated");
             if (self.sync.files.synced == self.sync.files.total) self.finishedSyncingFiles();
             if (typeof callback == "function") callback();
           };

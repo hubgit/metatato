@@ -1,6 +1,6 @@
 var databaseOptions = {
   name: "library",
-  version: 9,
+  version: 10,
   migrations: {
     1: function(objectStore){
       objectStore.createIndex("fileCount", "fileCount", { unique: false });

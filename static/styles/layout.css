@@ -12,25 +12,30 @@ body {
 }
 
 .sections {
-  display: -webkit-box; display: -moz-box;
-  -webkit-box-orient: vertical; -moz-box-orient: vertical;
+  display: -webkit-box; display: -moz-box; display: flexbox;
+  -webkit-box-orient: vertical; -moz-box-orient: vertical; flex-flow: row;
   height: 100%;
+  width: 100%;
 }
 
 .section {
   -webkit-box-flex: 1; -moz-box-flex: 1;
-  display: none; /* will be "-webkit-box" when active */
+  display: none; /* will be "-webkit-box" or "-moz-box" when active */
   -webkit-box-orient: horizontal; -moz-box-orient: horizontal;
+  width: 100%;
 }
 
 .section.active {
-  display: -webkit-box; display: -moz-box;
+  display: block;
+  display: -webkit-box; /*display: -moz-box; */ display: flexbox;
 }
 
 [data-role=page] {
-  display: -webkit-box; display: -moz-box;
-  -webkit-box-orient: vertical; -moz-box-orient: horizontal;
-  width: 25%;
+  display: -webkit-box; display: -moz-box; display: flexbox;
+  -webkit-box-orient: vertical; -moz-box-orient: vertical; flex-flow: row;
+  min-width: 25%;
+  width: 33%;
+  vertical-align: top; /* for firefox */
 }
 
 
@@ -55,7 +60,7 @@ iframe[data-role=content]{
 }
 
 .sections-header {
-  display: -webkit-box; display: -moz-box;
+  display: -webkit-box; display: -moz-box; display: flexbox;
   -webkit-box-orient: horizontal; -moz-box-orient: horizontal;
   background: #999;
   color: #eee;

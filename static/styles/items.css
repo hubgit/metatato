@@ -1,11 +1,11 @@
 .collection-header input {
- -webkit-box-sizing:border-box; 
- width: 100%;
- margin: 0;
- padding: 5px;
- border: 0;
- background: #f6f6f6;
- border-bottom: 1px solid #ddd;
+  box-sizing: border-box; -webkit-box-sizing:border-box; -moz-box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 5px;
+  border: 0;
+  background: #f6f6f6;
+  border-bottom: 1px solid #ddd;
 }
 
 .collection {

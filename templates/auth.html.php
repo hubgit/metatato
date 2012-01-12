@@ -31,6 +31,7 @@
   <? if ($data): ?>
   <div>Signed in as <? h($data['name']); ?></div>
   <button onclick="authenticationSuccess()">Continue</button>
+  <script>authenticationSuccess();</script>
   <? else: ?>
   <form onsubmit="window.open('auth?authorise=1', 'Authenticate'); return false;">
     <input type="hidden" name="authorise" value="1">

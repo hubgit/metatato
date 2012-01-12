@@ -56,8 +56,7 @@ var Item = function(data) {
     
     if (!app.filesystem) {
       console.log("No local filesystem: loading remote file");
-      contentNode.replaceWith(readerNode);
-      $("iframe[name=read]", container).attr("src", self.remoteFileURL(file));
+      self.renderFile(messageNode, readerNode, contentNode, self.remoteFileURL(file));
       return;
     }
         
@@ -65,25 +64,28 @@ var Item = function(data) {
       dirEntry.getFile(file.file_hash + ".pdf", { create: false }, 
         function getFileSuccess(fileEntry) {
           console.log("Found local file: " + fileEntry.toURL());
-          
-          if (messageNode.hasClass("has-pdf-plugin")){
-            readerNode.attr("src", fileEntry.toURL());
-            contentNode.replaceWith(readerNode);
-          }
-          else {
-            messageNode.append("<br>");
-            $("<a/>", { text: "Download the PDF file for viewing externally.", href: fileEntry.toURL(), rel: "external", class: "download-pdf" }).appendTo(messageNode);
-          }
+          self.renderFile(messageNode, readerNode, contentNode, fileEntry.toURL());
         }, 
         function getFileError(event) {
-          console.log("Couldn't find file locally; fetching&hellip;");
-          messageNode.append("<br>").append("Fetching the PDF file&hellip;");
-          syncController.fetchFile(file.file_hash, self.data.id, self.groupId, callback);
+          console.log("Couldn't find file locally; fetching remote file.");
+          messageNode.append("<br>").append("Fetching the PDF file (choose 'Sync Files' on the <a href='/settings'>settings page</a> to pre-fetch all files)&hellip;");
+          syncController.fetchFile(file.file_hash, self.data.id, self.groupId, callback, true);
         }
       );
     }, function(){
      console.log("error opening directory"); 
     });
+  };
+  
+  this.renderFile = function(messageNode, readerNode, contentNode, fileURL){
+    if (messageNode.hasClass("has-pdf-plugin")){
+      readerNode.attr("src", fileURL);
+      contentNode.replaceWith(readerNode);
+    }
+    else {
+      messageNode.append("<br>");
+      $("<a/>", { text: "Download the PDF file for viewing externally.", href: fileURL, rel: "external", class: "download-pdf" }).appendTo(messageNode);
+    }
   };
   
   return this;

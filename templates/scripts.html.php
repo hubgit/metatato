@@ -14,8 +14,8 @@
   <script src="static/scripts/lib/filehandler.js"></script>
   
   <script src="static/scripts/helpers.js"></script>
-  <script src="static/scripts/db-options.js"></script>
-  <script src="static/scripts/db.js"></script>
+  <script src="static/scripts/db-options.js?v=<?= time(); ?>"></script>
+  <script src="static/scripts/db.js?v=<?= time(); ?>"></script>
   <script src="static/scripts/objectstore.js"></script>
   
   <script src="static/scripts/models/item.js"></script>
