@@ -3,9 +3,13 @@ var SectionGroupsController = function(){
   this.init("groups", ["groups", "items", "item"]);
   
   this.pagesRendered = function(){
-    $(self.pages.groups.node).on("click", ".facet", self.groupSelected)
-    $(self.pages.items.node).on("click", ".item", self.itemSelected)
-    
+    $(document).on("profile-ready", self.node, self.fetchGroups);
+
+    $(self.pages.groups.node).on("click", ".facet", self.groupSelected);
+    $(self.pages.items.node).on("click", ".item", self.itemSelected);
+  };
+  
+  this.fetchGroups = function(event){
     setMessage(self.pages.groups, "Loading groups&hellip;");
     $.getJSON("api/groups", self.renderGroupsPage);
   };

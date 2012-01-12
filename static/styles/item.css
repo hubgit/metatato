@@ -176,3 +176,12 @@ iframe[name=read] div {
 .help {
   display: none; 
 }
+
+.pdf-message {
+  padding: 10px;
+}
+
+.download-pdf {
+  color: blue;
+  
+}

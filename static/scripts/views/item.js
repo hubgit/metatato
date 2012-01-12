@@ -13,14 +13,27 @@ Views.ItemView = function(options) {
     self.node.find(".authors").formatAuthors(100);
     container.find("[data-role=header]").empty().append(self.node);
     
-    // body (pdf viewer)
-    var node = $("<iframe/>", { name: "read", "data-role": "content", src: "about:blank", mozallowfullscreen: true }); // javascript:false ?
-    container.find("[data-role=content]").replaceWith(node);
+    container.find("iframe[data-role=content]").replaceWith("<div data-role='content'></div>");
+    var contentNode = container.find("[data-role=content]");
+    contentNode.find(".pdf-message").remove();
     
+    // body (pdf viewer/download link)
     if (options.item.fileCount()) {
-      container.addClass("has-files");
+      container.addClass("has-files");   
+
+      if (detectPDFPlugin()) {
+        $("<div/>", { class: "pdf-message has-pdf-plugin" }).appendTo(contentNode);
+      }
+      else {
+        $("<div/>", { class: "pdf-message", text: "A PDF plugin is needed for viewing this content inline." }).appendTo(contentNode);
+      }
+      
       options.item.showFile(container, self.render);
     }
+    else {
+      container.removeClass("has-files");
+    }
+    
     //if (options.item.data.pmid || options.item.data.doi) gapi.plusone.go();
     
   };
