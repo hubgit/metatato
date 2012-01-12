@@ -19,7 +19,7 @@ Views.ItemView = function(options) {
     
     // body (pdf viewer/download link)
     if (options.item.fileCount()) {
-      container.addClass("has-files");   
+      container.addClass("has-files"); // TODO: set this when the file is ready?
 
       if (detectPDFPlugin()) {
         $("<div/>", { class: "pdf-message has-pdf-plugin" }).appendTo(contentNode);
@@ -28,14 +28,17 @@ Views.ItemView = function(options) {
         $("<div/>", { class: "pdf-message", text: "A PDF plugin is needed for viewing this content inline." }).appendTo(contentNode);
       }
       
-      options.item.showFile(container, self.render);
+      container.data("item-id", options.item.data.id);
+      
+      options.item.showFile(container, function(){
+        if(container.data("item-id") == options.item.data.id) self.render(); // the selected item has not changed
+      });
     }
     else {
       container.removeClass("has-files");
     }
     
-    //if (options.item.data.pmid || options.item.data.doi) gapi.plusone.go();
-    
+    //if (options.item.data.pmid || options.item.data.doi) gapi.plusone.go();    
   };
   
   return this;

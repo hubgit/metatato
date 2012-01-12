@@ -10,7 +10,7 @@
   <!--<script src="static/scripts/lib/modernizr.js"></script>-->
 </head>
 <body class="sections" id="sections">
-  <div id="loading">Loading&hellip;</div>
+  <!--<div id="loading">Loading&hellip;</div>-->
   
   <div class="sections-header">
     <div class="section-selectors"></div>
