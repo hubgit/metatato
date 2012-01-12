@@ -63,7 +63,7 @@ var App = function(options) {
   };
   
   this.fetchProfile = function(){
-    $.getJSON("api/profile", function(data){
+    $.getJSON("api/profile", function(data){		  
       app.profile = data;
       $(app.sections.settings.node).trigger("profile-ready");
       syncController.syncItems();
