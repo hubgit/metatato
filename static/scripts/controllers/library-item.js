@@ -43,7 +43,6 @@ var PageLibraryItemController = function(){
     filePicker.on("change", function(event){
       if (!this.files.length) return;
 
-      $("#library-item").addClass("has-files");
       //node.find("#import-bookmarklet").parent().remove();
 
       var formData = new FormData;
@@ -52,7 +51,10 @@ var PageLibraryItemController = function(){
       var fileHandler = new FileHandler;
       fileHandler.upload(dropZone, formData);
       
-      self.showFile(URL.createObjectURL(this.files[0]));
+      if (detectPDFPlugin()){
+        $("#library-item").addClass("has-files");
+        self.showFile(URL.createObjectURL(this.files[0]));
+      }
     });
   };
   
@@ -86,7 +88,10 @@ var PageLibraryItemController = function(){
   };
 
   this.showFile = function(url){
-    $("iframe[name=read]").attr("src", url);
+    var page = app.sections.library.pages.item;
+    var readerNode = $("<iframe/>", { name: "read", "data-role": "content", src: url, mozallowfullscreen: true });
+    $(page.contentNode).replaceWith(readerNode);
+    //$("iframe[name=read]", app.sections.library.pages.item).attr("src", url);
   };
 
   this.addMessageListener = function(){
@@ -115,6 +120,7 @@ var PageLibraryItemController = function(){
   // store as a temporary file; if only the blob is used, the file is downloaded
   this.showTemporaryFile = function(blob){
     app.filesystem.root.getFile("tmp.pdf", { create: true }, function(fileEntry) {
+      console.log("saving to tmp.pdf");
       var fileURL;
       fileEntry.createWriter(function(fileWriter) {
         fileWriter.onwriteend = function(){
