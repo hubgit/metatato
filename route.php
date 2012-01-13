@@ -12,9 +12,6 @@ function route($request){
     case 'logout':
       MendeleyOAuth::logout();
       exit();
-    
-    default:
-      return array(array(), 'index');
 
     case 'auth':
       try {
@@ -94,26 +91,8 @@ function route($request){
       readfile($file);
       exit();
 
-    case 'sync':
-      return array(null, $request->type);
-
-    case 'annotate':
-      $annotator = array_shift($request->parts);
-      switch($annotator){
-        case 'whatizit':
-        $plan = $_GET['plan'] ? $_GET['plan'] : 'whatizitUkPmcGenesProteins';
-        if ($_GET['pmid']) {
-          $data = Whatizit::pmid($_GET['pmid'], $plan);
-        }
-        else {
-          $data = Whatizit::annotate($_REQUEST['text'], $plan);
-        }
-        break;
-      }
-      return array($data);
-
-    //default:
-      //throw new HTTPException(404);
+    default:
+      return array(array(), 'index');
   }
 }
 
