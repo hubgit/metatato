@@ -7,7 +7,6 @@ require LIBDIR . 'Request.php';
 require LIBDIR . 'Mendeley.php';
 require LIBDIR . 'MendeleyUtil.php';
 require LIBDIR . 'MendeleyOAuth.php';
-require LIBDIR . 'API.php';
 require __DIR__ . '/route.php';
 
 ob_start();
