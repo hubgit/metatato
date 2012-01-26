@@ -64,7 +64,7 @@ function route($request){
               return get_documents($id, $request);
         
             case 'POST':
-              return post_documents($id, $request);
+              return post_documents($id);
 
             default:
               header('Allow: GET, POST');
@@ -129,18 +129,29 @@ function get_documents($id, $request){
 }
 
 
-function post_documents($id, $request){
-  if (!$id) return array(Mendeley::library_add_item($_POST));
+function post_documents($id){
+  if (!$id) {
+    $data = (array) Mendeley::library_add_item($_POST);
+    if ($data['document_id']){      
+      header('Location: http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '/' . $data['document_id'], true, 201);
+      exit();
+    }
+    return $data;
+  }
 
   if ($_POST['folder']){
     $data = Mendeley::set_document_folder($id, $_POST['folder']);
   }
   else if ($_FILES) {
     $file = $_FILES['pdf'];
-    $data = Mendeley::library_add_file($id, $file['tmp_name'], $file['name'], 'application/pdf');
+    
+    $headers = array_change_key_case(apache_request_headers(), CASE_LOWER);
+    $filename = $headers['x-mendeley-filename'] ? $headers['x-mendeley-filename'] : $file['name'];
+    
+    $data = Mendeley::library_add_file($id, $file['tmp_name'], $filename, 'application/pdf');
 
     if ($data['code'] == 201){
-      header('Location: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '/files/' . $data['id'], true, 201); // TODO: no file url yet
+      header('Location: http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '/files/' . $data['id'], true, 201); // TODO: no file url yet
       exit();
     }
 
