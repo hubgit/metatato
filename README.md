@@ -15,5 +15,4 @@ TODO
 * Plugin directory: related articles, metrics, entities, visualisations
 * Re-enable bookmarklet importing (via plugin)
 * Offline support (appcache)
-* Support Firefox
 * Support browsers without IndexedDB

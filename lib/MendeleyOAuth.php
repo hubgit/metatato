@@ -9,7 +9,6 @@ define('MENDELEY_AUTH_URL', MENDELEY_SERVER . 'oauth/');
 if (!defined('MENDELEY_CONSUMER_KEY')) throw new HTTPException(500, 'MENDELEY_CONSUMER_KEY is not defined');
 if (!defined('MENDELEY_CONSUMER_SECRET')) throw new HTTPException(500, 'MENDELEY_CONSUMER_SECRET is not defined');
 
-
 class MendeleyOAuth {   
   static function fetch($method, $path, $params = array(), $headers = array(), $curl_params = array()){
     if (is_array($path)) $path = MendeleyUtil::build_path($path);
@@ -148,8 +147,8 @@ class MendeleyOAuth {
 
     $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-    if ($code >= 400) throw new HTTPException($code);
-
+    if ($code >= 400) throw new HTTPException($code, 'Error fetching token');
+    
     parse_str($response, $token);
     return $token;
   }
