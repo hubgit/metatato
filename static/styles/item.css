@@ -37,7 +37,6 @@
 
 .item .journal-container {
   color: #052;
-  margin: 1px 0;
 }
 
 .item .files {
@@ -185,5 +184,10 @@ iframe[name=read] div {
 
 .download-pdf {
   color: blue;
-  
+}
+
+.main-item {
+  background: #fff;
+  margin: 5px;
+  box-shadow: 0 0 5px #999;
 }

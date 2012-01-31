@@ -38,7 +38,12 @@ Views.ItemView = function(options) {
       container.removeClass("has-files");
     }
     
-    //if (options.item.data.pmid || options.item.data.doi) gapi.plusone.go();    
+    if (options.item.data.pmid || options.item.data.doi) {
+      gapi.plusone.render("g-plusone", { 
+        size: "small", 
+        href: options.item.data.doi ? "http://dx.doi.org/" + options.item.data.doi : "http://view.ncbi.nlm.nih.gov/pubmed/" + options.item.data.pmid,
+      });    
+    }
   };
   
   return this;

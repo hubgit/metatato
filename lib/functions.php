@@ -3,7 +3,7 @@
 error_reporting(E_ALL ^ E_NOTICE);
 
 function h($text){
-  $text = mb_convert_encoding($text, 'UTF-8', mb_detect_encoding($text));
+  //$text = mb_convert_encoding($text, 'UTF-8', mb_detect_encoding($text));
   print htmlspecialchars((string) $text, ENT_QUOTES, 'UTF-8'); // TODO: filter_var + FILTER_SANITIZE_SPECIAL_CHARS?
 }
 

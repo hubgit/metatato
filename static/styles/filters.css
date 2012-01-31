@@ -4,15 +4,13 @@
 .filters-list {
   max-height: 120px;
   overflow-y: auto; 
-  margin-bottom: 10px;
+  background: #fff;
 }
 
 .filter-title {
-  margin-top: 10px;
-  padding-left: 10px;
-  padding-bottom: 5px;
+  padding: 5px 0 5px 10px;
   font-weight: bold; 
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ccc;
 }
 
 .filter {
