@@ -33,7 +33,7 @@ class Mendeley {
 
   // http://apidocs.mendeley.com/home/user-specific-methods/user-library-document-details
   static function library($id, $type = 'documents', $page = 0, $items = 20, $since = 0) {
-    $params = $id ? null : array('page' => (int) $page, 'items' => (int) $items, 'since' => (int) $since, 'sort' => 'recent');
+    $params = $id ? null : array('page' => (int) $page, 'items' => (int) $items, 'since' => (int) $since, 'sort' => 'modified-asc');
     return MendeleyOAuth::get(array('library', $type, $id), $params);
   }
 

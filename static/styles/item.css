@@ -110,9 +110,10 @@ a.button:active {
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
-
+/*
 #library-item.has-files .metadata,
 #groups-item.has-files .metadata,
+*/
 #library-item.has-files .upload {
   display: none;
 }
@@ -144,6 +145,7 @@ a.button:active {
 
 .box {
   display: -webkit-box; display: -moz-box; /* firefox creates an inline-block */
+  min-height: 30px;
 }
 
 .box > *:last-of-type {

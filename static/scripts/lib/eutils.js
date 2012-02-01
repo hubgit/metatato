@@ -8,7 +8,8 @@ var EUtils = function(tool, email){
   this.db = "pubmed";
   
   this.first = function(node, selector){
-    return node.children(selector).filter(":first").text();
+    var item = node.children(selector).filter(":first");
+    return item.length ? item.text() : null;
   };
   
   this.firstItem = function(node, name){
@@ -88,25 +89,26 @@ var EUtils = function(tool, email){
   };
   
   this.parseSummaryItem = function(i, doc){
-    var x = $(doc);
+    var $doc = $(doc);
     return {
       "type": "Journal Article",
-      "id": self.first(x, "Id"),
-      "pmid": self.first(x, "Id"),
+      "id": self.first($doc, "Id"),
+      "pmid": self.first($doc, "Id"),
       "identifiers": {
-        "pmid": self.first(x, "Id"),
+        "pmid": self.first($doc, "Id"),
+        "doi": self.firstItem($doc.find("Item[Name='ArticleIds']"), "doi"),
       },
-      "year": self.firstItem(x, "PubDate").match(/^(\d+)/)[1],
-      "title": self.firstItem(x, "Title"),
-      "volume": self.firstItem(x, "Volume"),
-      "issue": self.firstItem(x, "Issue"),
-      "publication_outlet": self.firstItem(x, "Source"),
-      //"so": self.firstItem(x, "SO"),
-      "pages": self.firstItem(x, "Pages"),
-      "issn": self.firstItem(x, "ISSN"),
-      "essn": self.firstItem(x, "ESSN"),
-      //"abstract": self.firstItem(x, "HasAbstract"),
-      "authors": $.makeArray(x.find("Item[Name='AuthorList'] > Item").map(function(){ return this.textContent })).map(self.prepareAuthors),
+      "year": self.firstItem($doc, "PubDate").match(/^(\d+)/)[1],
+      "title": self.firstItem($doc, "Title"),
+      "volume": self.firstItem($doc, "Volume"),
+      "issue": self.firstItem($doc, "Issue"),
+      "publication_outlet": self.firstItem($doc, "Source"),
+      //"so": self.firstItem($doc, "SO"),
+      "pages": self.firstItem($doc, "Pages"),
+      "issn": self.firstItem($doc, "ISSN"),
+      "essn": self.firstItem($doc, "ESSN"),
+      //"abstract": self.firstItem($doc, "HasAbstract"),
+      "authors": $.makeArray($doc.find("Item[Name='AuthorList'] > Item").map(function(){ return this.textContent })).map(self.prepareAuthors),
     }
   };
   

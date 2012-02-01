@@ -259,7 +259,8 @@ var SectionSearchController = function(){
     switch (source){
       case "catalog":
       default:
-      console.log("Rendering catalog item");
+        setMessage(self.pages.item, null, true); // clear the header
+        console.log("Rendering catalog item");
         $.getJSON("api/catalog/" + encodeURIComponent(itemId), function(canonicalData){
           canonicalData.published_in = canonicalData.publication_outlet;
           var item = new Item(canonicalData);
@@ -269,12 +270,13 @@ var SectionSearchController = function(){
               item.data[field] = value;
             });
           }
-      
+                
           var view = new Views.ItemView({ container: self.pages.item.view.node, item: item });
           view.render();
           setActiveNode(view.node);
-      
-          itemController.fetchMetrics(item, $("#search-item .metrics"));
+          
+          setMessage(self.pages.item);
+          itemController.fetchMetrics(item, view.node);
         });
       break;
       
@@ -288,6 +290,9 @@ var SectionSearchController = function(){
           var view = new Views.ItemView({ container: self.pages.item.view.node, item: item });
           view.render();
           setActiveNode(view.node);
+          
+          setMessage(self.pages.item);
+          itemController.fetchMetrics(item, view.node);
         }, 
         { retstart: 1, retmax: 1 });
       break;

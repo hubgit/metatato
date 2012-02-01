@@ -4,26 +4,32 @@
   margin: 0;
   padding: 5px;
   border: 0;
-  background: #f6f6f6;
-  border-bottom: 1px solid #ddd;
+  background: #eee;
+  border-bottom: 1px solid #bbb;
+  border-top: 1px solid #bbb;
 }
 
 .collection {
   width: 100%;
   border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
 }
 
 .collection .item {
-  display: block;
   overflow-y: auto; /* to clear floats */
   overflow-x: hidden;
+  
   border-top: 1px solid #fff;
   border-bottom: 1px solid #bbb;
-  /*min-height: 5em;*/
+  
   background: #eee;
   background-repeat: no-repeat;
   background-position: right 25px;
   background-size: auto 24px;
+  
+  transition-property: background-color; -webkit-transition-property: background-color; -moz-transition-property: background-color;   
+  transition-duration: 0.2s; -webkit-transition-duration: 0.2s; -moz-transition-duration: 0.2s;
+  transition-timing-function: ease-out; -webkit-transition-timing-function: ease-out; -moz-transition-timing-function: ease-out;
 }
 
 .collection .item.open-access {
@@ -35,12 +41,13 @@
 }
 
 .collection .item:hover {
-  /*background: #eee;*/
+  background: #f6f6f6;
   cursor: pointer;
 }
 
 .collection .item.active {
-  background-color: #fff;
+  background-color: #ddd;
+  border-top: 1px solid #ccc;
 }
 
 .collection .item .links {

@@ -2,16 +2,17 @@
 }
 
 .filters-list {
-  max-height: 120px;
+  max-height: 10em;
   overflow-y: auto; 
   background: #fff;
+  border-bottom: 1px solid #ddd;
 }
 
 .filter-title {
   padding: 5px 10px;
   font-weight: bold; 
-  border: 1px solid #ddd;
-  border-width: 1px 0;
+  background: #eee;
+  border-bottom: 1px solid #ddd;
 }
 
 .filter {
@@ -20,11 +21,13 @@
 }
 
 .filter:hover, .filter.dragover {
-  background-color: #eee;
+  background-color: #ddd !important;
+  color: #000 !important;;
 }
 
 .filter.active {
-  background-color: #ccd;
+  background-color: lightSlateGray;
+  color: white;
 }
 
 .filter .count {
@@ -43,6 +46,10 @@
 
 .filter.active .remove {
   display: inline;
+}
+
+.filter#all-items {
+  border-top: none;
 }
 
 .filter#all-items .remove {

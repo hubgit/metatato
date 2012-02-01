@@ -18,7 +18,7 @@ var PageLibraryItemController = function(){
     setActiveNode(".collection #item-" + app.item.id);
 
     // start fetching this article's metrics
-    self.fetchMetrics(app.item);
+    self.fetchMetrics(app.item, self.node);
 
     // set up inputs for receiving a file
     if (!app.item.data.fileCount) self.setupFileReceivers(self.view.node);
@@ -135,20 +135,20 @@ var PageLibraryItemController = function(){
     });
   }
 
-  this.fetchMetrics = function(item){
+  this.fetchMetrics = function(item, node){
     var altmetric = self.altmetricURL(item.data);
-    if (altmetric) $.getJSON(altmetric, { key: config.altmetricKey }, self.showAltmetricData);
-    if (item.data.doi) self.fetchScopusCitedBy(item.data.doi);
-  };
-
-  this.showAltmetricData = function(data){
-    var templateData =  {
-      id: data.altmetric_id,
-      posts: data.cited_by_posts_count,
-      mendeley: data.readers.mendeley,
-      tweets: data.cited_by_tweeters_count,
-    };
-    $(Mustache.to_html($("#item-altmetric-template").html(), templateData)).appendTo("#library-item .metrics");
+    if (altmetric) {
+      $.getJSON(altmetric, { key: config.altmetricKey }, function showAltmetricData(data){
+        var templateData =  {
+          id: data.altmetric_id,
+          posts: data.cited_by_posts_count,
+          mendeley: data.readers.mendeley,
+          tweets: data.cited_by_tweeters_count,
+        };
+        $(Mustache.to_html($("#item-altmetric-template").html(), templateData)).appendTo(node.find(".metrics"));
+      });
+    }
+    if (item.data.doi) self.fetchScopusCitedBy(item.data.doi, node);
   };
 
   this.altmetricURL = function(data){
@@ -160,7 +160,7 @@ var PageLibraryItemController = function(){
     return false;
   };
   
-  this.fetchScopusCitedBy = function(doi){
+  this.fetchScopusCitedBy = function(doi, node){
     var params = { devId: "uAHMFwDg9VCsBcMxuM3spiw7vKKzod", search: "DOI(" + doi + ")" };
     $.getJSON("http://searchapi.scopus.com/search.url?&callback=?", params, function showScopusCitedBy(data){
       if (typeof data.PartOK == "undefined") return;
@@ -174,7 +174,7 @@ var PageLibraryItemController = function(){
         citations: item.citedbycount,
         url: item.inwardurl,
       };
-      $(Mustache.to_html($("#item-scopus-template").html(), templateData)).appendTo("#library-item .metrics");
+      $(Mustache.to_html($("#item-scopus-template").html(), templateData)).appendTo(node.find(".metrics"));
     });
   };
 

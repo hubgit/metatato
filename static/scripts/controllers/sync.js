@@ -84,6 +84,21 @@ var SyncController = function() {
     self.fetchItems(0);
     //TODO: queuing
   };
+  
+  this.checkCollectionSize = function(page, total){
+    if (page == 0 && total > 1000){
+      if (!confirm("There are " + total + " items in your Mendeley library, so this might not work very well. Do you want to proceed?")) {
+        return false;
+      }
+    }
+      
+    if (total > 10000){
+      alert("There are " + total + " items in your Mendeley library, which is probably more than Metatato can currently handle.");
+      return false;
+    }
+    
+    return true;
+  };
 
   this.fetchItems = function(page) {
     console.log("Fetching library items, page " + page);
@@ -92,19 +107,12 @@ var SyncController = function() {
       
       if (!library.total_results) return self.finishedSyncingItems(0);
       
-      if (page == 0 && library.total_results > 1000){
-        if (!confirm("There are " + library.total_results + " items in your Mendeley library, so this might not work very well. Do you want to proceed?")) {
-          return;
-        }
-      }
-        
-      if (library.total_results > 10000){
-        alert("There are " + library.total_results + " items in your Mendeley library, which is probably more than Metatato can currently handle.");
-        return;
-      }
+      if (!self.checkCollectionSize(page, library.total_results)) return;
 
       setMessage(app.sections.library.pages.filters, "Syncing items <span class='syncing-items'><span class='syncing-count'></span></span>&hellip;", true);
       self.setSyncTotal("items", library.total_results);
+      
+      // TODO: make sure all items are fetched in order, so can resume if interrupted
       
       var nextPage = library.current_page + 1;
       if (nextPage < library.total_pages) self.fetchItems(nextPage);

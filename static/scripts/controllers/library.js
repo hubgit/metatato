@@ -6,6 +6,7 @@ var SectionLibraryController = function(){
   this.updatingLibraryViews = false;
   this.lastUpdated = 0;
   this.updatingInterval = null;
+  this.minUpdateInterval = 10000;
     
   this.pagesRendered = function(){
     //syncController.renderSyncView();
@@ -15,7 +16,7 @@ var SectionLibraryController = function(){
   };
   
   this.handleLibraryUpdates = function(){
-    self.updatingInterval = window.setInterval(self.renderLibrary, 5000);
+    self.updatingInterval = window.setInterval(self.renderLibrary, self.minUpdateInterval);
         
     $(document).on("library-updated", self.node, function(event){
       self.libraryUpdated = true;
@@ -27,7 +28,7 @@ var SectionLibraryController = function(){
     if (self.updatingLibraryViews || !self.libraryUpdated) return;
     
     var now = new Date();
-    if (now - self.lastUpdated < 5000) return;
+    if (now - self.lastUpdated < self.minUpdateInterval) return;
     
     window.clearInterval(self.updatingInterval);
     
@@ -37,7 +38,7 @@ var SectionLibraryController = function(){
     
     app.objectStore.count(self.countedItems);
     
-    self.updatingInterval = window.setInterval(self.renderLibrary, 5000);
+    self.updatingInterval = window.setInterval(self.renderLibrary, self.minUpdateInterval);
   };
   
   this.handleURL = function(parts, query, hash){

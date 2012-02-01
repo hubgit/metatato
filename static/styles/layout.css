@@ -9,7 +9,7 @@ html {
 
 body {
   margin: 0;
-  background: #eee;
+  background: #ddd;
 }
 
 .sections {
@@ -39,7 +39,6 @@ body {
   vertical-align: top; /* for firefox */
 }
 
-
 .section [data-role=page]:last-of-type {
   -webkit-box-flex: 1; -moz-box-flex: 1;
 }
@@ -63,7 +62,6 @@ iframe[data-role=content]{
   -webkit-box-orient: horizontal; -moz-box-orient: horizontal;
   color: #444;
   min-height: 1em;
-  border-bottom: 1px solid #ddd;
 }
 
 .section-selector {
@@ -77,7 +75,7 @@ iframe[data-role=content]{
 
 .section-selector:hover,
 .section-selector.active {
-  background-color: #fff;
+  background-color: #eee;
   color: #000;
 }
 
