@@ -99,6 +99,7 @@ var SectionGroupsController = function(){
   };
   
   this.loadItem = function(groupId, docId){
+    setMessage(self.pages.item, null, true); // clear the header
     setMessage(self.pages.item, "Loading item&hellip;");
     
     $.getJSON("api/documents/" + encodeURIComponent(docId), { group: groupId }, function showGroupItem(data){
@@ -108,6 +109,7 @@ var SectionGroupsController = function(){
       view.render();
       
       setActiveNode("#groups-collection #item-" + docId);
+      setMessage(self.pages.item); // clear loading message
     
       /*
       var identifiers = item.data.identifiers;

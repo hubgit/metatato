@@ -9,7 +9,7 @@ html {
 
 body {
   margin: 0;
-  background: #ddd;
+  background: #ebebeb;
 }
 
 .sections {
@@ -75,12 +75,17 @@ iframe[data-role=content]{
 
 .section-selector:hover,
 .section-selector.active {
-  background-color: #eee;
+  background-color: #fff;
   color: #000;
 }
 
 .sections-settings {
   -webkit-box-flex: 1; -moz-box-flex: 1;
   text-align: right;
+}
+
+.section [data-role=page]:last-of-type {
+  background: #ccc;
+  border-top: 1px solid #aaa;
 }
 

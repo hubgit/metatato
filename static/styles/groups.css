@@ -10,7 +10,3 @@
 #groups-item progress {
   display: none;
 }
-
-#groups-groups [data-role=content] {
-  padding-top: 5px;
-}

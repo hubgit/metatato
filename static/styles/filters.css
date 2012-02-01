@@ -2,7 +2,7 @@
 }
 
 .filters-list {
-  max-height: 10em;
+  max-height: 9em;
   overflow-y: auto; 
   background: #fff;
   border-bottom: 1px solid #ddd;
@@ -21,13 +21,12 @@
 }
 
 .filter:hover, .filter.dragover {
-  background-color: #ddd !important;
-  color: #000 !important;;
+  background-color: #dde !important;
+  color: #000 !important;
 }
 
 .filter.active {
-  background-color: lightSlateGray;
-  color: white;
+  background-color: #ccd;
 }
 
 .filter .count {

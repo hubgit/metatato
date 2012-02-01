@@ -27,6 +27,8 @@
   background-position: right 25px;
   background-size: auto 24px;
   
+  cursor: pointer;
+  
   transition-property: background-color; -webkit-transition-property: background-color; -moz-transition-property: background-color;   
   transition-duration: 0.2s; -webkit-transition-duration: 0.2s; -moz-transition-duration: 0.2s;
   transition-timing-function: ease-out; -webkit-transition-timing-function: ease-out; -moz-transition-timing-function: ease-out;
@@ -41,8 +43,7 @@
 }
 
 .collection .item:hover {
-  background: #f6f6f6;
-  cursor: pointer;
+  background-color: #f6f6f6;
 }
 
 .collection .item.active {
@@ -69,7 +70,6 @@
   background: transparent;
 }
 
-.collection .item:hover .title,
 .collection .item.active .title {
   color: #00438A;
 }
