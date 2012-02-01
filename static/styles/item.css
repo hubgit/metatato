@@ -146,6 +146,7 @@ a.button:active {
 .box {
   display: -webkit-box; display: -moz-box; /* firefox creates an inline-block */
   min-height: 30px;
+  padding: 0 5px;
 }
 
 .box > *:last-of-type {
@@ -170,8 +171,8 @@ a.button:active {
   text-shadow: 0 1px 2px #444;
 }
 
-.share > div {
-  margin: 7px 4px !important; /* override +1 button styles */goo
+.share {
+  padding: 7px 4px;
 }
 
 a.button.speak {
@@ -196,7 +197,7 @@ iframe[name=read] div {
 
 .main-item {
   background: #fff;
-  margin: 5px;
+  margin: 0 5px;
   box-shadow: 0 0 5px #999;
 }
 
