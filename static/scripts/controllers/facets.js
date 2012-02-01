@@ -126,6 +126,9 @@ var FacetsController = function(){
       //$("#all-items").click();
       return;
     }
+    else {
+     $("#all-items").removeClass("active"); 
+    }
     
     var activeFilters = [];
     filters.forEach(function(filter){

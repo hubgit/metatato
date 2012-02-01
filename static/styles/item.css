@@ -31,6 +31,12 @@
   padding: 0;
 }
 
+.main-item {
+ background: #fff;
+ margin: 10px;
+ box-shadow: 0 0 10px #777; 
+}
+
 /*.item .title.open-access {
   color: green;
 }*/
