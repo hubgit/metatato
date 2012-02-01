@@ -14,7 +14,7 @@
   <script src="static/scripts/lib/filehandler.js"></script>
   
   <script src="static/scripts/helpers.js"></script>
-  <script src="static/scripts/db-options.js?v=<?= time(); ?>"></script>
+  <script src="static/scripts/db-options.js"></script>
   <script src="static/scripts/db.js?v=<?= time(); ?>"></script>
   <script src="static/scripts/objectstore.js"></script>
   
@@ -52,4 +52,4 @@
   <script src="static/scripts/controllers/facets.js"></script>
   <script src="static/scripts/controllers/library-items.js"></script>
   <script src="static/scripts/controllers/library-item.js"></script>
-  <!--<script src="https://apis.google.com/js/plusone.js">{lang: 'en-GB', parsetags: 'explicit'}</script>-->
+  <script src="https://apis.google.com/js/plusone.js">{lang: 'en-GB', parsetags: 'explicit'}</script>

@@ -35,9 +35,9 @@
 */
 
 .section-selector {
-  padding-left: 25px;
+  padding-left: 30px;
   background-repeat: no-repeat;
-  background-position: 5px center;
+  background-position: 10px center;
   background-size: 16px;
 }
 
@@ -51,7 +51,7 @@
 
 .section-selector[data-section=groups] {
   background-image: url("../binary/group.png");
-  padding-left: 30px;
+  padding-left: 40px;
   background-size: 20px;
 }
 

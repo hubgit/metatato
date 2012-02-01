@@ -5,7 +5,7 @@
   <base href="<? h(URL); ?>">
   <title>Metatato</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="static/binary/doc.png" type="image/png">
+  <link rel="icon" href="static/binary/icon-128.png" type="image/png">
   <link rel="stylesheet" href="static/styles/intro.css">
   <!--<script src="static/scripts/lib/modernizr.js"></script>-->
 </head>
@@ -15,6 +15,8 @@
   <p>A web interface to your <a href="http://www.mendeley.com/">Mendeley</a> library</p>
   
   <p>This is still a work in progress: it requires Google Chrome, and some things might not be fully working.</p>
+  
+  <p>You probably don't want to use this on a public computer, as it fetches your Mendeley library and stores it in a local database for offline use.</p>
   
   <div class="features">
     <a href="library" class="feature">
@@ -41,6 +43,11 @@
     <a href="https://groups.google.com/group/metatato/" class="feature">
       <h2>Discuss</h2>
       <p>Discuss Metatato in a Google Group</p>
+    </a>
+    
+    <a href="https://github.com/hubgit/metatato" class="feature">
+      <h2>Open Source</h2>
+      <p>Code on GitHub</p>
     </a>
     
   <!--

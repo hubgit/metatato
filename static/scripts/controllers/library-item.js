@@ -26,7 +26,7 @@ var PageLibraryItemController = function(){
   
   this.setupFileReceivers = function(node){
     // setup bookmarklet and listen for imports
-    node.find("#import-bookmarklet").attr("href", "javascript:" + $("#import-bookmarklet-template").text());
+    node.find("#import-bookmarklet").attr("href", "javascript:" + $("#import-bookmarklet-template").text()).hide(); // FIXME: hiding temporarily
     //self.addMessageListener();
     
     var filePicker = node.find(".file-picker");
@@ -137,7 +137,7 @@ var PageLibraryItemController = function(){
 
   this.fetchMetrics = function(item){
     var altmetric = self.altmetricURL(item.data);
-    if (altmetric) $.getJSON(altmetric, self.showAltmetricData);
+    if (altmetric) $.getJSON(altmetric, { key: config.altmetricKey }, self.showAltmetricData);
     if (item.data.doi) self.fetchScopusCitedBy(item.data.doi);
   };
 
@@ -152,7 +152,7 @@ var PageLibraryItemController = function(){
   };
 
   this.altmetricURL = function(data){
-    var url = "http://api.altmetric.com/unstable/";
+    var url = "http://api.altmetric.com/v1/";
 
     if (data.doi) return url + "doi/" + data.doi;
     if (data.pmid) return url + "pmid/" + data.pmid;

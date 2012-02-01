@@ -10,26 +10,28 @@
 
 .collection {
   width: 100%;
+  border-left: 1px solid #ccc;
 }
 
 .collection .item {
   display: block;
   overflow-y: auto; /* to clear floats */
   overflow-x: hidden;
-  border-bottom: 1px solid #ddd;
-  box-shadow: 0 1px 1px #fff;
-  background: #eee;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #bbb;
   /*min-height: 5em;*/
+  background: #eee;
+  background-repeat: no-repeat;
+  background-position: right 25px;
+  background-size: auto 24px;
 }
 
 .collection .item.open-access {
-  background: #f6f6f6 url("../binary/open-access.svg") no-repeat right center;
-  background-size: auto 24px;
+  background-image: url("../binary/open-access.svg");
 }
 
 .collection .item.has-files {
-  background: #f6f6f6 url("../binary/pdf.svg") no-repeat right center;
-  background-size: auto 24px;
+  background-image: url("../binary/pdf.svg");
 }
 
 .collection .item:hover {
