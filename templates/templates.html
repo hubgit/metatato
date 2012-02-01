@@ -80,9 +80,8 @@
   		{{#publication_outlet}}
   		<div class="journal-container">
   		<a rel="external" href="http://www.google.co.uk/search?q=%22{{publication_outlet}}%22">
-  			<span class="publication">{{publication_outlet}} </span>
-  			{{#volume}}<span class="volume">{{volume}}{{/volume}}{{#issue}}(<span class="issue">{{issue}}</span>){{/issue}} 
-  			&nbsp;{{#pages}}pp.<span class="pages">{{pages}}</span>{{/pages}}
+  			<div class="publication">{{publication_outlet}}</div>
+  			<div>{{#volume}}<span class="volume">{{volume}}{{/volume}}{{#issue}}(<span class="issue">{{issue}}</span>){{/issue}}{{#pages}}&nbsp;pp.<span class="pages">{{pages}}</span>{{/pages}}</div>
   		</a>
   		</div>
   		{{/publication_outlet}}

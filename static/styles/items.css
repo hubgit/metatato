@@ -4,9 +4,8 @@
   margin: 0;
   padding: 5px;
   border: 0;
-  background: #eee;
-  border-bottom: 1px solid #bbb;
-  border-top: 1px solid #bbb;
+  background: inherit;
+  box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.5);
 }
 
 .collection {
@@ -47,8 +46,8 @@
 }
 
 .collection .item.active {
-  background-color: #ddd;
-  border-top: 1px solid #ccc;
+  background-color: #ccc;
+  border-top: 1px solid #bbb;
 }
 
 .collection .item .links {

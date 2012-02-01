@@ -128,6 +128,7 @@ a.button:active {
 
 #library-item .file-picker {
   visibility: hidden;
+  height: 1px;
 }
 
 #library-item progress {
@@ -197,4 +198,10 @@ iframe[name=read] div {
   background: #fff;
   margin: 5px;
   box-shadow: 0 0 5px #999;
+}
+
+.main-item .title {
+  font-family: 'Lato', sans-serif;
+  font-size: 110%;
+  margin-bottom: 5px;
 }

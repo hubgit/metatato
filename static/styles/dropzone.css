@@ -7,11 +7,10 @@
   line-height: 125%;
   font-size: 130%;
   background: #789;
-  border-radius: 10px;
+  border-radius: 5px;
   text-align: center;
   vertical-align: middle;
   color: #fff;
-  border: 5px dotted transparent;
 }
 
 .dropzone:hover {
@@ -28,6 +27,6 @@
 
 .dropzone.dragover,
 .dropzone:hover {
-  border-color: #bbb;
+  background-color: #9ab;
 }
 

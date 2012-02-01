@@ -17,3 +17,4 @@
   <!--<link rel="stylesheet" href="static/styles/text.css">-->
   <!--<link rel="stylesheet" href="static/styles/related.css">-->
   <link rel="stylesheet" href="static/styles/profile.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:700">
