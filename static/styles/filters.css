@@ -3,20 +3,20 @@
 
 .filters-list {
   max-height: 9em;
-  overflow-y: auto; 
-  background: #fff;
-  border-bottom: 1px solid #ddd;
+  overflow-y: auto;
 }
 
 .filter-title {
-  padding: 5px 10px;
+  padding: 5px 10px 5px;
   font-weight: bold; 
-  background: #eee;
-  border-bottom: 1px solid #ddd;
+  text-transform: uppercase;
+  color: #777;
+  text-shadow: 0 1px 1px white;
 }
 
 .filter {
-  padding: 2px 10px; 
+  padding: 2px 10px 2px 15px; 
+  border-left: 5px solid transparent;
   display: block;
 }
 
@@ -26,7 +26,8 @@
 }
 
 .filter.active {
-  background-color: #ccd;
+  background-color: #dde;
+  border-left-color: #77f;
 }
 
 .filter .count {

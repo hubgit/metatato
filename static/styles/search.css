@@ -14,8 +14,7 @@
 
 #search-sources form {
   padding: 5px;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 
 .item.in-library .button[data-action=add] {

@@ -60,7 +60,6 @@ iframe[data-role=content]{
 .sections-header {
   display: -webkit-box; display: -moz-box; /*display: flexbox*/;
   -webkit-box-orient: horizontal; -moz-box-orient: horizontal;
-  color: #444;
   min-height: 1em;
 }
 
@@ -71,12 +70,13 @@ iframe[data-role=content]{
   text-decoration: none; 
   text-transform: capitalize; 
   cursor: pointer;
+  color: #000;
+  opacity: 0.5;
 }
 
 .section-selector:hover,
 .section-selector.active {
-  background-color: #fff;
-  color: #000;
+  opacity: 1.0;
 }
 
 .sections-settings {

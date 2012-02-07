@@ -339,21 +339,33 @@ var SectionSearchController = function(){
   };
   
   this.saveItem = function(doc, button){
-    $.post("api/documents", doc, function(data){
-      if (!data || !data.document_id) {
-        button.removeClass("loading");
+    $.post("api/documents", doc, function(data, status, xhr){
+      //if (!data || !data.document_id) {
+      if (status != "success"){
+        button.removeClass("loading").addClass("error");
         return;
       }
       
-      $.getJSON("api/documents/" + data.document_id, function(data){
+      //var documentId = data.document_id;
+      
+      var documentURL = xhr.getResponseHeader("Location");
+      var matches = documentURL.match(/(\d+)$/);
+      var documentId = matches[1];
+      
+      if (!documentId){
+        button.removeClass("loading").addClass("error");
+        return;
+      }
+      
+      $.getJSON("api/documents/" + documentId, function(data){
+        console.log(data);
         button.removeClass("loading");
         if (!data || !data.id) return;
         
         if (!data.canonical_id) {
           app.objectStore.put(data, function(event){
             var item = new Item(data);
-            button.text("Added").addClass("added");
-            button.closest(".item").addClass("in-library").data("item", item);
+            button.text("Added").addClass("added").closest(".item").addClass("in-library").data("item", item);
           });
           return;
         }
@@ -372,11 +384,33 @@ var SectionSearchController = function(){
   
   this.convertCatalogDocToInputDoc = function(data){
     var doc = {};
-    ["abstract", "authors", "issue", "pages", "title", "type", "volume", "website", "year"].forEach(function(field){
+    console.log(app.allFields);
+    // TODO: use Mendeley fields
+    ["abstract", "issue", "pages", "title", "type", "volume", "website", "year", 
+    "authors", "editors", "translators", "producers", "cast",
+    "doi", "pmid", "issn", "arxiv", "isbn", "scopus", "ssm"].forEach(function(field){
       if (typeof data[field] != "undefined" && data[field].length) doc[field] = data[field];
     });
+    
+    if (typeof data["identifiers"] == "object"){
+      ["doi", "pmid", "arxiv", "issn", "isbn", "scopus", "ssm"].forEach(function(field){
+        var value = data["identifiers"][field];
+        if (typeof value != "undefined" && value.length) doc[field] = value;
+      });
+    }
+    
     if (data.published_in) doc.published_in = data.published_in;
     else if (data.publication_outlet) doc.published_in = data.publication_outlet;
+    
+    /*
+    if (typeof data["identifiers"] == "object"){
+      doc["identifiers"] = {};
+      $.each(data["identifiers"], function(field, value){
+         if (value) doc["identifiers"][field] = value;
+      });
+    }
+    */
+    
     console.log([data, doc]);
     return doc;
   };
