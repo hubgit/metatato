@@ -168,16 +168,6 @@
   </div>
 </script>
 
-<script id="item-altmetric-template" type="text/x-mustache+html">
-{{#mendeley}}<a class="metric mendeley" rel="external" href="http://altmetric.com/interface/standaloneDetails.php?citation_id={{id}}">{{mendeley}} readers</a>{{/mendeley}}
-{{#posts}}<a class="metric posts" rel="external" href="http://altmetric.com/interface/standaloneDetails.php?citation_id={{id}}">{{posts}} posts</a>{{/posts}}
-{{#tweets}}<a class="metric tweets" rel="external" href="http://altmetric.com/interface/standaloneDetails.php?citation_id={{id}}">{{tweets}} tweets</a>{{/tweets}}
-</script>
-
-<script id="item-scopus-template" type="text/x-mustache+html">
-{{#citations}}<a class="metric citations" rel="external" href="{{url}}">{{citations}} citations</a>{{/citations}}
-</script>
-
 <script id="import-bookmarklet-template" type="text/plain">
 (function(){
   var xhr = new XMLHttpRequest;

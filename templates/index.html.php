@@ -19,7 +19,7 @@
       
   <? require __DIR__ . '/templates.html'; ?>
   
-  <script>var config = { altmetricKey: "<? h(ALTMETRIC_KEY); ?>"};</script>
+  <script>var config = {};</script>
   <script>var baseURL = "<? h(trim(URL, '/')); ?>";</script>
   <? require __DIR__ . '/scripts.html.php'; ?>
   

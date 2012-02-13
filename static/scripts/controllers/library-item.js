@@ -18,9 +18,6 @@ var PageLibraryItemController = function(){
     setActiveNode(".collection #item-" + app.item.id);
     
     app.pluginsWindow.trigger("item-selected");
-    
-    // start fetching this article's metrics
-    //self.fetchMetrics(app.item, $(self.node));
 
     // set up inputs for receiving a file
     if (!app.item.data.fileCount) self.setupFileReceivers(self.view.node);
@@ -136,10 +133,6 @@ var PageLibraryItemController = function(){
       });
     });
   }
-
-  this.fetchMetrics = function(item, node){
-    if (item.data.doi) self.fetchScopusCitedBy(item.data.doi, node);
-  };
 
   this.showPluginResult = function(id, result){
     console.log([id, app.item]);
