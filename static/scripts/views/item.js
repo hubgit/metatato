@@ -28,7 +28,7 @@ Views.ItemView = function(options) {
         $("<div/>", { class: "pdf-message", text: "A PDF plugin is needed for viewing this content inline." }).appendTo(contentNode);
       }
       
-      container.data("item-id", options.item.data.id);
+      container.data("item-id", options.item.data.id).data("item", options.item);
       
       options.item.showFile(container, function(){
         if(container.data("item-id") == options.item.data.id) self.render(); // the selected item has not changed

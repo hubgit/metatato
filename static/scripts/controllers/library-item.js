@@ -16,9 +16,11 @@ var PageLibraryItemController = function(){
     self.view.render();
     
     setActiveNode(".collection #item-" + app.item.id);
-
+    
+    app.pluginsWindow.trigger("item-selected");
+    
     // start fetching this article's metrics
-    self.fetchMetrics(app.item, self.node);
+    //self.fetchMetrics(app.item, $(self.node));
 
     // set up inputs for receiving a file
     if (!app.item.data.fileCount) self.setupFileReceivers(self.view.node);
@@ -136,46 +138,13 @@ var PageLibraryItemController = function(){
   }
 
   this.fetchMetrics = function(item, node){
-    var altmetric = self.altmetricURL(item.data);
-    if (altmetric) {
-      $.getJSON(altmetric, { key: config.altmetricKey }, function showAltmetricData(data){
-        var templateData =  {
-          id: data.altmetric_id,
-          posts: data.cited_by_posts_count,
-          mendeley: data.readers.mendeley,
-          tweets: data.cited_by_tweeters_count,
-        };
-        $(Mustache.to_html($("#item-altmetric-template").html(), templateData)).appendTo(node.find(".metrics"));
-      });
-    }
     if (item.data.doi) self.fetchScopusCitedBy(item.data.doi, node);
   };
 
-  this.altmetricURL = function(data){
-    var url = "http://api.altmetric.com/v1/";
-
-    if (data.doi) return url + "doi/" + data.doi;
-    if (data.pmid) return url + "pmid/" + data.pmid;
-
-    return false;
-  };
-  
-  this.fetchScopusCitedBy = function(doi, node){
-    var params = { devId: "uAHMFwDg9VCsBcMxuM3spiw7vKKzod", search: "DOI(" + doi + ")" };
-    $.getJSON("http://searchapi.scopus.com/search.url?&callback=?", params, function showScopusCitedBy(data){
-      if (typeof data.PartOK == "undefined") return;
-      
-      var results = data.PartOK.Results;
-      console.log(results);
-      if (!results.length) return;
-      
-      var item = results[0];
-      var templateData =  {
-        citations: item.citedbycount,
-        url: item.inwardurl,
-      };
-      $(Mustache.to_html($("#item-scopus-template").html(), templateData)).appendTo(node.find(".metrics"));
-    });
+  this.showPluginResult = function(id, result){
+    console.log([id, app.item]);
+    //if (app.item.id !== id) return;
+    $("<a/>", { "class": "metric", "rel": "external", "href": result.url, "text": result.text }).appendTo("#library-item .metrics");
   };
 
   this.readFullScreen = function(event){

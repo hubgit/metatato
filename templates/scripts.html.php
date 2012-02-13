@@ -40,6 +40,7 @@
   <script src="static/scripts/views/facets.js"></script>
   
   <script src="static/scripts/controllers/app.js"></script>
+  <script src="static/scripts/lib/plugins.js"></script>
   <script src="static/scripts/controllers/router.js"></script>
   <script src="static/scripts/controllers/library.js"></script>
   <script src="static/scripts/controllers/search.js"></script>
@@ -52,4 +53,5 @@
   <script src="static/scripts/controllers/facets.js"></script>
   <script src="static/scripts/controllers/library-items.js"></script>
   <script src="static/scripts/controllers/library-item.js"></script>
+  
   <script src="https://apis.google.com/js/plusone.js">{lang: 'en-GB', parsetags: 'explicit'}</script>

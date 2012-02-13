@@ -38,7 +38,8 @@
 }
 
 .collection .item.has-files {
-  background-image: url("../binary/pdf.svg");
+  /*background-image: url("../binary/pdf.svg");*/
+  background-color: #dddddd;
 }
 
 .collection .item:hover {
