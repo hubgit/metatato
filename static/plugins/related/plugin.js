@@ -1,9 +1,11 @@
 var Plugin = function(){
   var self = this;
+  
+  var eutils = new EUtils(config.eutils.name, config.eutils.email);
 
   this.init = function(){
     window.addEventListener("message", self.receiveMessage, false);
-    self.app = window.parent.app;
+    $(document).on("click", "#related-collection .item", self.itemSelected);
   };
 
   this.receiveMessage = function(event){
@@ -26,10 +28,15 @@ var Plugin = function(){
     window.parent.postMessage(data, "*"); // TODO: actual parent domain
   };
   
+  this.saveItem = function(item){
+    var data = JSON.stringify(["items", item]);
+    console.log(data);
+    window.parent.postMessage(data, "*"); // TODO: actual parent domain
+  };
+  
   this.relatedArticles = function(item, callback){
     if (!item.pmid) return;
     
-    var eutils = new EUtils(config.eutils.name, config.eutils.email);
     eutils.link(item.pmid, function handleSearchResponse(xml, status, xhr){
       var links = eutils.parseRelatedArticles(xml);
       var items = [];
@@ -38,6 +45,7 @@ var Plugin = function(){
           "url": window.location + "?pmid=" + encodeURIComponent(item.pmid),
           "text": "Related",
           "domain": "ncbi.nlm.nih.gov",
+          "rel": "modal",
         });
       }
       
@@ -51,12 +59,44 @@ var Plugin = function(){
     
     var itemsPerPage = 20;
 
-    var eutils = new EUtils(config.eutils.name, config.eutils.email);
-    eutils.summaryFromIds(links["pubmed_pubmed"], function handleSearchResponse(xml, status, xhr){
+    eutils.summaryFromIds(links["pubmed_pubmed"].slice(0, itemsPerPage), function handleSearchResponse(xml, status, xhr){
       var items = eutils.parseSummary(xml);
       var view = new Views.ItemsView({ container: "#related-items", collection: items, id: "related-collection", itemsPerPage: itemsPerPage });
       view.render();
     }, { "retmax": itemsPerPage });
+  };
+  
+  this.itemSelected = function(event){    
+    var button = $(event.target);    
+    var item = $(this).data("item");
+    
+    if (button.parent().hasClass("links")){
+      switch (button.data("action")){
+        case "add":
+          if (button.hasClass("added")) return;
+          
+          button.text("Adding").addClass("loading").closest(".item").addClass("loading");
+
+          eutils.summaryFromIds([item.data.id], function(xml, status, xhr){
+            var results = eutils.parseSummary(xml);
+            var doc = convertCatalogDocToInputDoc(results[0]);
+            if (doc.authors.length){
+              doc.authors.forEach(function(author, key){
+                doc.authors[key] = author.fullname;
+              });
+              doc.authors = doc.authors.join("\n");
+            }
+            //self.saveItem(doc);
+            window.parent.saveItem(doc, button);
+          }, 
+          { retstart: 1, retmax: 1 });
+        break;
+
+        default:
+          //setActiveNode(self.pages.item.view.node);
+        break;
+      }
+    }
   };
 }
 

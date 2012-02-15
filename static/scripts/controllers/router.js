@@ -21,7 +21,7 @@ var Router = function(){
     event.preventDefault();
     var node = $(event.target);
     var href = node.attr("href");
-    if (href === "#" || node.hasClass("direct") || node.attr("rel") === "external") return true;
+    if (href === "#" || node.hasClass("direct") || node.attr("rel") === "external" || node.attr("rel") === "modal") return true;
     this.route(href);
   };
   

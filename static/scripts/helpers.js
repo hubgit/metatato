@@ -2,6 +2,9 @@ $(document).ajaxSend(function onAjaxSend(event, jqXHR, settings) {
   if (settings.type != "GET" && isSameDomain(settings.url, window.location.href)) { // GET a URL on the sameDomain
     jqXHR.setRequestHeader("x-csrf-token", $.cookie("csrf"));
   }
+  if (settings.url.match(/^api\//) && window.location.pathname.match("/plugins/")){
+    settings.url = "../../../" + settings.url;
+  }
 });
 
 $(document).ajaxError(function onAjaxError(event, jqXHR, settings, thrownError) {
@@ -25,6 +28,18 @@ $(document).ajaxError(function onAjaxError(event, jqXHR, settings, thrownError) 
 $(document).on("click", "a[rel=external]", function openExternalLink(event){
   event.preventDefault();
   window.open(this.href, "External");
+  return false;
+});
+
+$(document).on("click", "a[rel=modal]", function openModalLink(event){
+  event.preventDefault();
+  var box = $("<iframe/>", { src: this.href });
+  box.modal({ opacity: 50, overlayClose: true, onShow: function (d) {
+      $.modal.setContainerDimensions();
+      // or
+      //$.modal.update();
+  }});
+  return false;
 });
 
 var isSameDomain = function(a, b){
@@ -119,3 +134,68 @@ var detectPDFPlugin = function(){
   // Adobe Reader in IE
   return Boolean(window.ActiveXObject && (new ActiveXObject("AcroPDF.PDF") || new ActiveXObject("PDF.PdfCtrl")));
 }
+
+var convertCatalogDocToInputDoc = function(data){
+  var doc = {};
+
+  // TODO: use Mendeley fields
+  ["abstract", "issue", "pages", "title", "type", "volume", "website", "year", 
+  "authors", "editors", "translators", "producers", "cast",
+  "doi", "pmid", "issn", "arxiv", "isbn", "scopus", "ssm"].forEach(function(field){
+    if (typeof data[field] != "undefined" && data[field].length) doc[field] = data[field];
+  });
+  
+  if (typeof data["identifiers"] == "object"){
+    ["doi", "pmid", "arxiv", "issn", "isbn", "scopus", "ssm"].forEach(function(field){
+      var value = data["identifiers"][field];
+      if (typeof value != "undefined" && value.length) doc[field] = value;
+    });
+  }
+  
+  if (data.published_in) doc.published_in = data.published_in;
+  else if (data.publication_outlet) doc.published_in = data.publication_outlet;
+  
+  /*
+  if (typeof data["identifiers"] == "object"){
+    doc["identifiers"] = {};
+    $.each(data["identifiers"], function(field, value){
+       if (value) doc["identifiers"][field] = value;
+    });
+  }
+  */
+  
+  return doc;
+};
+
+var saveItem = function(doc, button, canonicalData){
+  $.post("api/documents", doc, function(data, status, xhr){
+    if (status != "success"){
+      button.removeClass("loading").addClass("error");
+      return;
+    }
+        
+    var documentURL = xhr.getResponseHeader("Location");
+    var matches = documentURL.match(/(\d+)$/);
+    var documentId = matches[1];
+    
+    if (!documentId){
+      button.removeClass("loading").addClass("error");
+      return;
+    }
+    
+    $.getJSON("api/documents/" + documentId, function(data){
+      console.log(data);
+      button.removeClass("loading");
+      if (!data || !data.id) return;
+
+      if (canonicalData){
+        data.canonical = canonicalData;
+        data.oa_journal = canonicalData.oa_journal;
+      }
+
+      app.objectStore.put(data, function(event){
+        button.text("Added").closest(".item").addClass("in-library");
+      });
+    });
+  }, "json");
+};

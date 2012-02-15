@@ -139,7 +139,7 @@ var PageLibraryItemController = function(){
     //if (app.item.id !== id) return;
     var link = $("<a/>", { 
       "class": "metric", 
-      "rel": "external", 
+      "rel": result.rel ? result.rel : "external", 
       "href": result.url, 
       "text": result.text 
     });

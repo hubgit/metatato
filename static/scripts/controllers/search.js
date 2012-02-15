@@ -276,7 +276,7 @@ var SectionSearchController = function(){
           setActiveNode(view.node);
           
           setMessage(self.pages.item);
-          itemController.fetchMetrics(item, view.node);
+          //itemController.fetchMetrics(item, view.node);
         });
       break;
       
@@ -292,7 +292,7 @@ var SectionSearchController = function(){
           setActiveNode(view.node);
           
           setMessage(self.pages.item);
-          itemController.fetchMetrics(item, view.node);
+          //itemController.fetchMetrics(item, view.node);
         }, 
         { retstart: 1, retmax: 1 });
       break;
@@ -306,7 +306,7 @@ var SectionSearchController = function(){
       case "catalog":
       default:
         $.getJSON("api/catalog/" + encodeURIComponent(item.data.uuid), function(canonicalData){
-          var doc = self.convertCatalogDocToInputDoc(canonicalData);
+          var doc = convertCatalogDocToInputDoc(canonicalData);
           if (doc.authors.length){
             doc.authors.forEach(function(author, key){
               var name = author.surname;
@@ -315,104 +315,25 @@ var SectionSearchController = function(){
             });
             doc.authors = doc.authors.join("\n");
           }
-          console.log(doc);
-          self.saveItem(self.convertCatalogDocToInputDoc(doc), button);
+          saveItem(convertCatalogDocToInputDoc(doc), button, canonicalData);
         });
       break;
       
       case "pubmed":
         eutils.summaryFromIds([item.data.id], function(xml, status, xhr){
           var results = eutils.parseSummary(xml);
-          var doc = self.convertCatalogDocToInputDoc(results[0]);
+          var doc = convertCatalogDocToInputDoc(results[0]);
           if (doc.authors.length){
             doc.authors.forEach(function(author, key){
               doc.authors[key] = author.fullname;
             });
             doc.authors = doc.authors.join("\n");
           }
-          console.log(doc);
-          self.saveItem(doc, button);
+          saveItem(doc, button);
         }, 
         { retstart: 1, retmax: 1 });
       break;
     }
-  };
-  
-  this.saveItem = function(doc, button){
-    $.post("api/documents", doc, function(data, status, xhr){
-      //if (!data || !data.document_id) {
-      if (status != "success"){
-        button.removeClass("loading").addClass("error");
-        return;
-      }
-      
-      //var documentId = data.document_id;
-      
-      var documentURL = xhr.getResponseHeader("Location");
-      var matches = documentURL.match(/(\d+)$/);
-      var documentId = matches[1];
-      
-      if (!documentId){
-        button.removeClass("loading").addClass("error");
-        return;
-      }
-      
-      $.getJSON("api/documents/" + documentId, function(data){
-        console.log(data);
-        button.removeClass("loading");
-        if (!data || !data.id) return;
-        
-        if (!data.canonical_id) {
-          app.objectStore.put(data, function(event){
-            var item = new Item(data);
-            button.text("Added").addClass("added").closest(".item").addClass("in-library").data("item", item);
-          });
-          return;
-        }
-
-        data.canonical = canonicalData;
-        data.oa_journal = canonicalData.oa_journal;
-
-        app.objectStore.put(data, function(event){
-          button.text("Added").closest(".item").addClass("in-library");
-          //syncController.syncItems();
-          //TODO: refresh library view
-        });
-      });
-    }, "json");
-  }
-  
-  this.convertCatalogDocToInputDoc = function(data){
-    var doc = {};
-    console.log(app.allFields);
-    // TODO: use Mendeley fields
-    ["abstract", "issue", "pages", "title", "type", "volume", "website", "year", 
-    "authors", "editors", "translators", "producers", "cast",
-    "doi", "pmid", "issn", "arxiv", "isbn", "scopus", "ssm"].forEach(function(field){
-      if (typeof data[field] != "undefined" && data[field].length) doc[field] = data[field];
-    });
-    
-    if (typeof data["identifiers"] == "object"){
-      ["doi", "pmid", "arxiv", "issn", "isbn", "scopus", "ssm"].forEach(function(field){
-        var value = data["identifiers"][field];
-        if (typeof value != "undefined" && value.length) doc[field] = value;
-      });
-    }
-    
-    if (data.published_in) doc.published_in = data.published_in;
-    else if (data.publication_outlet) doc.published_in = data.publication_outlet;
-    
-    /*
-    if (typeof data["identifiers"] == "object"){
-      doc["identifiers"] = {};
-      $.each(data["identifiers"], function(field, value){
-         if (value) doc["identifiers"][field] = value;
-      });
-    }
-    */
-    
-    console.log([data, doc]);
-    return doc;
   };
 }
 

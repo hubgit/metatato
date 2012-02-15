@@ -86,6 +86,7 @@ class MendeleyOAuth {
       CURLOPT_PUT => true,
       CURLOPT_INFILE => fopen($file, 'r'),
       CURLOPT_INFILESIZE => filesize($file),
+      //CURLOPT_HEADER => true,
       );
     return self::fetch('PUT', $path, $params, $headers, $curl_params);
   }

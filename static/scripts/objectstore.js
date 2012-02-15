@@ -238,7 +238,7 @@ var ObjectStore = function(db, callback) {
     db.startTransaction(IDBTransaction.READ_WRITE).put(item).onsuccess = function(event) {
       var cursor = event.target.result;
       app.sections.library.node.trigger("library-updated");
-      callback(cursor ? cursor.value : null);
+      if (typeof callback == "function") callback(cursor ? cursor.value : null);
     };
   };
   

@@ -151,7 +151,8 @@ function post_documents($id){
     $data = Mendeley::library_add_file($id, $file['tmp_name'], $filename, 'application/pdf');
 
     if ($data['code'] == 201){
-      header('Location: http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '/files/' . $data['id'], true, 201); // TODO: no file url yet
+      //header('Location: http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '/files/' . $data['id'], true, 201); // FIXME: no file url yet
+      header('Location: http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], true, 201); // FIXME: no file url yet
       exit();
     }
 

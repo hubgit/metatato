@@ -1,0 +1,13 @@
+html {
+  font-family: Helvetica, sans-serif;
+  font-size: 13px;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+#related-collection .button[data-action="add"] {
+  display: inline-block;
+}

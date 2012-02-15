@@ -5,8 +5,8 @@
 }
 
 #simplemodal-data {
-	height: 302px;
-	width: 453px;
+  height: 100%;
+	width: 500px;
 }
 
 #simplemodal-container a.modalCloseImg {

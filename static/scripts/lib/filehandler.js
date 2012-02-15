@@ -116,11 +116,21 @@ var FileHandler = function() {
 
     xhr.onload = function(event) {
       progress.value = 1;
-      //item.files[0] = // TODO: needs response from the file upload
-      //app.objectStore.put(item, function(event){
-        //console.log(event);
-        //node.removeClass("uploading").text("File saved!");      
-      //});
+      console.log(event);
+      console.log(arguments);
+      
+      var xhr = event.target;
+      
+      switch (xhr.status){  
+        case 201:
+          $.getJSON(xhr.getResponseHeader("Location"), function(data){
+            console.log(data);
+            if (!data || !data.id) return;
+            app.objectStore.put(data);
+          });
+        break;
+      }
+      
       $(progress).hide();
     };
 
