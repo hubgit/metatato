@@ -20,19 +20,21 @@ var Plugin = function(){
       
         var params = { "devId": config.scopus, "search": "DOI(" + item.doi + ")" };
         $.getJSON("http://searchapi.scopus.com/search.url?&callback=?", params, function showScopusCitedBy(data){
-          if (typeof data.PartOK == "undefined") return;
+          if (typeof data.OK == "undefined") return;
 
-          var results = data.PartOK.Results;
+          var results = data.OK.Results;
           if (!results.length) return;
 
           var item = results[0];
         
-          var items = [
-            {
+          var items = [];
+          
+          if (item.citedbycount){
+            items.push({
               text: item.citedbycount + " citations",
               url: item.inwardurl,
-            }
-          ];
+            });
+          }
 
           self.sendResponse(item, items);
         });

@@ -19,22 +19,31 @@ var Plugin = function(){
         var altmetric = self.altmetricURL(item);  
         if (!altmetric) return;
 
-        $.getJSON(altmetric, { key: config.altmetricKey }, function showAltmetricData(data){
+        $.getJSON(altmetric, { key: config.altmetric }, function showAltmetricData(data){
           var id = encodeURIComponent(data.altmetric_id);
-          var items = [
-          {
-            url: "http://altmetric.com/interface/standaloneDetails.php?citation_id=" + id,
-            text: data.cited_by_posts_count + " posts",
-          },
-          {
-            url: "http://altmetric.com/interface/standaloneDetails.php?citation_id=" + id,
-            text: data.readers.mendeley + " readers",
-          },
-          {
-            url: "http://altmetric.com/interface/standaloneDetails.php?citation_id=" + id,
-            text: data.cited_by_tweeters_count + " tweets",
-          },
-          ];
+          var items = [];
+          
+          if (data.cited_by_posts_count){
+            items.push({
+              url: "http://altmetric.com/interface/standaloneDetails.php?citation_id=" + id,
+              text: data.cited_by_posts_count + " posts",
+            });
+          }
+          
+          if (data.readers.mendeley){
+            items.push({
+              url: "http://altmetric.com/interface/standaloneDetails.php?citation_id=" + id,
+              text: data.readers.mendeley + " readers",
+            });
+          }
+          
+          if (data.cited_by_tweeters_count){
+            items.push({
+              url: "http://altmetric.com/interface/standaloneDetails.php?citation_id=" + id,
+              text: data.cited_by_tweeters_count + " tweets",
+            });
+          }
+          
           self.sendResponse(item, items);
         });
       break;
