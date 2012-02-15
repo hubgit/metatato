@@ -12,14 +12,6 @@
   display: inline-block;
 }
 
-.patience-required.loading {
-  padding-left: 26px;
-  color: #444;
-  text-shadow: none;
-  background: #fff url("../binary/loading-small.gif") 5px center no-repeat !important;
-  display: inline-block !important;
-}
-
 .more {
   height: 0;
 }

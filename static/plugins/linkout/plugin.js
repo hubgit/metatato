@@ -14,24 +14,24 @@ var Plugin = function(){
 
     switch (url[0]){
       case "item":
-        var item = data[1];
-
-        if (!item.pmid) return;
-      
-        var eutils = new EUtils(config.eutils.name, config.eutils.email);
-        eutils.link(item.pmid, function handleSearchResponse(xml, status, xhr){
-          var items = eutils.parseLinkOut(xml);
-          console.log(items);
-          self.sendResponse(item, items);
-        }, { "cmd": "prlinks", "usehistory": "n" });
+        self.fetchLinks(data[1], self.sendResponse);
       break;
     }
   };
 
   this.sendResponse = function(item, items){
     var data = JSON.stringify(["item/" + item.id, items]);
-    console.log(data);
     window.parent.postMessage(data, "*"); // TODO: actual parent domain
+  };
+  
+  this.fetchLinks = function(item, callback){
+    if (!item.pmid) return;
+    
+    var eutils = new EUtils(config.eutils.name, config.eutils.email);
+    eutils.link(item.pmid, function handleSearchResponse(xml, status, xhr){
+      var items = eutils.parseLinkOut(xml);
+      if (typeof callback == "function") callback(item, items);
+    }, { "cmd": "prlinks", "usehistory": "n" });
   };
 }
 

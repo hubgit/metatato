@@ -123,6 +123,7 @@ var FileHandler = function() {
       
       switch (xhr.status){  
         case 201:
+          // TODO: once the Location contains the file hash, save the file locally first, sync with the document URL
           $.getJSON(xhr.getResponseHeader("Location"), function(data){
             console.log(data);
             if (!data || !data.id) return;

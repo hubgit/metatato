@@ -8,6 +8,15 @@ body {
   overflow-x: hidden;
 }
 
+.collection {
+  width: auto;
+}
+
 #related-collection .button[data-action="add"] {
   display: inline-block;
+}
+
+#loading-items {
+  padding: 10px;
+  text-align: center; 
 }

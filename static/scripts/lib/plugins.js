@@ -32,7 +32,7 @@ var Plugins = function(){
   this.itemSelected = function(event){
     var target = app.pluginsWindow.get(0).contentWindow.plugins;
     $.each(self.plugins.itemSelected, function(id, plugin){
-      console.log([plugin, app.item.data, self.sanitiseItem(plugin, app.item.data)]);
+      //console.log([plugin, app.item.data, self.sanitiseItem(plugin, app.item.data)]);
       target.get(id, "item", self.sanitiseItem(plugin, app.item.data));
     });
   };

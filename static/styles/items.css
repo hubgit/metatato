@@ -15,6 +15,8 @@
 }
 
 .collection .item {
+  position: relative;
+  
   overflow-y: auto; /* to clear floats */
   overflow-x: hidden;
   
@@ -22,9 +24,9 @@
   border-bottom: 1px solid #bbb;
   
   background: #eee;
-  background-repeat: no-repeat;
+  /*background-repeat: no-repeat;
   background-position: right 25px;
-  background-size: auto 24px;
+  background-size: auto 24px;*/
   
   cursor: pointer;
   
@@ -33,13 +35,40 @@
   transition-timing-function: ease-out; -webkit-transition-timing-function: ease-out; -moz-transition-timing-function: ease-out;
 }
 
-.collection .item.open-access {
-  background-image: url("../binary/open-access.svg");
+.collection .item .indicator-icon {
+  background-repeat: no-repeat;
+  background-size: auto 24px;
+  background-position: right bottom;
+  
+  /* border-right: 3px solid #f77; */
+  display: none;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  
+  opacity: 0.3;
+  
+  width: 24px;
 }
 
-.collection .item.has-files {
-  /*background-image: url("../binary/pdf.svg");*/
-  background-color: #dddddd;
+.collection .item:hover .indicator-icon,
+.collection .item.active .indicator-icon  {
+  opacity: 1.0; 
+}
+
+.collection .item .open-access-icon {
+  background-image: url("../binary/open-access.svg");
+  height: 24px;
+}
+
+.collection .item .file-icon {
+  background-image: url("../binary/pdf.svg");
+  height: 24px;
+}
+
+.collection .item.has-files .file-icon,
+.collection .item.open-access .open-access-icon {
+  display: inline-block;
 }
 
 .collection .item:hover {
@@ -59,10 +88,6 @@
 .collection .item:hover .links,
 .collection .item.loading .links{
   visibility: visible;
-}
-
-.collection .item .metadata{
- /* background-color: rgba(255,255,255,0.5);*/
 }
 
 .collection .item:hover .metadata,

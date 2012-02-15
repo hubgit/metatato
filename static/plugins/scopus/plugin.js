@@ -14,38 +14,38 @@ var Plugin = function(){
 
     switch (url[0]){
       case "item":
-        var item = data[1];
-
-        if (!item.doi) return;
-      
-        var params = { "devId": config.scopus, "search": "DOI(" + item.doi + ")" };
-        $.getJSON("http://searchapi.scopus.com/search.url?&callback=?", params, function showScopusCitedBy(data){
-          if (typeof data.OK == "undefined") return;
-
-          var results = data.OK.Results;
-          if (!results.length) return;
-
-          var item = results[0];
-        
-          var items = [];
-          
-          if (item.citedbycount){
-            items.push({
-              text: item.citedbycount + " citations",
-              url: item.inwardurl,
-            });
-          }
-
-          self.sendResponse(item, items);
-        });
+        self.fetchMetrics(data[1], self.sendResponse);
       break;
     }
   };
 
   this.sendResponse = function(item, items){
     var data = JSON.stringify(["item/" + item.id, items]);
-    console.log(data);
     window.parent.postMessage(data, "*"); // TODO: actual parent domain
+  };
+  
+  this.fetchMetrics = function(item, callback){
+    if (!item.doi) return;
+  
+    var params = { "devId": config.scopus, "search": "DOI(" + item.doi + ")" };
+    $.getJSON("http://searchapi.scopus.com/search.url?&callback=?", params, function showScopusCitedBy(data){
+      if (typeof data.OK == "undefined") return;
+
+      var results = data.OK.Results;
+      if (!results.length) return;
+
+      var item = results[0];
+    
+      var items = [];
+      if (item.citedbycount){
+        items.push({
+          text: item.citedbycount + " citations",
+          url: item.inwardurl,
+        });
+      }
+
+      if (typeof callback == "function") callback(item, items);
+    });
   };
 }
 

@@ -17,21 +17,29 @@ var Plugin = function(){
     switch (url[0]){
       case "item":
         var item = data[1];
-        self.relatedArticles(item, self.sendResponse);
+        if (item.pmid) return self.sendResponse(item, [self.buildButton(item.pmid)]);
+        //self.relatedArticles(data[1], self.sendResponse);
       break;
     }
   };
 
   this.sendResponse = function(item, items){
     var data = JSON.stringify(["item/" + item.id, items]);
-    console.log(data);
     window.parent.postMessage(data, "*"); // TODO: actual parent domain
   };
   
   this.saveItem = function(item){
     var data = JSON.stringify(["items", item]);
-    console.log(data);
     window.parent.postMessage(data, "*"); // TODO: actual parent domain
+  };
+  
+  this.buildButton = function(pmid){
+    return {
+      "url": window.location + "?pmid=" + encodeURIComponent(pmid),
+      "text": "Related",
+      "domain": "ncbi.nlm.nih.gov",
+      "rel": "modal",
+    };
   };
   
   this.relatedArticles = function(item, callback){
@@ -39,14 +47,10 @@ var Plugin = function(){
     
     eutils.link(item.pmid, function handleSearchResponse(xml, status, xhr){
       var links = eutils.parseRelatedArticles(xml);
+      
       var items = [];
       if (links["pubmed_pubmed"]) {
-        items.push({
-          "url": window.location + "?pmid=" + encodeURIComponent(item.pmid),
-          "text": "Related",
-          "domain": "ncbi.nlm.nih.gov",
-          "rel": "modal",
-        });
+        items.push(self.buildButton(item.pmid));
       }
       
       if (typeof callback == "function") callback(item, items, links);

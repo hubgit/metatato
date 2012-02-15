@@ -15,7 +15,7 @@
   <div id="related-items" data-role="page">
     <div data-role="header"></div>
     <div data-role="content">
-      <div id="related-collection">Loading&hellip;</div>
+      <div id="related-collection"><div id="loading-items">Loading related items&hellip;</div></div>
     </div>
   </div>
   <script>

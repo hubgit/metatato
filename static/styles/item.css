@@ -156,7 +156,7 @@ a.button:active {
 
 .metric {
   display: inline-block;
-  padding: 2px 5px 2px 20px;
+  padding: 2px 5px 2px 22px;
   margin: 5px;
   color: #444;
   text-shadow: 0 1px 1px #fff;
@@ -213,4 +213,12 @@ iframe[name=read] div {
   font-family: 'Lato', sans-serif;
   font-size: 110%;
   margin-bottom: 5px;
+}
+
+.patience-required.loading {
+  padding-left: 26px;
+  color: #444;
+  text-shadow: none;
+  background: #fff url("../binary/loading-small.gif") 5px center no-repeat !important;
+  display: inline-block !important;
 }

@@ -136,7 +136,7 @@
 </script>
 
 <script id="item-view-template" type="text/x-mustache+html">
-  <div id="item-{{id}}" class="item {{#fileCount}}has-files{{/fileCount}} {{#inLibrary}}in-library{{/inLibrary}} {{^fileCount}}{{#oa_journal}}open-access{{/oa_journal}}{{/fileCount}} {{#selected}}active{{/selected}}" data-source="{{source}}" draggable="true">
+  <div id="item-{{id}}" class="item {{#fileCount}}has-files{{/fileCount}} {{#inLibrary}}in-library{{/inLibrary}} {{#oa_journal}}open-access{{/oa_journal}} {{#selected}}active{{/selected}}" data-source="{{source}}" draggable="true">
   	<div class="metadata">
   	  <span class="year">{{year}}</span>
   	  
@@ -165,6 +165,9 @@
   		
   		<div class="tags">{{#tags}}<a class="tag" draggable="false" href="/library?filters=tags:{{.}}#library-items">{{.}}</a> {{/tags}}</div>
   	</div>
+  	
+  	<span class="open-access-icon indicator-icon"></span>
+  	<span class="file-icon indicator-icon"></span>
   </div>
 </script>
 

@@ -62,15 +62,24 @@ var EUtils = function(tool, email){
   this.parseLinkOut = function(xml){
     var objurl = $(xml).find("LinkSet:first > IdUrlList:first > IdUrlSet:first > ObjUrl");
     if (!objurl.length) return [];
+    
+    var seen = {};
         
     return $.map(objurl, function(item){
       item = $(item);
+      
+      var url = item.find("Url:first").text();
+      
+      if (seen[url]) return;
+      seen[url] = true;
+      
       var provider = item.find("Provider:first > Name:first").text();
 
       return {
-        url: item.find("Url:first").text(),
+        url: url,
         text: provider ? provider : "LinkOut",
       };
+    
     });
   };
   
