@@ -137,7 +137,18 @@ var PageLibraryItemController = function(){
   this.showPluginResult = function(id, result){
     console.log([id, app.item]);
     //if (app.item.id !== id) return;
-    $("<a/>", { "class": "metric", "rel": "external", "href": result.url, "text": result.text }).appendTo("#library-item .metrics");
+    var link = $("<a/>", { 
+      "class": "metric", 
+      "rel": "external", 
+      "href": result.url, 
+      "text": result.text 
+    });
+    
+    if (!result.domain) result.domain = $("<a/>", { "href": result.url }).get(0).hostname;
+    if (result.domain.match("elsevier")) result.domain = "elsevier.com";
+    link.css("background-image", "url(http://www.google.com/s2/u/0/favicons?domain=" + encodeURIComponent(result.domain) + ")");
+    
+    link.appendTo("#library-item .metrics");
   };
 
   this.readFullScreen = function(event){

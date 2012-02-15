@@ -42,8 +42,6 @@ var Item = function(data) {
     container.removeClass("has-files");
     if (!self.data.files.length) return;
     
-    console.log(self.data.files);
-    
     var file = self.firstPdfFile();
     if (!file) return;
 

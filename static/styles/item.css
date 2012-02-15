@@ -156,19 +156,27 @@ a.button:active {
 
 .metric {
   display: inline-block;
-  padding: 2px 5px;
+  padding: 2px 5px 2px 20px;
   margin: 5px;
-  background: #eee;
   color: #444;
   text-shadow: 0 1px 1px #fff;
-  border-radius: 5px;
+  border-radius: 2px;
   box-shadow: 0 1px 1px #777;
+  background-color: #fff;
+  background-size: 16px 16px;
+  background-position: 2px center;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  opacity: 0.7;
 }
 
 .metric:hover {
-  background: #789;
+  /*
+  background-color: #789;
   color: #fff;
   text-shadow: 0 1px 2px #444;
+  */
+  opacity: 1.0;
 }
 
 .share {

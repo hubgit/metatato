@@ -34,6 +34,7 @@ var Plugin = function(){
             items.push({
               url: "http://altmetric.com/interface/standaloneDetails.php?citation_id=" + id,
               text: data.readers.mendeley + " readers",
+              domain: "mendeley.com",
             });
           }
           
@@ -41,6 +42,7 @@ var Plugin = function(){
             items.push({
               url: "http://altmetric.com/interface/standaloneDetails.php?citation_id=" + id,
               text: data.cited_by_tweeters_count + " tweets",
+              domain: "twitter.com",
             });
           }
           

@@ -22,7 +22,7 @@ var EUtils = function(tool, email){
       "retstart": 0,
       "retmax": 1,
       "retmode": "xml",
-      "usehistory": "y",
+      "usehistory": "n",
       "tool": self.tool,
       "email": self.email,
       "id": id
@@ -57,6 +57,38 @@ var EUtils = function(tool, email){
     return $.makeArray($(xml).find("LinkSetDb:first Link > Id").map(function(item){
       return $(this).text();
     }));
+  };
+  
+  this.parseLinkOut = function(xml){
+    var objurl = $(xml).find("LinkSet:first > IdUrlList:first > IdUrlSet:first > ObjUrl");
+    if (!objurl.length) return [];
+        
+    return $.map(objurl, function(item){
+      item = $(item);
+      var provider = item.find("Provider:first > Name:first").text();
+
+      return {
+        url: item.find("Url:first").text(),
+        text: provider ? provider : "LinkOut",
+      };
+    });
+  };
+  
+  this.parseRelatedArticles = function(xml){
+    var sets = $(xml).find("LinkSet:first > LinkSetDb");
+    if (!sets.length) return {};
+        
+    var items = {};
+    $.each(sets, function(index, item){
+      item = $(item);
+      var db = item.find("LinkName:first").text();
+      items[db] = [];
+
+      item.find("Link > Id").each(function(index, id){
+        items[db].push(id.textContent);
+      });
+    });
+    return items;
   };
   
   this.summaryFromIds = function(ids, callback, params){
