@@ -28,13 +28,12 @@ var Plugins = function(){
     var data = JSON.parse(event.data);
     var url = data[0].split("/");
     var results = data[1];
-    console.log(url);
     
     switch (url[0]){
       case "item":
-      results.forEach(function(result){
-        window.parent.itemController.showPluginResult(url[1], result);
-      });
+        results.forEach(function(result){
+          window.parent.itemController.showPluginResult(url[1], result);
+        });
       break;
 
       case "items":

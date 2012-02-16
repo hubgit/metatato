@@ -33,12 +33,16 @@ $(document).on("click", "a[rel=external]", function openExternalLink(event){
 
 $(document).on("click", "a[rel=modal]", function openModalLink(event){
   event.preventDefault();
-  var box = $("<iframe/>", { src: this.href });
-  box.modal({ opacity: 50, overlayClose: true, onShow: function (d) {
-      $.modal.setContainerDimensions();
-      // or
-      //$.modal.update();
-  }});
+  
+  var page = $(this).closest("[data-role=page]");
+  
+  var header = page.find("[data-role=header]");
+  header.find(".metadata, .upload").hide();
+  
+  var content = page.find("[data-role=content]");
+  $("<iframe/>", { name: "read", "data-role": "content", src: this.href, mozallowfullscreen: true }).replaceAll(content).css("display", "block");
+  
+  //$("<iframe/>", { src: this.href }).modal({ opacity: 50, overlayClose: true);
   return false;
 });
 

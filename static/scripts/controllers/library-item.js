@@ -135,8 +135,8 @@ var PageLibraryItemController = function(){
   }
 
   this.showPluginResult = function(id, result){
-    console.log([id, app.item]);
-    //if (app.item.id !== id) return;
+    if (app.item.data.id !== id) return;
+    
     var link = $("<a/>", { 
       "class": "metric", 
       "rel": result.rel ? result.rel : "external", 
