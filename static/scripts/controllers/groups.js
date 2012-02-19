@@ -80,7 +80,13 @@ var SectionGroupsController = function(){
           collection.push(item);
           if (++count == total){
             setMessage(self.pages.items, null);
-            var view = new Views.ItemsView({ container: self.pages.items.view.node, collection: collection, id: "groups-collection", itemsPerPage: parseInt(data.items_per_page) });
+            var view = new Views.ItemsView({ 
+              container: self.pages.items.view.node, 
+              collection: collection, 
+              id: "groups-collection", 
+              itemsPerPage: parseInt(data.items_per_page), 
+              showCollected: true,
+            });
             view.render();
             setActiveNode(self.pages.items.view.node);
           }

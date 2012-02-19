@@ -77,7 +77,7 @@ var Item = function(data) {
   };
   
   this.renderFile = function(messageNode, readerNode, contentNode, fileURL){
-    if (messageNode.hasClass("has-pdf-plugin")){
+    if (messageNode.hasClass("has-pdf-plugin")) {
       readerNode.attr("src", fileURL);
       contentNode.replaceWith(readerNode);
     }

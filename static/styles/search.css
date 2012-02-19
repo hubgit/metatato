@@ -18,8 +18,9 @@
 }
 
 .item.in-library .button[data-action=add] {
-  background: #fff;
-  color: black;
-  text-shadow: none;
+  display: none !important;
 }
 
+.item.in-library {
+  opacity: 0.5;
+}

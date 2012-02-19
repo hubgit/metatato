@@ -136,12 +136,13 @@
 </script>
 
 <script id="item-view-template" type="text/x-mustache+html">
-  <div id="item-{{id}}" class="item {{#fileCount}}has-files{{/fileCount}} {{#inLibrary}}in-library{{/inLibrary}} {{#oa_journal}}open-access{{/oa_journal}} {{#selected}}active{{/selected}}" data-source="{{source}}" draggable="true">
+  <div id="item-{{id}}" class="item {{#fileCount}}has-files{{/fileCount}} {{#oa_journal}}open-access{{/oa_journal}} {{#selected}}active{{/selected}}" data-source="{{source}}" draggable="true">
   	<div class="metadata">
   	  <span class="year">{{year}}</span>
   	  
   	  <div class="links">
-	      <a class="button" data-action="edit">Edit</a>
+        <a class="button" data-action="edit">Edit</a>
+        {{#collected}}<a class="button" data-action="collected">Collected</a>{{/collected}}
 	      <a class="button patience-required" data-action="add">Add</a>
   	    <!--<a class="button" href="#item-annotate">Annotate</a>-->
   		</div>

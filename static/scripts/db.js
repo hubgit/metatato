@@ -5,6 +5,7 @@ var DB = function(dbOptions, objectStoreName, callback) {
   
   // new IndexedDB interface
   request.onupgradeneeded = function(event){
+    console.log("onupgradeneeded");
     self.upgradeDB(Number(event.oldVersion), event.target.result);
   }    
   
@@ -22,8 +23,8 @@ var DB = function(dbOptions, objectStoreName, callback) {
       if (typeof self.db.setVersion != "function") throw new Error; // should have been upgraded in onupgradeneeded
       
       self.db.setVersion(dbOptions.version).onsuccess = function(event){
-        self.upgradeDB(oldVersion, self.db);
-        self.performMigrations(oldVersion, dbOptions.migrations);
+        self.upgradeDB(oldVersion, self.db, this.transaction);
+        self.performMigrations(oldVersion, dbOptions.migrations, this.transaction);
         callback(self);
       };
     }
@@ -50,7 +51,7 @@ var DB = function(dbOptions, objectStoreName, callback) {
     console.log(["objectStoreNames", db.objectStoreNames]);
   };
   
-  this.performMigrations = function(oldVersion, migrations){
+  this.performMigrations = function(oldVersion, migrations, transaction){
     var newMigrations = [];
 
     $.each(migrations, function(newVersion, migration){
@@ -59,7 +60,7 @@ var DB = function(dbOptions, objectStoreName, callback) {
 
     if (!newMigrations.length) return;
     
-    var objectStore = self.startTransaction(IDBTransaction.READ_WRITE);
+    var objectStore = transaction.objectStore(objectStoreName); //self.startTransaction(IDBTransaction.READ_WRITE);
     console.log(objectStore);
     
     newMigrations.forEach(function(migration){
@@ -69,11 +70,12 @@ var DB = function(dbOptions, objectStoreName, callback) {
       catch(e){
         console.log("Error updating the database");
         console.log(migration);
+        console.log(e);
       }
     });
   };
     
-  this.startTransaction = function(permissions){
+  this.startTransaction = function(permissions, transaction){
     if (typeof permissions == "undefined") permissions = IDBTransaction.READ_ONLY;
     return self.db.transaction([objectStoreName], permissions).objectStore(objectStoreName);
   };

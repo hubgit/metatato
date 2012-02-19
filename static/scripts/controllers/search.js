@@ -184,24 +184,17 @@ var SectionSearchController = function(){
   };
   
   this.renderSearchResults = function(items, source){
-    //var count = 0;
-    //var total = items.length;
     setMessage(self.pages.items, null);
     
-    //data.documents.forEach(function(item, key){
-      //app.objectStore.findOne("canonical_id", item.uuid, function(foundItem){ // FIXME: not finding items
-        //item.inLibrary = !!foundItem;
-        //if (++count == total) {
-          var view = new Views.ItemsView({ container: "#search-items", collection: items, id: "search-collection", itemsPerPage: 20 });
-          view.render();
-          setActiveNode(self.pages.items.view.node);
-          
-          /*if (self.currentItem) {
-            self.pages.items.view.node.find("#item-" + self.currentItem).click();
-          }*/
-        //}
-      //});
-    //});
+    var view = new Views.ItemsView({ 
+      container: "#search-items", 
+      collection: items, 
+      id: "search-collection", 
+      itemsPerPage: 20,
+      showCollected: true,
+    });
+    view.render();
+    setActiveNode(self.pages.items.view.node);
   };
   
   this.itemSelected = function(event){

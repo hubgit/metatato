@@ -203,9 +203,7 @@ var ObjectStore = function(db, callback) {
   };
   
   this.findOne = function(field, value, callback){
-    //console.log([field, value]);
     db.startTransaction().index(field).openCursor(IDBKeyRange.only(value)).onsuccess = function(event) {
-      //console.log(event);
       var cursor = event.target.result;
       callback(cursor ? cursor.value : null);
     };
@@ -236,6 +234,10 @@ var ObjectStore = function(db, callback) {
   
   this.put = function(item, callback){
     db.startTransaction(IDBTransaction.READ_WRITE).put(item).onsuccess = function(event) {
+      $.each(app.collected, function(field, items){
+        var value = item[field];
+        if (item[field]) app.collected[field][value] = true;
+      });
       var cursor = event.target.result;
       app.sections.library.node.trigger("library-updated");
       if (typeof callback == "function") callback(cursor ? cursor.value : null);

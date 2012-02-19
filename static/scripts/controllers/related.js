@@ -34,7 +34,13 @@ var SectionRelatedController = function(){
         eutils.summaryFromIds(ids.slice(0, 20), function(xml, status, xhr){
           var results = eutils.parseSummary(xml);
 
-          var view = new Views.ItemsView({ container: "#related-items", collection: results, id: "related-collection", itemsPerPage: 20 });
+          var view = new Views.ItemsView({ 
+            container: "#related-items", 
+            collection: results, 
+            id: "related-collection", 
+            itemsPerPage: 20,
+            showCollected: true,
+          });
           view.render();
           //setActiveNode(self.pages.items.view.node);
         }, 

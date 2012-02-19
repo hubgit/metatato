@@ -33,6 +33,12 @@ Views.ItemsView = function(options) {
       node.find(".authors").formatAuthors(3);
       if (data.id == app.selectedItem) node.addClass("active");
       self.node.append(node);
+      
+      if (options.showCollected){
+        app.itemCollected(item, function(item, result){
+          if (result) node.addClass("in-library");
+        });
+      }
     });
   };
   

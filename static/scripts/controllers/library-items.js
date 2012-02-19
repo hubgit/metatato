@@ -13,7 +13,14 @@ var PageLibraryItemsController = function(){
   this.renderCollection = function(collection, itemUrlTemplate){
     console.log("Rendering a collection of " + collection.length + " items");
     var itemURL = { path: "/library", hash: "library-item" };
-    var view = new Views.ItemsView({ container: self.node, collection: collection, id: "library-collection", itemURL: itemURL, start: 0, itemsPerPage: 50 });
+    var view = new Views.ItemsView({ 
+      container: self.node, 
+      collection: collection, 
+      id: "library-collection", 
+      itemURL: itemURL, 
+      start: 0, 
+      itemsPerPage: 50,
+    });
     view.render();
     view.node.parent().scrollTop(0);
     $(self.node).draggable(".item");
