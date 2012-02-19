@@ -59,15 +59,14 @@ var Plugin = function(){
   
   this.renderResults = function(item, items, links){
     if (!items.length) return;
-    console.log(links); 
     
-    var itemsPerPage = 20;
-
-    eutils.summaryFromIds(links["pubmed_pubmed"].slice(0, itemsPerPage), function handleSearchResponse(xml, status, xhr){
+    // TODO: infinite scroll, set itemsPerPage to 20
+    
+    eutils.summaryFromIds(links["pubmed_pubmed"], function handleSearchResponse(xml, status, xhr){
       var items = eutils.parseSummary(xml);
-      var view = new Views.ItemsView({ container: "#related-items", collection: items, id: "related-collection", itemsPerPage: itemsPerPage });
+      var view = new Views.ItemsView({ container: "#related-items", collection: items, id: "related-collection", itemsPerPage: links["pubmed_pubmed"].length });
       view.render();
-    }, { "retmax": itemsPerPage });
+    }, { retmax: links["pubmed_pubmed"].length });
   };
   
   this.itemSelected = function(event){    

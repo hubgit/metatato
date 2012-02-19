@@ -14,10 +14,10 @@
   
   <p>A web interface to your <a href="http://www.mendeley.com/">Mendeley</a> library</p>
   
-  <p>This is still a work in progress: it requires Google Chrome, and some things might not be fully working.</p>
+  <p>You probably only want to use this on a private computer, as it fetches information from Mendeley and stores it in a local database for offline use.</p>
   
-  <p>You probably don't want to use this on a public computer, as it fetches your Mendeley library and stores it in a local database for offline use.</p>
-  
+  <a class="button" href="library">Get Started</a>
+    
   <div class="features">
     <a href="library" class="feature">
       <h2>Library</h2>
@@ -40,9 +40,9 @@
       <!--<p>Search for groups and read relevant papers</p>-->
     </a>
     
-    <a href="https://groups.google.com/group/metatato/" class="feature">
-      <h2>Discuss</h2>
-      <p>Discuss Metatato in a Google Group</p>
+    <a href="https://plus.google.com/u/0/b/117222348965535094371/" class="feature">
+      <h2>Follow</h2>
+      <p>Metatato on Google+</p>
     </a>
     
     <a href="https://github.com/hubgit/metatato" class="feature">
