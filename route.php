@@ -3,7 +3,7 @@
 function route($request){
   switch ($request->type){
     case '':
-      if ($_COOKIE['oauth-access']){
+      if ($_COOKIE['oauth-access'] && !$_GET['force']){
         header('Location: library');
         exit();
       }

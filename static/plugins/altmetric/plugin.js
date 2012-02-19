@@ -43,14 +43,19 @@ var Plugin = function(){
       
       if (data.cited_by_posts_count){
         items.push({
-          url: "http://altmetric.com/interface/standaloneDetails.php?citation_id=" + id,
+          url: "http://altmetric.com/details.php?citation_id=" + id,
           text: data.cited_by_posts_count + " posts",
         });
       }
       
       if (data.readers.mendeley){
+        var mendeley_url;
+        if (data.doi) mendeley_url = "http://www.mendeley.com/openURL?id=doi:" + encodeURIComponent(data.doi);
+        else if (data.pmid) mendeley_url = "http://www.mendeley.com/openURL?id=pmid:" + encodeURIComponent(data.pmid);
+        else mendeley_url = "http://altmetric.com/details.php?citation_id=" + id;
+        
         items.push({
-          url: "http://altmetric.com/interface/standaloneDetails.php?citation_id=" + id,
+          url: mendeley_url,
           text: data.readers.mendeley + " readers",
           domain: "mendeley.com",
         });
@@ -58,7 +63,7 @@ var Plugin = function(){
       
       if (data.cited_by_tweeters_count){
         items.push({
-          url: "http://altmetric.com/interface/standaloneDetails.php?citation_id=" + id,
+          url: "http://altmetric.com/details.php?citation_id=" + id,
           text: data.cited_by_tweeters_count + " tweets",
           domain: "twitter.com",
         });

@@ -41,6 +41,19 @@ a.feature:hover {
   box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
 }
 
+a.button {
+  display: inline-block;
+  padding: 5px;
+  background: #eee;
+  border: 1px solid #ddd;
+  border-radius: 5px; 
+}
+
+a.button:hover {
+  box-shadow: 0 1px 3px 3px rgba(0,0,0,0.5);
+  background-color: #fff;
+}
+
 @media (max-width: 800px) {
   .feature {
     width: auto;

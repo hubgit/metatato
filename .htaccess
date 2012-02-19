@@ -6,7 +6,7 @@ RewriteCond %{REQUEST_URI} !/importer/static/
 RewriteRule ^(.*)$ index.php?_path=$1 [L,QSA]
 
 <IfModule pagespeed_module>
-ModPagespeed off
+#ModPagespeed off
   ModPagespeedDisableFilters inline_javascript,rewrite_images,inline_css
   #ModPagespeedEnableFilters combine_javascript
   #ModPagespeedEnableFilters sprite_images
