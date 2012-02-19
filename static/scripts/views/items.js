@@ -35,7 +35,7 @@ Views.ItemsView = function(options) {
       self.node.append(node);
       
       if (options.showCollected){
-        app.itemCollected(item, function(item, result){
+        options.showCollected.itemCollected(item, function(item, result){
           if (result) node.addClass("in-library");
         });
       }

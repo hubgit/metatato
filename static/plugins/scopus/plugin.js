@@ -9,7 +9,7 @@ var Plugin = function(){
   this.receiveMessage = function(event){
     //if (event.origin !== "http://metatato.com") return false;
 
-    var data = JSON.parse(event.data);
+    var data = event.data;    
     var url = data[0].split("/");
 
     switch (url[0]){
@@ -20,7 +20,7 @@ var Plugin = function(){
   };
 
   this.sendResponse = function(item, items){
-    var data = JSON.stringify(["item/" + item.id, items]);
+    var data = ["item/" + item.id, items];
     window.parent.postMessage(data, "*"); // TODO: actual parent domain
   };
   

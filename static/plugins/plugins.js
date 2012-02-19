@@ -21,13 +21,14 @@ var Plugins = function(){
   };
   
   this.receiveMessage = function(event){
-    console.log(event);
+    console.log(event.data);
     var plugin = self.knownOrigin(event);
     //if (!plugin) return false;
     
-    var data = JSON.parse(event.data);
+    var data = event.data;
     var url = data[0].split("/");
     var results = data[1];
+    console.log(url);
     
     switch (url[0]){
       case "item":
@@ -36,9 +37,14 @@ var Plugins = function(){
         });
       break;
 
+/*
       case "items":
         window.parent.saveItem(results);
       break; 
+      
+      case "lookup":
+      break;
+*/
     }
   };
   
@@ -47,7 +53,8 @@ var Plugins = function(){
   };
   
   this.get = function(id, url, data){
-    var message = JSON.stringify([url, data]);
+    //var message = JSON.stringify([url, data]);
+    var message = [url, data];
     $("#plugin-" + id).get(0).contentWindow.postMessage(message, "*"); // TODO: origin of target window
   };  
 };

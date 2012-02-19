@@ -191,7 +191,7 @@ var SectionSearchController = function(){
       collection: items, 
       id: "search-collection", 
       itemsPerPage: 20,
-      showCollected: true,
+      showCollected: app,
     });
     view.render();
     setActiveNode(self.pages.items.view.node);

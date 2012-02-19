@@ -85,7 +85,7 @@ var SectionGroupsController = function(){
               collection: collection, 
               id: "groups-collection", 
               itemsPerPage: parseInt(data.items_per_page), 
-              showCollected: true,
+              showCollected: app,
             });
             view.render();
             setActiveNode(self.pages.items.view.node);

@@ -105,3 +105,12 @@
   margin: 0 0 10px 0;
   display: none;
 }
+
+.collection .item.in-library .button[data-action=add] {
+  display: none !important;
+}
+
+.collection .item.in-library {
+  opacity: 0.5;
+}
+

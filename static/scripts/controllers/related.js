@@ -39,7 +39,7 @@ var SectionRelatedController = function(){
             collection: results, 
             id: "related-collection", 
             itemsPerPage: 20,
-            showCollected: true,
+            showCollected: app,
           });
           view.render();
           //setActiveNode(self.pages.items.view.node);

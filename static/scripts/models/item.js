@@ -7,7 +7,6 @@ var Item = function(data) {
   };
   
   this.fileCount = function(){
-    console.log(self.data);
     return (typeof self.data.files == "undefined") ? 0 : self.data.files.length;
   };
   
