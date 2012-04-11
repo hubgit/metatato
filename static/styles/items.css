@@ -111,6 +111,6 @@
 }
 
 .collection .item.in-library {
-  opacity: 0.5;
+  background-color: paleGoldenrod;
 }
 
