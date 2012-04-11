@@ -1,0 +1,8 @@
+
+<!DOCTYPE html>
+<script>
+  var intent = window.intent || window.webkitIntent;
+  if(intent && intent.type.indexOf("text/") == 0) {
+    window.location = "http://www.mendeley.com/import/bookmarklet?url=" + encodeURIComponent(intent.data);
+  }
+</script>
