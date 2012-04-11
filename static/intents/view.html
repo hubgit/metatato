@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+
+<style>
+html, body { overflow: hidden; }
+html, body, object { height: 100%; width: 100%; border: 0; margin: 0; padding: 0; }
+</style>
+
+<body>
+
+<script>
+  var intent = window.intent || window.webkitIntent;
+  // TODO: receive File URL or Blob, to be able to access the data
+  // http://code.google.com/p/chromium/issues/detail?id=105732
+  if(intent && intent.type == "application/pdf") {
+  	var container = document.createElement("object");
+  	container.setAttribute("type", intent.type);
+  	container.setAttribute("data", intent.data);
+  	document.body.appendChild(container);
+  }
+</script>
+
+</body>
