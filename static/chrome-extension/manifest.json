@@ -10,9 +10,11 @@
     "128": "icon-128.png"
   },
   "permissions": ["unlimitedStorage"],
+  "container": "GOOGLE_DRIVE",
+  "api_console_project_id": "420296899738",
   "intents": {
     "http://webintents.org/save": [
-      { 
+      {
         "type": ["text/uri-list"],
         "href": "http://metatato.com/static/intents/save.html",
         "title" : "Save To Mendeley",
@@ -20,7 +22,7 @@
       }
     ],
     "http://webintents.org/view": [
-      { 
+      {
         "type": ["application/pdf"],
         "href": "http://metatato.com/static/intents/view.html",
         "title" : "View in Metatato",
