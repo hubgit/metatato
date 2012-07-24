@@ -27,7 +27,7 @@ var SyncController = function() {
   
   this.clearItems = function(){
     if (window.confirm("Clear all items in the local database?")){
-      app.db.startTransaction(IDBTransaction.READ_WRITE).clear().onsuccess = function() {
+      app.db.startTransaction("readwrite").clear().onsuccess = function() {
         localStorage.setItem("synced", 0);
         app.sections.library.node.trigger("library-updated");
         alert("Items cleared!");

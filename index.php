@@ -33,4 +33,3 @@ else if ($template){
 //ob_end_flush(); // gz_handler
 header('Content-Length: ' . ob_get_length());
 ob_end_flush();
-exit();

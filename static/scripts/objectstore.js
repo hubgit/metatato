@@ -124,8 +124,8 @@ var ObjectStore = function(db, callback) {
   
   this.loadStoredItems = function(callback, n) {
     var items = [];
-    //db.startTransaction().index("fileCount").openCursor(IDBKeyRange.lowerBound(0), IDBCursor.PREV).onsuccess = function(event){
-    db.startTransaction().index("added").openCursor(null, IDBCursor.PREV).onsuccess = function(event){
+    //db.startTransaction().index("fileCount").openCursor(IDBKeyRange.lowerBound(0), "prev").onsuccess = function(event){
+    db.startTransaction().index("added").openCursor(null, "prev").onsuccess = function(event){
       var cursor = event.target.result;
       if (!cursor || items.length == n) return callback(items);
       items.push(cursor.value);
@@ -134,7 +134,7 @@ var ObjectStore = function(db, callback) {
   };
   
   this.getLastModified = function(callback){
-    db.startTransaction().index("modified").openCursor(null, IDBCursor.PREV).onsuccess = function(event){
+    db.startTransaction().index("modified").openCursor(null, "prev").onsuccess = function(event){
       var modified = event.target.result ? event.target.result.value.modified : 0;
       callback(modified);
     };
@@ -142,7 +142,7 @@ var ObjectStore = function(db, callback) {
 
   this.sortItems = function(callback, n) {
     var node = $(this);
-    var sortOrder = node.data("desc") ? IDBCursor.NEXT : IDBCursor.PREV;
+    var sortOrder = node.data("desc") ? "next" : "prev";
     self.sortedItems(node.data("index"), sortOrder, callback, n);
   };
   
@@ -233,7 +233,7 @@ var ObjectStore = function(db, callback) {
   };
   
   this.put = function(item, callback){
-    db.startTransaction(IDBTransaction.READ_WRITE).put(item).onsuccess = function(event) {
+    db.startTransaction("readwrite").put(item).onsuccess = function(event) {
       var cursor = event.target.result;
       app.sections.library.node.trigger("library-updated");
       if (typeof callback == "function") callback(cursor ? cursor.value : null);
@@ -241,7 +241,7 @@ var ObjectStore = function(db, callback) {
   };
   
   this.delete = function(item, callback){
-    db.startTransaction(IDBTransaction.READ_WRITE).delete(item).onsuccess = function(event) {
+    db.startTransaction("readwrite").delete(item).onsuccess = function(event) {
       var cursor = event.target.result;
       app.sections.library.node.trigger("library-updated");
       callback(cursor ? cursor.value : null);
