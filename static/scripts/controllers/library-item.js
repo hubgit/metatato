@@ -143,10 +143,14 @@ var PageLibraryItemController = function(){
       "href": result.url, 
       "text": result.text 
     });
-    
-    if (!result.domain) result.domain = $("<a/>", { "href": result.url }).get(0).hostname;
-    if (result.domain.match("elsevier")) result.domain = "elsevier.com";
-    link.css("background-image", "url(http://www.google.com/s2/u/0/favicons?domain=" + encodeURIComponent(result.domain) + ")");
+
+    if(!result.icon) {
+      if (!result.domain) result.domain = $("<a/>", { "href": result.url }).get(0).hostname;
+      if (result.domain.match("elsevier")) result.domain = "elsevier.com";
+      result.icon = "http://www.google.com/s2/u/0/favicons?domain=" + encodeURIComponent(result.domain);
+    }
+
+    link.css("background-image", "url(" + result.icon + ")");
     
     link.appendTo("#library-item .metrics");
   };

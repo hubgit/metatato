@@ -45,6 +45,7 @@ var Plugin = function(){
         items.push({
           url: "http://altmetric.com/details.php?citation_id=" + id,
           text: data.cited_by_posts_count + " posts",
+          icon: location.href + "altmetric.png"
         });
       }
       
@@ -58,6 +59,7 @@ var Plugin = function(){
           url: mendeley_url,
           text: data.readers.mendeley + " readers",
           domain: "mendeley.com",
+          icon: location.href + "mendeley.png"
         });
       }
       
@@ -66,6 +68,7 @@ var Plugin = function(){
           url: "http://altmetric.com/details.php?citation_id=" + id,
           text: data.cited_by_tweeters_count + " tweets",
           domain: "twitter.com",
+          icon: location.href + "twitter.png"
         });
       }
       
