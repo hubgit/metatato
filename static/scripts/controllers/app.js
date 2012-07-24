@@ -10,11 +10,13 @@ var App = function(options) {
 
   this.init = function(fields){
     self.requestFileSystem(); // asynchronous, but should be fast enough
+    self.loadFields().done(self.requestIndexedDB);
+  };
 
-    $.getJSON("fields", function(fields){
+  this.loadFields = function() {
+    return $.getJSON("fields").done(function(fields){
       self.allFields = prepareFields(fields);
       self.allTypes = $.map(fields, function(field, type){ return type; });
-      self.requestIndexedDB();
     });
   };
 

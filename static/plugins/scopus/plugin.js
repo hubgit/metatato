@@ -27,20 +27,21 @@ var Plugin = function(){
   this.fetchMetrics = function(item, callback){
     if (!item.doi) return;
   
-    var params = { "devId": config.scopus, "search": "DOI(" + item.doi + ")" };
-    $.getJSON("http://searchapi.scopus.com/search.url?&callback=?", params, function showScopusCitedBy(data){
-      if (typeof data.OK == "undefined") return;
+    var params = { "apiKey": config.scopus, "search": "DOI(" + item.doi + ")" };
+    $.getJSON("http://searchapi.scopus.com/documentSearch.url?&callback=?", params, function showScopusCitedBy(data){
+      if (typeof data == "undefined" || !data.OK || !data.OK.results) return;
 
-      var results = data.OK.Results;
+      var results = data.OK.results;
       if (!results.length) return;
 
-      var item = results[0];
+      var result = results[0];
     
       var items = [];
-      if (item.citedbycount){
+      if (result.citedbycount){
         items.push({
-          text: item.citedbycount + " citations",
-          url: item.inwardurl,
+          text: result.citedbycount + " citations",
+          url: result.inwardurl,
+          icon: location.href + "sciverse.png"
         });
       }
 
