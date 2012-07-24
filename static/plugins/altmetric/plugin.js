@@ -41,10 +41,10 @@ var Plugin = function(){
       var id = encodeURIComponent(data.altmetric_id);
       var items = [];
       
-      if (data.cited_by_posts_count){
+      if (data.cited_by_feeds_count){
         items.push({
           url: "http://altmetric.com/details.php?citation_id=" + id,
-          text: data.cited_by_posts_count + " posts",
+          text: data.cited_by_feeds_count + " post" + (data.cited_by_feeds_count === 1 ? "" : "s"),
           icon: location.href + "altmetric.png"
         });
       }
