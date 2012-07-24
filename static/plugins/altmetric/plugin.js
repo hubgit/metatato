@@ -49,7 +49,8 @@ var Plugin = function(){
         });
       }
       
-      if (data.readers.mendeley){
+      var count = Number(data.readers.mendeley);
+      if (count){
         var mendeley_url;
         if (data.doi) mendeley_url = "http://www.mendeley.com/openURL?id=doi:" + encodeURIComponent(data.doi);
         else if (data.pmid) mendeley_url = "http://www.mendeley.com/openURL?id=pmid:" + encodeURIComponent(data.pmid);
@@ -57,7 +58,7 @@ var Plugin = function(){
         
         items.push({
           url: mendeley_url,
-          text: data.readers.mendeley + " readers",
+          text: count + " reader" + (count === 1 ? "" : "s"),
           domain: "mendeley.com",
           icon: location.href + "mendeley.png"
         });
@@ -66,7 +67,7 @@ var Plugin = function(){
       if (data.cited_by_tweeters_count){
         items.push({
           url: "http://altmetric.com/details.php?citation_id=" + id,
-          text: data.cited_by_tweeters_count + " tweets",
+          text: data.cited_by_tweeters_count + " tweet" + (data.cited_by_tweeters_count === 1 ? "" : "s"),
           domain: "twitter.com",
           icon: location.href + "twitter.png"
         });
