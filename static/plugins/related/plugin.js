@@ -48,6 +48,7 @@ var Plugin = function(){
       "text": "Related",
       "domain": "ncbi.nlm.nih.gov",
       "rel": "modal",
+      "icon": location.href + "ncbi.png"
     };
   };
   
