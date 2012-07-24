@@ -37,9 +37,12 @@ var Plugin = function(){
       var result = results[0];
     
       var items = [];
-      if (result.citedbycount){
+
+      var count = Number(result.citedbycount);
+
+      if (count){
         items.push({
-          text: result.citedbycount + " citations",
+          text: count + " citation" + (count === 1 ? "" : "s"),
           url: result.inwardurl,
           icon: location.href + "sciverse.png"
         });
