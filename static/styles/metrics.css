@@ -1,0 +1,22 @@
+
+.metric {
+  display: inline-block;
+  padding: 2px 5px 2px 22px;
+  margin: 5px;
+  color: #444;
+  text-shadow: 0 1px 1px #fff;
+  background-color: transparent;
+  background-size: 16px 16px;
+  background-position: 2px center;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  opacity: 0.7;
+  max-width: 15em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.metric:hover {
+  opacity: 1.0;
+}

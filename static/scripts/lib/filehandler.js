@@ -50,12 +50,7 @@ var FileHandler = function() {
   };
 
   this.arrayBufferToBlob = function(ab, mimetype) {
-    window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
-
-    var bb = new BlobBuilder;
-    bb.append(ab);
-
-    return bb.getBlob(mimetype);
+    return new Blob([ab], { type: mimetype });
   };
 
   this.download = function(url, responseType, callback) {
