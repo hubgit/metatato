@@ -103,9 +103,7 @@ var PageLibraryItemController = function(){
     var node = $("#library-item");
     node.addClass("has-files");
 
-    var bb = new BlobBuilder;
-    bb.append(event.data);
-    var blob = bb.getBlob("application/pdf");
+    var blob = new Blob([event.data], { type: "application/pdf" });
 
     var formData = new FormData;
     formData.append("pdf", blob);

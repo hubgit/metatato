@@ -164,8 +164,7 @@ var SyncController = function() {
     
     var files = {};
 
-    // items with at least one file
-    app.db.startTransaction().index("fileCount").openCursor(IDBKeyRange.lowerBound(1)).onsuccess = function(event){
+    var handleFiles = function(event){
       var cursor = event.target.result;
       if (!cursor) return self.fetchFiles(files);
 
@@ -177,12 +176,21 @@ var SyncController = function() {
       
       cursor.continue();
     };
+
+    // items with at least one file
+    var objectStore = app.db.startTransaction();
+
+    objectStore.index("fileCount")
+      .openCursor(IDBKeyRange.lowerBound(1))
+      .onsuccess = handleFiles;
   };
 
   this.fetchFiles = function(files) {
     var total = 0;
     
     $.each(files, function(){ total++; });
+
+    console.log(total + " files to sync");
     
     var maxFilesToSync = 100;
     if (total > maxFilesToSync){
@@ -193,8 +201,10 @@ var SyncController = function() {
     
     self.setSyncTotal("files", total);
     self.setSyncProgress("files", 0);  
+
+    console.log(files[0]);
     
-    if (total) $.each(files, self.fetchFile);
+    if (total) $.each(files[0], self.fetchFile);
   };
 
   this.fetchFile = function(filehash, docid, groupId, callback, keepRendered) {
@@ -239,9 +249,8 @@ var SyncController = function() {
 
             xhr.onload = function(event) {
               if (this.status != 200) return;
-              var bb = new BlobBuilder;
-              bb.append(event.target.response);
-              var blob = bb.getBlob("application/pdf");
+
+              var blob = new Blob([event.target.response], { type: "application/pdf" });
               fileWriter.write(blob);
             };
           
@@ -348,7 +357,7 @@ var SyncController = function() {
         if (!ids[item.id]){
           app.objectStore.delete(item.id, function(){
             console.log("Deleted " + item.id);
-            deleted.push(item);
+            deleted.push(item.id);
           });
         }
       });

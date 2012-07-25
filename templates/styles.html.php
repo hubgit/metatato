@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="static/styles/facet-list.css">
   <link rel="stylesheet" href="static/styles/library.css">
   <link rel="stylesheet" href="static/styles/item.css">
+  <link rel="stylesheet" href="static/styles/metrics.css">
   <link rel="stylesheet" href="static/styles/item-edit.css">
   <link rel="stylesheet" href="static/styles/items.css">
   <link rel="stylesheet" href="static/styles/groups.css">

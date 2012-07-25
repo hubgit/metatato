@@ -4,8 +4,6 @@ if (typeof console == "undefined") window.console = { log: function() {}, error:
   window[value] = window[value] || window["webkit" + value] || window["moz" + value] || window["ms" + value] || window["o" + value];
 });
 
-window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder || window.OBlobBuilder;
-
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
 if (!Function.prototype.bind) {
   Function.prototype.bind = function (oThis) {

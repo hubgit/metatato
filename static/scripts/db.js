@@ -4,34 +4,27 @@ var DB = function(dbOptions, objectStoreName, callback) {
   var request = IndexedDB.open(dbOptions.name, dbOptions.version);
   
   // new IndexedDB interface
-  request.onupgradeneeded = function(event){
-    console.log("onupgradeneeded");
-    self.upgradeDB(Number(event.oldVersion), event.target.result);
-  }    
+  request.onupgradeneeded = function(event) {
+    var db = event.target.source;
+    var oldVersion = Number(db.oldVersion);
+    self.upgradeDB(db, oldVersion);
+  }   
   
   request.onsuccess = function(event) {
     self.db = request.result;
     console.log("db", self.db);
         
     self.db.onerror = function(){ 
-      console.error(["Database error", this, arguments]); 
+      console.error("Database error", this, arguments); 
     };
     
     var oldVersion = Number(self.db.version);
 
-    if (dbOptions.version > oldVersion){
-      if (typeof self.db.setVersion != "function") throw new Error; // should have been upgraded in onupgradeneeded
-
-      self.db.setVersion(dbOptions.version).onsuccess = function(event){  
-        if (!self.db.objectStoreNames.contains(objectStoreName)) {
-          self.db.createObjectStore(objectStoreName, { keyPath: "id" });
-        }
-
-        event.target.result.oncomplete = function() {
-          self.performMigrations(oldVersion, dbOptions.migrations, self.db);
-          callback(self);
-        }
-      };
+    if (typeof self.db.setVersion === "function" && dbOptions.version > oldVersion){
+      // old IndexedDB interface; replaced by onupgradeneeded
+      self.db.setVersion(dbOptions.version).onsuccess = function(event) {
+        self.upgradeDB(self.db, oldVersion, event.target.result);
+      }
     }
     else {
       callback(self);
@@ -41,8 +34,26 @@ var DB = function(dbOptions, objectStoreName, callback) {
   request.onerror = function(db){
     alert('Unable to open a database');
   };
+
+  this.upgradeDB = function(db, oldVersion, transaction){ 
+    if (!db.objectStoreNames.contains(objectStoreName)) {
+      db.createObjectStore(objectStoreName, { keyPath: "id" });
+    }
+
+    if(typeof transaction !== "undefined") {
+      self.performMigrations(oldVersion, dbOptions.migrations, transaction.objectStore(objectStoreName));
+
+      transaction.oncomplete = function() {
+        callback(self);
+      }
+    }
+    else {
+      self.performMigrations(oldVersion, dbOptions.migrations, self.startTransaction());
+      callback(self);
+    }
+  };
   
-  this.performMigrations = function(oldVersion, migrations, db){
+  this.performMigrations = function(oldVersion, migrations, objectStore){
     var newMigrations = [];
 
     $.each(migrations, function(newVersion, migration){
@@ -50,8 +61,7 @@ var DB = function(dbOptions, objectStoreName, callback) {
     });
 
     if (!newMigrations.length) return;
-    
-    var objectStore = db.objectStore(objectStoreName); //self.startTransaction("readwrite");
+
     console.log(objectStore);
     
     newMigrations.forEach(function(migration){
@@ -66,7 +76,7 @@ var DB = function(dbOptions, objectStoreName, callback) {
     });
   };
     
-  this.startTransaction = function(permissions, transaction){
+  this.startTransaction = function(permissions){
     if (typeof permissions == "undefined") permissions = "readonly";
     return self.db.transaction([objectStoreName], permissions).objectStore(objectStoreName);
   };
