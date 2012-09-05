@@ -3,8 +3,8 @@
 require __DIR__ . '/OAuth.php';
 
 if (!defined('MENDELEY_SERVER')) define('MENDELEY_SERVER', 'http://api.mendeley.com/');
-define('MENDELEY_API_URL', MENDELEY_SERVER . 'oapi/');
-define('MENDELEY_AUTH_URL', MENDELEY_SERVER . 'oauth/');
+define('MENDELEY_API_URL', 'http://api.mendeley.com/oapi/');
+define('MENDELEY_AUTH_URL', 'https://www.mendeley.com/oauth/');
 
 if (!defined('MENDELEY_CONSUMER_KEY')) throw new HTTPException(500, 'MENDELEY_CONSUMER_KEY is not defined');
 if (!defined('MENDELEY_CONSUMER_SECRET')) throw new HTTPException(500, 'MENDELEY_CONSUMER_SECRET is not defined');
@@ -123,7 +123,9 @@ class MendeleyOAuth {
     self::set_oauth_cookie('request', $token);
 
     $params = array('oauth_token' => $token['oauth_token'], 'oauth_callback' => 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']);
+    //print MENDELEY_AUTH_URL . 'authorize/?' . http_build_query($params); exit();
     header('Location: ' . MENDELEY_AUTH_URL . 'authorize/?' . http_build_query($params));
+ob_end_flush();
     exit();
   }
 
