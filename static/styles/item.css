@@ -6,9 +6,9 @@
   outline: 0;
 }
 
-.item .year { 
+.item .year {
  float: right;
- padding: 0 0 10px 10px; 
+ padding: 0 0 10px 10px;
 }
 
 .item .metadata {
@@ -24,6 +24,7 @@
 .item .title {
   font-weight: bold;
   text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+  margin-bottom: 2px;
 }
 
 .main-item .year {
@@ -34,7 +35,7 @@
 .main-item {
  background: #fff;
  margin: 10px;
- box-shadow: 0 0 10px #777; 
+ box-shadow: 0 0 10px #777;
 }
 
 /*.item .title.open-access {
@@ -169,11 +170,24 @@ iframe[name=read] div {
 }
 
 .help {
-  display: none; 
+  display: none;
 }
 
 .pdf-message {
   padding: 10px;
+}
+
+.message {
+   text-align: center;
+   max-width: 400px;
+   margin: auto;
+}
+
+.message .info {
+  border: 1px solid #ff0;
+  background: #ffe;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .download-pdf {
@@ -199,3 +213,4 @@ iframe[name=read] div {
   background: #fff url("../binary/loading-small.gif") 5px center no-repeat !important;
   display: inline-block !important;
 }
+

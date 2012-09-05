@@ -20,17 +20,17 @@
   </div>
   <script>
   var config = {
-    "eutils": { 
+    "eutils": {
       "name": "<?= htmlspecialchars(EUTILS_NAME); ?>",
       "email": "<?= htmlspecialchars(EUTILS_EMAIL); ?>",
     },
   }
   </script>
-  
+
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script src="../../scripts/lib/eutils.js"></script>
   <script src="plugin.js"></script>
-  
+
   <? if ($_GET['pmid']): ?>
 
   <script src="../../scripts/helpers.js"></script>
@@ -40,7 +40,7 @@
   <script src="../../scripts/models/item.js"></script>
   <script>var Views = {};</script>
   <script src="../../scripts/views/items.js"></script>
-  
+
   <script>
   var App = function(options) {
     var self = this;
@@ -49,7 +49,7 @@
       $.getJSON("../../../fields", function(fields){
         self.allFields = prepareFields(fields);
         self.allTypes = $.map(fields, function(field, type){ return type; });
-        plugin.relatedArticles({ "pmid": "<?= (int) $_GET['pmid']; ?>"}, plugin.renderResults);
+        plugin.relatedArticles({ "pmid": "<?= (int) $_GET['pmid']; ?>" }, plugin.renderResults);
       });
     };
   };
@@ -63,11 +63,11 @@
   <div id="item-{{id}}" class="item">
   	<div class="metadata">
   	  <span class="year">{{year}}</span>
-  	  
+
   	  <div class="links">
 	      <a class="button patience-required" data-action="add">Add</a>
   		</div>
-  		
+
   		<div class="title {{#oa_journal}}open-access{{/oa_journal}}">{{title}}</div>
 
   		{{#publication_outlet}}<div class="journal-container">{{publication_outlet}}</div>{{/publication_outlet}}

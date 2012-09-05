@@ -1,23 +1,23 @@
 var EUtils = function(tool, email){
   var self = this;
-  
+
   this.tool = tool;
   this.email = email;
-  
+
   this.base = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/";
   this.db = "pubmed";
-  
+
   this.first = function(node, selector){
     var item = node.children(selector).filter(":first");
     return item.length ? item.text() : null;
   };
-  
+
   this.firstItem = function(node, name){
     return self.first(node, "Item[Name='" + name + "']");
   };
-  
+
   this.link = function(id, callback, params){
-    $.get(this.base + "elink.fcgi", $.extend({}, {
+    var data = {
       "db": self.db,
       "retstart": 0,
       "retmax": 1,
@@ -26,11 +26,13 @@ var EUtils = function(tool, email){
       "tool": self.tool,
       "email": self.email,
       "id": id
-    }, params), callback, "xml");
+    };
+
+    $.get(this.base + "elink.fcgi", $.extend(data, params), callback, "xml");
   };
-  
+
   this.search = function(q, callback, params){
-    $.get(this.base + "esearch.fcgi", $.extend({}, {
+    var data = {
       "db": self.db,
       "retstart": 0,
       "retmax": 1,
@@ -39,11 +41,14 @@ var EUtils = function(tool, email){
       "tool": self.tool,
       "email": self.email,
       "term": q
-    }, params), callback, "xml");
+    };
+
+    $.get(this.base + "esearch.fcgi", $.extend(data, params), callback, "xml");
   };
-  
-  this.parseSearch = function(xml){ 
+
+  this.parseSearch = function(xml){
     var x = $("eSearchResult", xml);
+
     return {
       "count": self.first(x, "Count"),
       "webenv": self.first(x, "WebEnv"),
@@ -52,41 +57,41 @@ var EUtils = function(tool, email){
       "retstart": self.first(x, "RetStart"),
     }
   };
-  
+
   this.parseLink = function(xml){
     return $.makeArray($(xml).find("LinkSetDb:first Link > Id").map(function(item){
       return $(this).text();
     }));
   };
-  
+
   this.parseLinkOut = function(xml){
     var objurl = $(xml).find("LinkSet:first > IdUrlList:first > IdUrlSet:first > ObjUrl");
     if (!objurl.length) return [];
-    
+
     var seen = {};
-        
+
     return $.map(objurl, function(item){
       item = $(item);
-      
+
       var url = item.find("Url:first").text();
-      
+
       if (seen[url]) return;
       seen[url] = true;
-      
+
       var provider = item.find("Provider:first > Name:first").text();
 
       return {
         url: url,
         text: provider ? provider : "LinkOut",
       };
-    
+
     });
   };
-  
+
   this.parseRelatedArticles = function(xml){
     var sets = $(xml).find("LinkSet:first > LinkSetDb");
     if (!sets.length) return {};
-        
+
     var items = {};
     $.each(sets, function(index, item){
       item = $(item);
@@ -99,7 +104,7 @@ var EUtils = function(tool, email){
     });
     return items;
   };
-  
+
   this.summaryFromIds = function(ids, callback, params){
     $.get(this.base + "esummary.fcgi", $.extend({}, {
       "db": self.db,
@@ -111,8 +116,8 @@ var EUtils = function(tool, email){
       "retmode": "xml"
     }, params), callback, "xml");
   };
-  
-  this.summary = function(searchResults, callback, params){    
+
+  this.summary = function(searchResults, callback, params){
     $.get(this.base + "esummary.fcgi", $.extend({}, {
       "db": self.db,
       "WebEnv": searchResults.webenv,
@@ -124,11 +129,11 @@ var EUtils = function(tool, email){
       "retmode": "xml"
     }, params), callback, "xml");
   };
-  
-  this.parseSummary = function(xml){    
+
+  this.parseSummary = function(xml){
     return $.makeArray($(xml).find("eSummaryResult > DocSum").map(self.parseSummaryItem));
   };
-  
+
   this.parseSummaryItem = function(i, doc){
     var $doc = $(doc);
     return {
@@ -152,7 +157,7 @@ var EUtils = function(tool, email){
       "authors": $.makeArray($doc.find("Item[Name='AuthorList'] > Item").map(function(){ return this.textContent })).map(self.prepareAuthors),
     }
   };
-  
+
   this.prepareAuthors = function(item){
       return { fullname: item };
   };
