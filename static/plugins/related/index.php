@@ -1,23 +1,32 @@
 <? require __DIR__ . '/config.php'; ?>
-<!DOCTYPE html>
+<!doctype html>
 <head>
+  <meta charse="utf-8">
   <title>PubMed Related</title>
+
   <link rel="stylesheet" href="../../styles/elements.css">
   <link rel="stylesheet" href="../../styles/items.css">
   <link rel="stylesheet" href="../../styles/item.css">
   <link rel="stylesheet" href="plugin.css">
-  <style>
-  html, body { overflow: auto; }
-  </style>
+  <style>html, body { overflow: auto; }</style>
 </head>
 
 <body>
+  <div id="filter">
+    <a class="button active" href="#">All</a>
+    <a class="button" href="#" data-days="365">1 year</a>
+    <a class="button" href="#" data-days="730">2 years</a>
+    <a class="button" href="#" data-days="1825">5 years</a>
+  </div>
+
   <div id="related-items" data-role="page">
     <div data-role="header"></div>
     <div data-role="content">
-      <div id="related-collection"><div id="loading-items">Loading related articles from PubMed&hellip;</div></div>
+      <div id="loading-items">Loading related articles from PubMed&hellip;</div>
+      <div id="related-collection"></div>
     </div>
   </div>
+
   <script>
   var config = {
     "eutils": {
@@ -49,7 +58,25 @@
       $.getJSON("../../../fields", function(fields){
         self.allFields = prepareFields(fields);
         self.allTypes = $.map(fields, function(field, type){ return type; });
-        plugin.relatedArticles({ "pmid": "<?= (int) $_GET['pmid']; ?>" }, plugin.renderResults);
+
+        var pmid = <?= (int) $_GET['pmid']; ?>;
+
+        var filter = $("#filter");
+
+        var filters = filter.find("a");
+
+        filters.on("click", function(event) {
+          event.preventDefault();
+          var node = $(event.currentTarget);
+
+          node.addClass("selected").siblings(".selected").removeClass("selected");
+
+          plugin.relatedArticles({ pmid: pmid }, node.data("days"), plugin.renderResults);
+        });
+
+        filters[0].click();
+
+        filter.show();
       });
     };
   };

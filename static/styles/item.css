@@ -99,7 +99,8 @@ a.button {
 }
 
 a.button:hover,
-a.button:active {
+a.button:active,
+a.button.selected {
   background: #789;
 }
 

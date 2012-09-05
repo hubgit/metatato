@@ -18,5 +18,11 @@ body {
 
 #loading-items {
   padding: 10px;
-  text-align: center; 
+  text-align: center;
+}
+
+#filter {
+	display: none;
+	text-align: right;
+	padding: 0 2px 2px;
 }

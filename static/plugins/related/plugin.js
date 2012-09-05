@@ -55,7 +55,21 @@ var Plugin = function(){
   this.relatedArticles = function(item, days, callback){
     if (!item.pmid) return;
 
-    eutils.link(pmid, function handleSearchResponse(xml, status, xhr){
+    $("#related-collection").empty();
+    $("#loading-items").show();
+
+    var params = {
+      dbfrom: "pubmed",
+      dbTo: "pubmed",
+      usehistory: "n"
+    };
+
+    if (days) {
+      params.reldate = days;
+      params.dateType = "pdat";
+    }
+
+    var handleSearchResponse = function(xml, status, xhr){
       var links = eutils.parseRelatedArticles(xml);
 
       var items = [];
@@ -63,8 +77,12 @@ var Plugin = function(){
         items.push(self.buildButton(item.pmid));
       }
 
+      console.log(items);
+
       if (typeof callback == "function") callback(item, items, links);
-    }, { "dbfrom": "pubmed", "dbTo": "pubmed", "usehistory": "n"});
+    };
+
+    eutils.link(item.pmid, handleSearchResponse, params);
   };
 
   this.renderResults = function(item, items, links){
@@ -72,8 +90,9 @@ var Plugin = function(){
 
     // TODO: infinite scroll, set itemsPerPage to 20
 
-    eutils.summaryFromIds(links["pubmed_pubmed"], function handleSearchResponse(xml, status, xhr){
+    var handleSummaryResponse = function(xml, status, xhr){
       var items = eutils.parseSummary(xml);
+
       var view = new Views.ItemsView({
         container: "#related-items",
         collection: items,
@@ -81,8 +100,13 @@ var Plugin = function(){
         itemsPerPage: links["pubmed_pubmed"].length,
         showCollected: window.parent.app,
       });
+
       view.render();
-    }, { retmax: links["pubmed_pubmed"].length });
+
+      $("#loading-items").hide();
+    };
+
+    eutils.summaryFromIds(links["pubmed_pubmed"], handleSummaryResponse, { retmax: links["pubmed_pubmed"].length });
   };
 
   this.itemSelected = function(event){

@@ -28,7 +28,7 @@ var EUtils = function(tool, email){
       "id": id
     };
 
-    $.get(this.base + "elink.fcgi", $.extend(data, params), callback, "xml");
+    return $.get(this.base + "elink.fcgi", $.extend(data, params), callback, "xml");
   };
 
   this.search = function(q, callback, params){
@@ -43,7 +43,7 @@ var EUtils = function(tool, email){
       "term": q
     };
 
-    $.get(this.base + "esearch.fcgi", $.extend(data, params), callback, "xml");
+    return $.get(this.base + "esearch.fcgi", $.extend(data, params), callback, "xml");
   };
 
   this.parseSearch = function(xml){
