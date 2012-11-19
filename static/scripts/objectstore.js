@@ -1,6 +1,6 @@
 var ObjectStore = function(db, callback) {
   var self = this;
-  
+
   this.count = function(callback) {
     var total = 0;
     //db.startTransaction().index("modified").count().onsuccess = function(event){
@@ -11,13 +11,13 @@ var ObjectStore = function(db, callback) {
       cursor.continue();
     };
   };
-  
-  this.select = function(options, callback){    
+
+  this.select = function(options, callback){
     var items = [];
     var i = 0;
     db.startTransaction().openCursor().onsuccess = function(event){
       var cursor = event.target.result;
-      
+
       if (!cursor) {
         if (options.sort){
           items.sort(function(a, b){
@@ -26,7 +26,7 @@ var ObjectStore = function(db, callback) {
               default:
                 return a[options.sort] - b[options.sort];
               break;
-              
+
               case "desc":
                 return b[options.sort] - a[options.sort];
               break;
@@ -35,14 +35,14 @@ var ObjectStore = function(db, callback) {
         }
         return callback(items);
       }
-      
+
       var item = cursor.value;
-      
+
       switch (typeof options.value){
         case "undefined":
           items.push(item);
         break;
-        
+
         default:
           var itemValue = item[options.field];
           switch (typeof itemValue){
@@ -50,11 +50,11 @@ var ObjectStore = function(db, callback) {
             case "number":
               if (itemValue == options.value) items.push(item);
             break;
-            
+
             case "boolean":
               if (itemValue == (options.value == "true")) items.push(item);
             break;
-          
+
             case "object":
               if ($.isArray(itemValue)){
                 itemValue.forEach(function(value){
@@ -69,18 +69,18 @@ var ObjectStore = function(db, callback) {
           }
         break;
       }
-      
+
       cursor.continue();
     };
   };
-  
+
   this.facet = function(items, field){
     var counts = {};
-    
+
     items.forEach(function(item){
       if (!field in item) return true; // continue;
       var value = item[field];
-      
+
       switch (typeof value){
         case "string":
         case "number":
@@ -88,7 +88,7 @@ var ObjectStore = function(db, callback) {
           if (typeof counts[value] == "undefined") counts[value] = 0;
           counts[value]++;
         break;
-        
+
         case "object":
           if (Array.isArray(item[field])){
             item[field].forEach(function(arrayValue){
@@ -97,7 +97,7 @@ var ObjectStore = function(db, callback) {
             });
           }
         break;
-        
+
         default:
           return true; // continue;
       }
@@ -105,8 +105,8 @@ var ObjectStore = function(db, callback) {
 
     return counts;
   };
-  
-  this.selectUnsorted = function(options, callback){    
+
+  this.selectUnsorted = function(options, callback){
     var items = [];
     var i = 0;
     db.startTransaction().openCursor().onsuccess = function(event){
@@ -121,7 +121,7 @@ var ObjectStore = function(db, callback) {
       cursor.continue();
     };
   };
-  
+
   this.loadStoredItems = function(callback, n) {
     var items = [];
     //db.startTransaction().index("fileCount").openCursor(IDBKeyRange.lowerBound(0), "prev").onsuccess = function(event){
@@ -132,7 +132,7 @@ var ObjectStore = function(db, callback) {
       cursor.continue();
     };
   };
-  
+
   this.getLastModified = function(callback){
     db.startTransaction().index("modified").openCursor(null, "prev").onsuccess = function(event){
       var modified = event.target.result ? event.target.result.value.modified : 0;
@@ -145,10 +145,10 @@ var ObjectStore = function(db, callback) {
     var sortOrder = node.data("desc") ? "next" : "prev";
     self.sortedItems(node.data("index"), sortOrder, callback, n);
   };
-  
+
   this.sortedItems = function(field, sortOrder, callback, n) {
     var items = [];
-    
+
     db.startTransaction().index(field).openCursor(null, sortOrder).onsuccess = function(event){
       var cursor = event.target.result;
       if (!cursor || items.length == n) return callback(items);
@@ -197,41 +197,45 @@ var ObjectStore = function(db, callback) {
       $.each(cursor.value[field], function(key, value){
         items[value] = (value in items) ? items[value] + 1 : 1;
       });
-      
+
       cursor.continue();
     };
   };
-  
+
   this.findOne = function(field, value, callback){
-    db.startTransaction().index(field).openCursor(IDBKeyRange.only(value)).onsuccess = function(event) {
+    var transaction = db.startTransaction();
+    var index = transaction.index(field);
+    var openCursorRequest = index.openCursor(IDBKeyRange.only(value))
+
+    openCursorRequest.onsuccess = function(event) {
       var cursor = event.target.result;
       callback(cursor ? cursor.value : null);
     };
   };
-  
+
   this.find = function(field, range, callback){
     var items = [];
-    
+
     db.startTransaction().index(field).openCursor(range).onsuccess = function(event) {
       var cursor = event.target.result;
-      
+
       if (!cursor){
         callback(items);
         return;
       }
-      
+
       items.push(cursor.value);
       cursor.continue();
     };
   };
-  
+
   this.get = function(value, callback){
     db.startTransaction().openCursor(IDBKeyRange.only(value)).onsuccess = function(event) {
       var cursor = event.target.result;
       callback(cursor ? cursor.value : null);
     };
   };
-  
+
   this.put = function(item, callback){
     db.startTransaction("readwrite").put(item).onsuccess = function(event) {
       var cursor = event.target.result;
@@ -239,7 +243,7 @@ var ObjectStore = function(db, callback) {
       if (typeof callback == "function") callback(cursor ? cursor.value : null);
     };
   };
-  
+
   this.delete = function(item, callback){
     db.startTransaction("readwrite").delete(item).onsuccess = function(event) {
       var cursor = event.target.result;
