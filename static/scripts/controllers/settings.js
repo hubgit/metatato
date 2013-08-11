@@ -20,7 +20,10 @@ var SectionSettingsController = function(){
   };
   
   this.signOut = function(event){
-    return confirm("Your login cookies for this app and mendeley.com will be cleared, but your library database will still be available locally. If you're on a shared computer, make sure you completely clear all the local databases");
+    var result =  confirm("Your login cookies for this app and mendeley.com will be cleared, but your library database will still be available locally. If you're on a shared computer, make sure you completely clear all the local databases");
+    if (result) {
+      window.location.href = this.href;
+    }
   };
 }
 
