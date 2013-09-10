@@ -8,7 +8,7 @@ function route($request){
         exit();
       }
       return array(array(), 'intro');
-      
+
     case 'logout':
       MendeleyOAuth::logout();
       exit();
@@ -18,20 +18,20 @@ function route($request){
         $data = Mendeley::profile('me');
       }
       catch (HTTPException $e){
-        if ($_GET['authorise']){     
+        if ($_GET['authorise']){
           MendeleyOAuth::fetch_access_token();
           header('Location: ' . URL . 'auth');
           exit();
         }
       }
       return array($data, 'auth');
-      
+
     case 'importer':
       return array(array(), '../importer/templates/index');
-      
+
     case 'importer-sidebar':
       return array(array(), '../importer/templates/sidebar');
-      
+
     case 'importer-extractors':
       require __DIR__ . '/importer/lib/Importer.php';
       $scripts = Importer::selectScripts($_REQUEST['host']);
@@ -42,7 +42,7 @@ function route($request){
       switch ($type){
         case 'profile':
           return array(Mendeley::profile('me'));
-          
+
         case 'folders':
           return array(Mendeley::library_folders(), 'folders');
 
@@ -56,13 +56,13 @@ function route($request){
           if (!$_GET['n']) $_GET['n'] = 20;
           if (!$_GET['q']) throw new HTTPException(404, 'Not Found');
           return array(Mendeley::search('documents', $_GET['q'], $_GET['page'], $_GET['n']), 'documents');
-          
+
         case 'documents':
           $id = array_shift($request->parts);
           switch ($_SERVER['REQUEST_METHOD']){
             case 'GET':
               return get_documents($id, $request);
-        
+
             case 'POST':
               return post_documents($id);
 
@@ -71,8 +71,8 @@ function route($request){
               throw new HTTPException(405);
           }
         break;
-        
-        case 'pubmed':       
+
+        case 'pubmed':
           if (!$_GET['q']) throw new HTTPException(404, 'Not Found');
           return array(PubMed::search($_GET['q'], $_GET['page'], $_GET['n']));
       }
@@ -103,7 +103,7 @@ function get_documents($id, $request){
       case 'files':
         $filehash = array_shift($request->parts);
         if (!$filehash) throw new HTTPException(403, 'File hash required');
-  
+
         Mendeley::library_readfile($id, $filehash, $_GET['group']);
         exit();
 
@@ -118,7 +118,7 @@ function get_documents($id, $request){
   if ($_GET['folder']) {
     return array(Mendeley::library_folders($_GET['folder']));
   }
-  
+
   if ($_GET['group']) {
     if ($id) return array(Mendeley::library_group_document($_GET['group'], $id));
     return array(Mendeley::library_groups($_GET['group']));
@@ -132,8 +132,8 @@ function get_documents($id, $request){
 function post_documents($id){
   if (!$id) {
     $data = (array) Mendeley::library_add_item($_POST);
-    if ($data['document_id']){      
-      header('Location: http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '/' . $data['document_id'], true, 201);
+    if ($data['document_id']){
+      header('Location: https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '/' . $data['document_id'], true, 201);
       exit();
     }
     return $data;
@@ -144,15 +144,15 @@ function post_documents($id){
   }
   else if ($_FILES) {
     $file = $_FILES['pdf'];
-    
+
     $headers = array_change_key_case(apache_request_headers(), CASE_LOWER);
     $filename = $headers['x-mendeley-filename'] ? $headers['x-mendeley-filename'] : $file['name'];
-    
+
     $data = Mendeley::library_add_file($id, $file['tmp_name'], $filename, 'application/pdf');
 
     if ($data['code'] == 201){
-      //header('Location: http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '/files/' . $data['id'], true, 201); // FIXME: no file url yet
-      header('Location: http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], true, 201); // FIXME: no file url yet
+      //header('Location: https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . '/files/' . $data['id'], true, 201); // FIXME: no file url yet
+      header('Location: https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], true, 201); // FIXME: no file url yet
       exit();
     }
 

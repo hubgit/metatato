@@ -1,7 +1,7 @@
 Views.ItemView = function(options) {
   var self = this;
   var container = $(options.container);
-            
+
   this.render = function(){
     options.item.prepare();
     var data = options.item.data;
@@ -12,11 +12,11 @@ Views.ItemView = function(options) {
     self.node = $(Mustache.to_html(template, data));
     self.node.find(".authors").formatAuthors(100);
     container.find("[data-role=header]").empty().append(self.node);
-    
+
     container.find("iframe[data-role=content]").replaceWith("<div data-role='content'></div>");
     var contentNode = container.find("[data-role=content]");
     contentNode.find(".pdf-message").remove();
-    
+
     // body (pdf viewer/download link)
     if (options.item.fileCount()) {
       container.addClass("has-files"); // TODO: set this when the file is ready?
@@ -27,9 +27,9 @@ Views.ItemView = function(options) {
       else {
         $("<div/>", { class: "pdf-message", text: "A PDF plugin is needed for viewing this content inline." }).appendTo(contentNode);
       }
-      
+
       container.data("item-id", options.item.data.id).data("item", options.item);
-      
+
       options.item.showFile(container, function(){
         if(container.data("item-id") == options.item.data.id) self.render(); // the selected item has not changed
       });
@@ -37,15 +37,17 @@ Views.ItemView = function(options) {
     else {
       container.removeClass("has-files");
     }
-    
+
+    /*
     if (options.item.data.pmid || options.item.data.doi) {
-      gapi.plusone.render("g-plusone", { 
-        size: "small", 
+      gapi.plusone.render("g-plusone", {
+        size: "small",
         href: options.item.data.doi ? "http://dx.doi.org/" + options.item.data.doi : "http://view.ncbi.nlm.nih.gov/pubmed/" + options.item.data.pmid,
-      });    
+      });
     }
+    */
   };
-  
+
   return this;
 };
 

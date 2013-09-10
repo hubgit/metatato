@@ -7,37 +7,37 @@ var PageLibraryItemController = function(){
       .on("click", ".fullscreen", self.readFullScreen)
       //.on("click", this.node + " .speak", self.speakAbstract)
   };
-  
+
   this.render = function(data){
     app.item = new Item(data);
-          
+
     // render the full item page
     self.view = new Views.ItemView({ container: self.node, item: app.item });
     self.view.render();
-    
+
     setActiveNode(".collection #item-" + app.item.id);
-    
+
     app.pluginsWindow.trigger("item-selected");
 
     // set up inputs for receiving a file
     if (!app.item.data.fileCount) self.setupFileReceivers(self.view.node);
   };
-  
+
   this.setupFileReceivers = function(node){
     // setup bookmarklet and listen for imports
     node.find("#import-bookmarklet").attr("href", "javascript:" + $("#import-bookmarklet-template").text()).hide(); // FIXME: hiding temporarily
     //self.addMessageListener();
-    
+
     var filePicker = node.find(".file-picker");
     var dropZone = node.find(".dropzone");
-    
+
     // handle chosen/dropped files
     self.setupFilePicker(dropZone, filePicker);
-    
+
     // area for choosing/dropping files
     self.setupDropZone(dropZone, filePicker);
   };
-  
+
   this.setupFilePicker = function(dropZone, filePicker){
     filePicker.on("change", function(event){
       if (!this.files.length) return;
@@ -49,14 +49,14 @@ var PageLibraryItemController = function(){
 
       var fileHandler = new FileHandler;
       fileHandler.upload(dropZone, formData);
-      
+
       if (detectPDFPlugin()){
         $("#library-item").addClass("has-files");
         self.showFile(URL.createObjectURL(this.files[0]));
       }
     });
   };
-  
+
   this.setupDropZone = function(dropZone, filePicker){
     dropZone
       .click(function(){
@@ -69,12 +69,12 @@ var PageLibraryItemController = function(){
       .bind("drop", function(event) {
         event.stopPropagation();
         event.preventDefault();
-  
+
         $("#library-item").addClass("has-files");
-  
+
         var fileHandler = new FileHandler;
         fileHandler.uploadFiles(dropZone, event.dataTransfer.files);
-        
+
         //self.showFile(URL.createObjectURL(event.dataTransfer.files[0]));
         self.showTemporaryFile(event.dataTransfer.files[0]);
       })
@@ -134,28 +134,28 @@ var PageLibraryItemController = function(){
 
   this.showPluginResult = function(id, result){
     if (app.item.data.id !== id) return;
-    
-    var link = $("<a/>", { 
-      "class": "metric", 
-      "rel": result.rel ? result.rel : "external", 
-      "href": result.url, 
-      "text": result.text 
+
+    var link = $("<a/>", {
+      "class": "metric",
+      "rel": result.rel ? result.rel : "external",
+      "href": result.url,
+      "text": result.text
     });
 
     if(!result.icon) {
       if (!result.domain) result.domain = $("<a/>", { "href": result.url }).get(0).hostname;
       if (result.domain.match("elsevier")) result.domain = "elsevier.com";
-      result.icon = "http://www.google.com/s2/u/0/favicons?domain=" + encodeURIComponent(result.domain);
+      result.icon = "https://plus.google.com/_/favicon?domain=" + encodeURIComponent(result.domain);
     }
 
     link.css("background-image", "url(" + result.icon + ")");
-    
+
     link.appendTo("#library-item .metrics");
   };
 
   this.readFullScreen = function(event){
     event.preventDefault();
-    
+
     var iframe = $("iframe[name=read]").get(0);
     if (iframe.mozRequestFullScreen) {
       iframe.mozRequestFullScreen();

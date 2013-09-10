@@ -134,7 +134,7 @@ a.button.selected {
 }
 
 #library-item progress {
-  width: 100px;
+  width: 90%;
   margin: 10px;
   -webkit-transform: scale(0.8);
   display: none;

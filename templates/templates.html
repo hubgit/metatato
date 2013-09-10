@@ -23,35 +23,35 @@
 <script id="sync-template" type="x-mustache+text/html">
   <form id="{{id}}">
     <h2>Sync/DB</h2>
-  
+
     <div class="syncing-items">
-      <input type="button" id="sync-items" value="Sync Items"> 
-      <progress min="0" max="1" value="0"></progress> 
+      <input type="button" id="sync-items" value="Sync Items">
+      <progress min="0" max="1" value="0"></progress>
       <span class="syncing-count"></span>
     </div>
-    
+
     <div class="syncing-canonical">
-      <input type="button" id="sync-canonical" value="Sync Canonical Items"> 
-      <progress min="0" max="1" value="0"></progress> 
+      <input type="button" id="sync-canonical" value="Sync Canonical Items">
+      <progress min="0" max="1" value="0"></progress>
       <span class="syncing-count"></span>
     </div>
 
     <div class="syncing-files">
-      <input type="button" id="sync-files" value="Sync Files"> 
-      <progress min="0" max="1" value="0"></progress> 
+      <input type="button" id="sync-files" value="Sync Files">
+      <progress min="0" max="1" value="0"></progress>
       <span class="syncing-count"></span>
     </div>
-    
+
     <div>
-      <input type="button" id="sync-deleted" value="Sync Deleted Items"> 
+      <input type="button" id="sync-deleted" value="Sync Deleted Items">
     </div>
-    
+
     <h2>Local Storage</h2>
-    
+
     <div>
       <input type="button" id="clear-items" value="Clear Items">
     </div>
-    
+
     <div>
       <input type="button" id="clear-files" value="Clear Files">
     </div>
@@ -79,7 +79,7 @@
 
   		{{#publication_outlet}}
   		<div class="journal-container">
-  		<a rel="external" href="http://www.google.co.uk/search?q=%22{{publication_outlet}}%22">
+  		<a rel="external" href="https://www.google.co.uk/search?q=%22{{publication_outlet}}%22">
   			<div class="publication">{{publication_outlet}}</div>
   			<div>{{#volume}}<span class="volume">{{volume}}{{/volume}}{{#issue}}(<span class="issue">{{issue}}</span>){{/issue}}{{#pages}}&nbsp;pp.<span class="pages">{{pages}}</span>{{/pages}}</div>
   		</a>
@@ -104,18 +104,18 @@
   		{{#abstract}}<div class="abstract">{{abstract}}</div>{{/abstract}}
 
     	<div class="tags">{{#tags}}<a class="tag" href="/library?filters=tags:{{.}}#library-items">{{.}}</a> {{/tags}}</div>
-  	
+
     	<div class="links">
-  	    <a class="button" rel="external" href="http://scholar.google.com/scholar?q={{title}}">Google Scholar</a>
-  		  {{#doi}}<a class="button" rel="external" href="http://dx.doi.org/{{doi}}">DOI</a>{{/doi}}
+  	    <a class="button" rel="external" href="https://scholar.google.com/scholar?q={{title}}">Google Scholar</a>
+  		  {{#doi}}<a class="button" rel="external" href="https://dx.doi.org/{{doi}}">DOI</a>{{/doi}}
     		{{#mendeley_url}}<a class="button" rel="external" href="{{mendeley_url}}">Mendeley</a>{{/mendeley_url}}
-    		{{#pmid}}<a class="button" rel="external" href="http://pubget.com/pdf/{{pmid}}">PubGet</a>{{/pmid}}
-    		{{#doi}}<a class="button" rel="external" href="http://www.scopus.com/scopus/openurl/document.url?doi={{doi}}">Scopus</a>{{/doi}}
-    		{{#doi}}<a class="button" rel="external" href="http://ws.isiknowledge.com/cps/openurl/service?url_ver=Z39.88-2004&svc.fullrec=yes&rft_id=info%3Adoi%2F{{doi}}">WoS</a>{{/doi}}   
-    		{{#doi}}<!--<a class="button" rel="external" href="http://ws.isiknowledge.com/cps/openurl/service?url_ver=Z39.88-2004&svc_val_fmt=info:ofi/fmt:kev:mtx:sch_svc&svc.citing=yes&rft_id=info%3Adoi%2F{{doi}}">WoS Citations</a>-->{{/doi}} 		
+    		{{#pmid}}<a class="button" rel="external" href="https://pubget.com/pdf/{{pmid}}">PubGet</a>{{/pmid}}
+    		{{#doi}}<a class="button" rel="external" href="https://www.scopus.com/scopus/openurl/document.url?doi={{doi}}">Scopus</a>{{/doi}}
+    		{{#doi}}<a class="button" rel="external" href="https://ws.isiknowledge.com/cps/openurl/service?url_ver=Z39.88-2004&svc.fullrec=yes&rft_id=info%3Adoi%2F{{doi}}">WoS</a>{{/doi}}
+    		{{#doi}}<!--<a class="button" rel="external" href="https://ws.isiknowledge.com/cps/openurl/service?url_ver=Z39.88-2004&svc_val_fmt=info:ofi/fmt:kev:mtx:sch_svc&svc.citing=yes&rft_id=info%3Adoi%2F{{doi}}">WoS Citations</a>-->{{/doi}}
     	</div>
-  	</div> 
-	
+  	</div>
+
   	{{^fileCount}}
   	<div class="upload">
   		<div class="dropzone" data-url="api/documents/{{id}}">
@@ -123,13 +123,13 @@
   			<div class="subtext">or drop a file here to upload it</div>
   		</div>
   		<input type="file" class="file-picker" accept="application/pdf">
-		
+
   		<div class="help">
   			<div>To import a PDF when viewing it in a browser plugin<br>add this to your bookmarks and run it when viewing the PDF</div>
   			<div><a class="button" id="import-bookmarklet" onclick="alert('Drag this to your bookmarks bar, then run it when viewing a PDF with a browser plugin'); return false;">Import PDF</a></div>
   			</p>
    		</div>
-  	</div> 
+  	</div>
   	{{/fileCount}}
   </div>
 </div>
@@ -139,14 +139,14 @@
   <div id="item-{{id}}" class="item {{#fileCount}}has-files{{/fileCount}} {{#oa_journal}}open-access{{/oa_journal}} {{#selected}}active{{/selected}}" data-source="{{source}}" draggable="true">
   	<div class="metadata">
   	  <span class="year">{{year}}</span>
-  	  
+
   	  <div class="links">
         <a class="button" data-action="edit">Edit</a>
         {{#collected}}<a class="button" data-action="collected">Collected</a>{{/collected}}
 	      <a class="button patience-required" data-action="add">Add</a>
   	    <!--<a class="button" href="#item-annotate">Annotate</a>-->
   		</div>
-  		
+
   		<div class="title {{#oa_journal}}open-access{{/oa_journal}}"><a draggable="false" href="{{localURL}}">{{title}}</a></div>
 
   		{{#publication_outlet}}<div class="journal-container">{{publication_outlet}}</div>{{/publication_outlet}}
@@ -163,10 +163,10 @@
   		{{/authors}}
   		</div>
   		{{/authorsCount}}
-  		
+
   		<div class="tags">{{#tags}}<a class="tag" draggable="false" href="/library?filters=tags:{{.}}#library-items">{{.}}</a> {{/tags}}</div>
   	</div>
-  	
+
   	<span class="open-access-icon indicator-icon"></span>
   	<span class="file-icon indicator-icon"></span>
   </div>
@@ -203,14 +203,14 @@
   			<a href="#" class="edit-cancel">Cancel</a>
   		</span>
   	</div>
-  	
+
   	<div title="The type of this item">
   		<label class="label" for="item-field-type">Type</label>
   		<span class="input-container">
   			<select class="input" name="type" id="item-field-type">{{#allTypes}}<option>{{.}}</option>{{/allTypes}}</select>
   		</span>
   	</div>
-  	
+
 	 	<div class="field core" title="A list of tags, separated by semi-colons">
 			<label class="label" for="item-field-tag">Tags</label>
 			<span class="input-container">
@@ -231,7 +231,7 @@
   			</span>
   		</div>
   	{{/fields}}
-  	
+
   	<!--<div class="more-fields"><span class="label"></span><span class="input">more fields &darr;</span></div>-->
   </form>
 </script>
@@ -258,12 +258,12 @@
 <script id="profile-template" type="x-mustache-template">
   <div class="profile" id="{{id}}">
     <div class="profile-field profile-name"><a rel="external" href="{{url}}">{{name}}</a></div>
-    <div class="profile-field profile-photo"><img src="{{photo}}"></div>
+    <!--<div class="profile-field profile-photo"><img src="{{photo}}"></div>-->
     <div class="profile-field profile-academic-status">{{academic_status}}</div>
     <div class="profile-field profile-location">{{location}}</div>
     <div><a id="logout" class="direct" href="/mendeley/logout">Sign out</a></div>
   </div>
-  
+
 </script>
 
 <script id="items-header-template" type="x-mustache-template">
@@ -274,7 +274,7 @@
   <form id="process-text" style="display:none">
     <input type="submit" value="Extract Text">
   </form>
-  
+
   <iframe id="processor" src="http://hubgit.github.com/2011/11/pdftotext/"></iframe>
 </script>
 

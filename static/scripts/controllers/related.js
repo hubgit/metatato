@@ -27,7 +27,7 @@ var SectionRelatedController = function(){
 
     switch (source.id){
       case "pubmed":
-      var eutils = new EUtils("test", "alf@hubmed.org");
+      var eutils = new EUtils("metatato", "alf@hubmed.org");
       eutils.link(pmid, function handleSearchResponse(xml, status, xhr){
         var ids = eutils.parseLink(xml);
 

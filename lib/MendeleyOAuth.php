@@ -9,23 +9,23 @@ define('MENDELEY_AUTH_URL', 'https://www.mendeley.com/oauth/');
 if (!defined('MENDELEY_CONSUMER_KEY')) throw new HTTPException(500, 'MENDELEY_CONSUMER_KEY is not defined');
 if (!defined('MENDELEY_CONSUMER_SECRET')) throw new HTTPException(500, 'MENDELEY_CONSUMER_SECRET is not defined');
 
-class MendeleyOAuth {   
+class MendeleyOAuth {
   static function fetch($method, $path, $params = array(), $headers = array(), $curl_params = array()){
     if (is_array($path)) $path = MendeleyUtil::build_path($path);
 
     $consumer = new OAuthConsumer(MENDELEY_CONSUMER_KEY, MENDELEY_CONSUMER_SECRET, null);
-    
+
     $token = self::access_token();
     $request = OAuthRequest::from_consumer_and_token($consumer, $token, $method, MENDELEY_API_URL . $path,	$params);
-    $request->sign_request(new OAuthSignatureMethod_HMAC_SHA1, $consumer, $token);		
+    $request->sign_request(new OAuthSignatureMethod_HMAC_SHA1, $consumer, $token);
 
     $url = MENDELEY_API_URL . $path;
     if ($method == 'GET' && $params) $url .= '?' . http_build_query($params);
 
     $curl = curl_init($url);
-    
+
     $default_headers = array(
-      'Connection: Close', 
+      'Connection: Close',
       'Expect: '
     );
 
@@ -39,7 +39,7 @@ class MendeleyOAuth {
     $response = curl_exec($curl);
     //error_log(print_r($response, true));
     //print_r($url); print_r($response); exit();
-    
+
     if (curl_errno($curl)) throw new HTTPException(500);
 
     $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
@@ -122,7 +122,7 @@ class MendeleyOAuth {
     if (!$token['oauth_token']) throw new HTTPException(403, 'Failed to fetch a request token');
     self::set_oauth_cookie('request', $token);
 
-    $params = array('oauth_token' => $token['oauth_token'], 'oauth_callback' => 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']);
+    $params = array('oauth_token' => $token['oauth_token'], 'oauth_callback' => 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']);
     //print MENDELEY_AUTH_URL . 'authorize/?' . http_build_query($params); exit();
     header('Location: ' . MENDELEY_AUTH_URL . 'authorize/?' . http_build_query($params));
 ob_end_flush();
@@ -141,7 +141,7 @@ ob_end_flush();
     curl_setopt_array($curl, array(
     CURLOPT_HTTPHEADER => array(
       $request->to_header(),
-      'Connection: Close', 
+      'Connection: Close',
       ),
       CURLOPT_RETURNTRANSFER => true,
       ));
@@ -151,7 +151,7 @@ ob_end_flush();
     $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
     if ($code >= 400) throw new HTTPException($code, 'Error fetching token');
-    
+
     parse_str($response, $token);
     return $token;
   }
@@ -163,15 +163,15 @@ ob_end_flush();
     else {
       unset($_COOKIE['oauth-' . $type]);
     }
-    setcookie('oauth-' . $type, $token ? json_encode($token) : null, time() + (60 * 60 * 24 * 365), '/', null, false, true);
+    setcookie('oauth-' . $type, $token ? json_encode($token) : null, time() + (60 * 60 * 24 * 365), '/', null, true, true);
     return $token;
   }
-  
+
   static function logout(){
     foreach(array('oauth-access', 'oauth-request', 'csrf') as $cookie){
-      setcookie($cookie, null, time() - (60 * 60 * 24 * 365), '/', null, false, true);
+      setcookie($cookie, null, time() - (60 * 60 * 24 * 365), '/', null, true, true);
     }
-    header('Location: http://www.mendeley.com/logout/');
+    header('Location: https://www.mendeley.com/logout/');
     exit();
   }
 }

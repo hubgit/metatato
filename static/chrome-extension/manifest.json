@@ -3,8 +3,8 @@
   "description": "A web interface to your Mendeley library",
   "version": "1.3.2",
   "app": {
-    "urls": ["http://metatato.com/"],
-    "launch": { "web_url": "http://metatato.com/mendeley/" }
+    "urls": ["https://metatato.com/"],
+    "launch": { "web_url": "https://metatato.com/mendeley/" }
   },
   "icons": {
     "128": "icon-128.png"
@@ -16,7 +16,7 @@
     "http://webintents.org/save": [
       {
         "type": ["text/uri-list"],
-        "href": "http://metatato.com/mendeley/static/intents/save.html",
+        "href": "https://metatato.com/mendeley/static/intents/save.html",
         "title" : "Save To Mendeley",
         "disposition" : "window"
       }
@@ -24,7 +24,7 @@
     "http://webintents.org/view": [
       {
         "type": ["application/pdf"],
-        "href": "http://metatato.com/mendeley/static/intents/view.html",
+        "href": "https://metatato.com/mendeley/static/intents/view.html",
         "title" : "View in Metatato",
         "disposition" : "window"
       }

@@ -1,6 +1,15 @@
 DirectoryIndex index.php
 
+SSLOptions +StrictRequire
+SSLRequireSSL
+SSLRequire %{HTTP_HOST} eq "metatato.com"
+ErrorDocument 403 https://metatato.com 
+
 RewriteEngine On
+
+RewriteCond %{SERVER_PORT} !^443$
+RewriteRule ^(.*)$ https://metatato.com/$1 [R=permanent]
+
 RewriteCond %{REQUEST_URI} !/static/
 RewriteCond %{REQUEST_URI} !/importer/static/
 RewriteRule ^(.*)$ index.php?_path=$1 [L,QSA]

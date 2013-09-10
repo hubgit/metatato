@@ -4,7 +4,7 @@ var EUtils = function(tool, email){
   this.tool = tool;
   this.email = email;
 
-  this.base = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/";
+  this.base = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/";
   this.db = "pubmed";
 
   this.first = function(node, selector){

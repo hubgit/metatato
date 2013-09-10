@@ -11,15 +11,16 @@ $(document).ajaxError(function onAjaxError(event, jqXHR, settings, thrownError) 
   console.log([this, event, jqXHR, settings, thrownError]);
   switch (thrownError){
     case "Forbidden":
+    case "Unauthorized":
       app.authenticationSuccess = function(profile){
         $.modal.close();
         $.ajax(settings);
       };
-      
+
       var box = $("<iframe/>", { src: "auth" });
       box.modal({ opacity: 50, overlayClose: true, minHeight: 302, minWidth: 453 });
     break;
-    
+
     default:
     break;
   }
@@ -33,15 +34,15 @@ $(document).on("click", "a[rel=external]", function openExternalLink(event){
 
 $(document).on("click", "a[rel=modal]", function openModalLink(event){
   event.preventDefault();
-  
+
   var page = $(this).closest("[data-role=page]");
-  
+
   var header = page.find("[data-role=header]");
   header.find(".metadata, .upload").hide();
-  
+
   var content = page.find("[data-role=content]");
   $("<iframe/>", { name: "read", "data-role": "content", src: this.href, mozallowfullscreen: true }).replaceAll(content).css("display", "block");
-  
+
   //$("<iframe/>", { src: this.href }).modal({ opacity: 50, overlayClose: true);
   return false;
 });
@@ -53,7 +54,7 @@ var isSameDomain = function(a, b){
 var setMessage = function(page, message, header){
   var node = header ? page.headerNode : page.contentNode;
   node.empty();
-  if (message) $("<div/>", { class: "items-message" }).html(message).appendTo(node);  
+  if (message) $("<div/>", { class: "items-message" }).html(message).appendTo(node);
 }
 
 var setActiveNode = function(node){
@@ -70,9 +71,9 @@ var setActiveLinks = function(node){
   if (links.length) links.each(function(i, node){ setActiveNode(node); });
 }
 
-var parseQueryString = function(search){  
+var parseQueryString = function(search){
   if (!search) return {};
-  
+
   var params = {},
     e,
     a = /\+/g,  // Regex for replacing addition symbol with a space
@@ -104,7 +105,7 @@ var buildUrl = function(parts){
 // need to prepend all the field name with field-, so that Mustache doesn't get confused by parent item properties
 var prepareFields = function(fields){
   var data = {};
-  
+
   $.each(fields, function(type, items){
    data[type] = {};
     $.each(items, function(field, item){
@@ -115,12 +116,12 @@ var prepareFields = function(fields){
       data[type][field] = newField;
     });
   });
-  
+
   return data;
 }
 
 var cleanNode = function(node){
-  node.headerNode.empty(); 
+  node.headerNode.empty();
   node.contentNode.empty();
   return node;
 };
@@ -129,12 +130,12 @@ var cleanNode = function(node){
 var detectPDFPlugin = function(){
   // generic PDF plugin
 	if (navigator.mimeTypes["application/pdf"] && navigator.mimeTypes["application/pdf"].enabledPlugin) return true;
-	
+
   // Adobe Reader in non-IE browsers
   for (var i = navigator.plugins.length - 1; i >= 0; i--){
     if (navigator.plugins[i].name.match(/(Adobe Reader|Adobe PDF|Acrobat)/i)) return true;
   }
-  
+
   // Adobe Reader in IE
   return Boolean(window.ActiveXObject && (new ActiveXObject("AcroPDF.PDF") || new ActiveXObject("PDF.PdfCtrl")));
 }
@@ -143,22 +144,22 @@ var convertCatalogDocToInputDoc = function(data){
   var doc = {};
 
   // TODO: use Mendeley fields
-  ["abstract", "issue", "pages", "title", "type", "volume", "website", "year", 
+  ["abstract", "issue", "pages", "title", "type", "volume", "website", "year",
   "authors", "editors", "translators", "producers", "cast",
   "doi", "pmid", "issn", "arxiv", "isbn", "scopus", "ssm"].forEach(function(field){
     if (typeof data[field] != "undefined" && data[field].length) doc[field] = data[field];
   });
-  
+
   if (typeof data["identifiers"] == "object"){
     ["doi", "pmid", "arxiv", "issn", "isbn", "scopus", "ssm"].forEach(function(field){
       var value = data["identifiers"][field];
       if (typeof value != "undefined" && value.length) doc[field] = value;
     });
   }
-  
+
   if (data.published_in) doc.published_in = data.published_in;
   else if (data.publication_outlet) doc.published_in = data.publication_outlet;
-  
+
   /*
   if (typeof data["identifiers"] == "object"){
     doc["identifiers"] = {};
@@ -167,7 +168,7 @@ var convertCatalogDocToInputDoc = function(data){
     });
   }
   */
-  
+
   return doc;
 };
 
@@ -177,16 +178,16 @@ var saveItem = function(doc, button, canonicalData){
       button.removeClass("loading").addClass("error");
       return;
     }
-        
+
     var documentURL = xhr.getResponseHeader("Location");
     var matches = documentURL.match(/(\d+)$/);
     var documentId = matches[1];
-    
+
     if (!documentId){
       button.removeClass("loading").addClass("error");
       return;
     }
-    
+
     $.getJSON("api/documents/" + documentId, function(data){
       console.log(data);
       button.removeClass("loading");

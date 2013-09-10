@@ -33,13 +33,13 @@
   <button onclick="authenticationSuccess()">Continue</button>
   <script>authenticationSuccess();</script>
   <? else: ?>
-  <form onsubmit="window.open('auth?authorise=1', 'Authenticate'); return false;">
+  <form onsubmit="window.open('auth?authorise=1'); return false;">
     <input type="hidden" name="authorise" value="1">
     <div>To allow Metatato to access your Mendeley account, please sign in and authorise this application</div>
     <input type="submit" value="Authorise">
   </form>
   <form method="post>
-    
+
   <? endif; ?>
 </body>
 </html>

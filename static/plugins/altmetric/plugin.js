@@ -9,7 +9,7 @@ var Plugin = function(){
   this.receiveMessage = function(event){
     //if (event.origin !== "http://metatato.com") return false;
 
-    var data = event.data;    
+    var data = event.data;
     var url = data[0].split("/");
 
     switch (url[0]){
@@ -23,56 +23,59 @@ var Plugin = function(){
     var data = ["item/" + item.id, items];
     window.parent.postMessage(data, "*"); // TODO: actual parent domain
   };
-  
+
   this.altmetricURL = function(item){
-    var url = "http://api.altmetric.com/v1/";
+    var url = "https://api.altmetric.com/v1/";
 
     if (item.doi) return url + "doi/" + item.doi;
     if (item.pmid) return url + "pmid/" + item.pmid;
 
     return false;
   };
-  
+
   this.fetchMetrics = function(item, callback){
-    var altmetric = self.altmetricURL(item);  
+    var altmetric = self.altmetricURL(item);
     if (!altmetric) return;
 
     $.getJSON(altmetric, { key: config.altmetric }, function showAltmetricData(data){
       var id = encodeURIComponent(data.altmetric_id);
       var items = [];
-      
+
       if (data.cited_by_feeds_count){
         items.push({
-          url: "http://altmetric.com/details.php?citation_id=" + id,
-          text: data.cited_by_feeds_count + " post" + (data.cited_by_feeds_count === 1 ? "" : "s"),
+          url: "https://altmetric.com/details.php?citation_id=" + id,
+          //text: data.cited_by_feeds_count + " post" + (data.cited_by_feeds_count === 1 ? "" : "s"),
+          text: data.cited_by_feeds_count,
           icon: location.href + "altmetric.png"
         });
       }
-      
+
       var count = Number(data.readers.mendeley);
       if (count){
         var mendeley_url;
         if (data.doi) mendeley_url = "http://www.mendeley.com/openURL?id=doi:" + encodeURIComponent(data.doi);
         else if (data.pmid) mendeley_url = "http://www.mendeley.com/openURL?id=pmid:" + encodeURIComponent(data.pmid);
-        else mendeley_url = "http://altmetric.com/details.php?citation_id=" + id;
-        
+        else mendeley_url = "https://altmetric.com/details.php?citation_id=" + id;
+
         items.push({
           url: mendeley_url,
-          text: count + " reader" + (count === 1 ? "" : "s"),
+          //text: count + " reader" + (count === 1 ? "" : "s"),
+          text: count,
           domain: "mendeley.com",
           icon: location.href + "mendeley.png"
         });
       }
-      
+
       if (data.cited_by_tweeters_count){
         items.push({
-          url: "http://altmetric.com/details.php?citation_id=" + id,
-          text: data.cited_by_tweeters_count + " tweet" + (data.cited_by_tweeters_count === 1 ? "" : "s"),
+          url: "https://altmetric.com/details.php?citation_id=" + id,
+          //text: data.cited_by_tweeters_count + " tweet" + (data.cited_by_tweeters_count === 1 ? "" : "s"),
+          text: data.cited_by_tweeters_count,
           domain: "twitter.com",
           icon: location.href + "twitter.png"
         });
       }
-      
+
       if (typeof callback == "function") callback(item, items);
     });
   };
